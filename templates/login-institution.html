@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Student Login
+{% endblock %}
+
+
+{% block main %}
+
+<div class="login-page">
+
+    <form action="" method="post">
+
+        <h2>Institution Login</h2>
+
+        <div class="login-credential">
+            <label>Institution ID:</label>
+            <br/>
+            <input type="text" required>
+        </div>
+
+        <div class="login-credential">
+            <label>Password:</label>
+            <br/>
+            <input type="password" required>
+        </div>
+
+        <p>Forgot password? <a href="#">Reset Password</a></p>
+
+        <input type="submit" value="SUBMIT">
+
+    </form>
+
+</div>
+
+{% endblock %}

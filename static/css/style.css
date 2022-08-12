@@ -1,0 +1,386 @@
+*{
+	overflow-x:hidden;
+	margin:0 auto;
+	padding:0px;
+	scroll-behavior:smooth;
+}
+
+body{
+    z-index:1;
+}
+
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+	flex: 1;
+	width: 100%;
+}
+
+.headspace{
+	height:75px;
+	width:100%;
+}
+header{
+	z-index:2;
+	width:100%;
+	background-color:#ffdd00;
+	text-align:center;
+	position:fixed;
+	float:left;
+}
+header h1{
+	float:left;
+	text-align:left;
+	width:100px;
+}
+header h1 a{
+	text-decoration:none;
+}
+header h1 a img{
+	justify-content:center;
+	align-items:center;
+	padding-top:5px;
+	padding-left:10px;
+	width:90px;
+	height:60px;
+}
+header nav{
+	width:800px;
+	text-align:center;
+	position:fixed;
+	right:0;
+	padding:0;
+}
+header nav ul{
+	list-style:none;
+	text-align:right;
+	padding:0;
+	padding-top:21px;
+	padding-bottom:21px;
+}
+header nav ul .navclose{
+	display:none;
+}
+header nav ul li{
+	display:inline;
+	text-align:right;
+	padding:0;
+}
+header nav ul li a{
+	text-decoration:none;
+	color:#565a61;
+	padding:21px;
+	font-size:1.50rem;
+	transition:0.4s;
+	font-family: 'Source Sans Pro', Helvetica, Arial, Lucida, sans-serif;
+}
+header nav ul li a:hover{
+	background-color:#565a61;
+	color:#ffdd00;
+	transition:0.4s ease;
+}
+header .nav-icon{
+	display:none;
+}
+
+footer{
+	background-color:#ffdd00;
+	
+	color:black;
+	text-align:center;
+	padding:10px;
+	width:100%
+}
+footer p{
+	font-weight:bold;
+	color:#565a61;
+	font-size:1.2rem;
+}
+footer span a{
+	text-decoration:none;
+	font-weight:bold;
+	color:#565a61;
+}
+
+
+/*-------------------------xxxxxx          Login Wrapper        xxxxxx--------------------------*/
+
+
+.login-wrapper{
+	display:flex;
+	width:100%;
+	padding-top:20px;
+	padding-bottom:20px;
+	justify-content:space-between;
+	text-align:center;
+}
+.login-items{
+	transition:0.4s;
+}
+.login-items:hover{
+	scale:1.1;
+	transition:0.4s;
+}
+.login-items p{
+	font-size:1.3rem;
+	font-family: 'Source Sans Pro', Helvetica, Arial, Lucida, sans-serif;
+}
+.login-items a{
+	text-decoration:none;
+	color:#565a61;
+}
+.login-item{
+	width:175px;
+	height:175px;
+	border:solid 5px;
+	border-color:#ffdd00;
+	border-radius:50%;
+	overflow:hidden;
+}
+.login-items .login-item img{
+	width:175px;
+	height:175px;
+}
+
+
+
+
+
+
+
+
+
+/*-------------------------xxxxxx          Student Login        xxxxxx--------------------------*/
+
+
+
+.login-page{
+	width:100%;
+}
+.login-page form{
+	text-align:center;
+	width:400px;
+	padding:10px;
+}
+.login-page form h2{
+	text-align:center;
+	width:90%;
+	font-size:1.8rem;
+	padding:10px;
+}
+.login-page form .login-credential{
+	text-align:left;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+.login-page form .login-credential label{
+	text-align:left;
+	font-size:1.4rem;
+	padding-top:10px;
+	padding-bottom:10px;
+	width:100%;
+}
+.login-page form .login-credential input[type="text"], input[type="password"], input[type="number"]{
+	text-align:left;
+	width:94%;
+	padding:10px;
+	font-size:1.2rem;
+}
+.login-page form p{
+	padding-bottom:30px;
+}
+.login-page form input[type="submit"]{
+	text-align:center;
+	width:100px;
+	padding:10px;
+	font-size:1.3rem;
+	cursor:pointer;
+	border:none;
+	border-radius:10px;
+	background-color:#ffdd00;
+	color:#565a61;
+	
+}
+
+
+
+
+@media screen and (max-width: 1000px){
+	header .nav-icon{
+		display:block;
+		width:65px;
+		text-align:center;
+		float:right;
+		align-content:center;
+	}
+	
+	header .nav-icon button{
+		height:70px;
+		border:none;
+		text-align:center;
+		background-color:transparent;
+		color:white;
+	}
+	header .nav-icon button div{
+
+		background-color:#565a61;
+		width: 43px;
+		height:6px;
+		margin:6px auto;
+		border-radius:5px;
+	}
+	header nav ul .navclose{
+		display:block;
+	}
+	header nav ul .navclose button{
+	display:block;
+	width:72px;
+	height:72px;
+	float:right;
+	background-color:transparent;
+	font-size:35px;
+	text-align:center;
+	color:#ffdd00;
+	border:none;
+	padding-bottom:5px;
+	transition:0.4s;
+    }
+	header nav ul .navclose button:hover{
+	display:block;
+	width:72px;
+	height:72px;
+	float:right;
+	background-color:#ffdd00;
+	font-size:35px;
+	text-align:center;
+	color:#565a61;
+	border:none;
+	padding-bottom:5px;
+	transition:0.4s;
+    }
+	header nav{
+	    position:fixed;
+		right:0;
+		width:250px;
+		background-color:#565a61;
+		text-align:center;
+		display:none;
+    }
+    header nav ul{
+	    list-style:none;
+	    text-align:center;
+		padding:0px;
+    }
+    header nav ul li{
+	    text-align:left;
+		padding:0px;
+    }
+    header nav ul li a{
+		font-family: 'Source Sans Pro', Helvetica, Arial, Lucida, sans-serif;
+	    text-decoration:none;
+	    color:#ffdd00;
+		font-size:1.50rem;
+	    transition:0.4s;
+		display:block;
+		text-align:left;
+    }
+    header nav ul li a:hover{
+		background-color:#ffdd00;
+		color:#565a61;
+		transition:0.4s;
+    }
+	
+
+}
+
+
+
+@media screen and (max-width: 750px){
+
+.login-page{
+	width:100%;
+}
+.login-page form{
+	text-align:center;
+	width:300px;
+	padding:10px;
+}
+.login-page form h2{
+	text-align:center;
+	width:90%;
+	font-size:1.8rem;
+	padding:10px;
+}
+.login-page form .login-credential{
+	text-align:left;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+.login-page form .login-credential label{
+	text-align:left;
+	font-size:1.4rem;
+	padding-top:10px;
+	padding-bottom:10px;
+	width:100%;
+}
+.login-page form .login-credential input[type="text"], input[type="password"], input[type="number"]{
+	text-align:left;
+	width:90%;
+	padding:10px;
+	font-size:1.2rem;
+}
+.login-page form p{
+	padding-bottom:30px;
+}
+.login-page form input[type="submit"]{
+	text-align:center;
+	width:100px;
+	padding:10px;
+	font-size:1.3rem;
+	cursor:pointer;
+	border:none;
+	border-radius:10px;
+	background-color:#ffdd00;
+	color:#565a61;
+	
+}
+
+
+
+
+.login-wrapper{
+	padding-top:20px;
+	padding-bottom:20px;
+	display:flex;
+	flex-wrap:wrap;
+	width:100%;
+	justify-content:space-between;
+	text-align:center;
+}
+.login-items{
+	width:51%;
+}
+.login-items p{
+	font-size:1.3rem;
+	padding-bottom:40px;
+}
+.login-item{
+	width:175px;
+	height:175px;
+	border:solid 5px;
+	border-color:#ffdd00;
+	border-radius:50%;
+}
+
+
+
+
+
+}
+
+

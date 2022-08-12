@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <link rel="stylesheet" href="/static/css/style.css">
+
+        <title>SIP: {% block title %}{% endblock title%}</title>
+
+        <link rel="icon" type="image/x-icon" href="/static/img/favicon.png">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+
+        <script src="/static/js/script.js"></script>
+
+    </head>
+
+    <body>
+        <div class="container">
+            
+            <header>
+                <h1><a href="#"><img src="/static/img/logo.png"></a></h1>
+
+                <nav id="navbar">
+                    <ul>
+                        <li class="navclose"><button onclick="navbtn()" >x</button></li>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </nav>
+
+                <div class="nav-icon" id="nav-icon">
+                    <button onclick="navbtn()">
+
+                        <div>
+                        </div>
+
+                        <div>
+                        </div>
+
+                        <div>
+                        </div>
+
+                    </button>
+                </div>
+
+            </header>
+            <main>
+                <div class="headspace"></div>
+                {% block main %}{% endblock %}
+
+
+            </main>
+            <footer>
+                <p>&#169; 2022 &nbsp; <span><a href="#">SIP.COM</a></span></p>
+            </footer>
+        </div>
+    </body>
+
+</html>
