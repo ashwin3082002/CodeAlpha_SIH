@@ -379,9 +379,12 @@ footer span a{
 
 
 
-/*-------------------------xxxxxx          About Us  - by Aravind     xxxxxx--------------------------*/
+/*-------------------------xxxxxx          About Us  - by Aravind & Laavesh     xxxxxx--------------------------*/
 
-
+.about_us {
+	width:100%;
+	padding-left: 80px;
+}
 
 #Top{
 	font-family: Verdana, Geneva, Tahoma, sans-serif;

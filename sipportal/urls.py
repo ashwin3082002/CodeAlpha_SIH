@@ -20,6 +20,7 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index),
-    path('',include('loginpg.urls'))
-
+    path('',include('loginpg.urls')),
+    # added by Laavesh
+    path('about', views.about),
 ]
