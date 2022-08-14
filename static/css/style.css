@@ -440,7 +440,7 @@ footer span a{
 }
 
 
-/*-------------------------xxxxxx          About Us - added by Aravind       xxxxxx--------------------------*/
+/*-------------------------xxxxxx          About Us - by Aravind       xxxxxx--------------------------*/
 
 #tc{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -458,4 +458,75 @@ footer span a{
 
 #tc_space{
 	padding: 15px 0px
+}
+
+/*-------------------------xxxxxx          T&C - by Aravind      xxxxxx--------------------------*/
+
+#pp{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-weight: bold;
+	font-size: 45px;
+	color: #565a61;
+}
+
+#sub-1{
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-weight: bold;
+	padding-top: 20px;
+	padding-bottom: 10px;
+	color: #565a61;
+	font-size: 25px;
+}
+
+#para1{
+	font-family: Arial, Helvetica, sans-serif;
+	padding-top: 10px;
+    font-size: 20px;
+    padding-bottom: 10px;
+}
+
+#para2{
+	font-family: Arial, Helvetica, sans-serif;
+	padding-top: 10px;
+    font-size: 20px;
+    padding-bottom: 10px;
+}
+
+#para3{
+	font-family: Arial, Helvetica, sans-serif;
+	padding-top: 10px;
+    font-size: 20px;
+    padding-bottom: 10px;
+}
+
+#sub-2{
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-weight: bold;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	color: #565a61;
+	font-size: 25px;
+}
+
+#para4{
+	font-family: Arial, Helvetica, sans-serif;
+	padding-top: 10px;
+    font-size: 20px;
+    padding-bottom: 10px;
+}
+
+#sub-3{
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-weight: bold;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	color: #565a61;
+	font-size: 25px;
+}
+
+#para5{
+	font-family: Arial, Helvetica, sans-serif;
+	padding-top: 10px;
+    font-size: 20px;
+    padding-bottom: 10px;
 }
