@@ -382,8 +382,9 @@ footer span a{
 /*-------------------------xxxxxx          About Us  - by Aravind & Laavesh     xxxxxx--------------------------*/
 
 .about_us {
-	width:100%;
+	width:76%;
 	padding-left: 80px;
+	padding-right: 80px;
 }
 
 #Top{
@@ -441,31 +442,20 @@ footer span a{
 
 /*-------------------------xxxxxx          About Us - added by Aravind       xxxxxx--------------------------*/
 
-.tc{
+#tc{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 	font-weight: bold;
 	font-size: 45px;
 	padding-top: 20px;
 	padding-bottom: 15px;
 	color: #565a61;
-	padding-left: 70px;
-	padding-right: 70px;
 }
 
-.tc_para1{
+#tc_para{
     font-family: Arial, Helvetica, sans-serif;
-	padding-top: 20px;
-    font-size: 20px;
-    padding-bottom: 20px;
-	padding-left: 70px;
-	padding-right: 70px;
+    font-size: 20px;    
 }
 
-.tc_para2{
-    font-family: Arial, Helvetica, sans-serif;
-	padding-top: 20px;
-    font-size: 20px;
-    padding-bottom: 20px;
-	padding-left: 70px;
-	padding-right: 70px;
+#tc_space{
+	padding: 15px 0px
 }
