@@ -23,4 +23,5 @@ urlpatterns = [
     path('login/',include('loginpg.urls')),
     # added by Laavesh
     path('about', views.about),
+    path('terms', views.terms)
 ]

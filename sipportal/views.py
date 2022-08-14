@@ -6,3 +6,5 @@ def index(request):
 # Added by Laavesh
 def about(request):
     return render(request, 'about_us.html')
+def terms(request):
+    return render(request, 'terms.html')
