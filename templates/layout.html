@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 
 <html>
@@ -5,13 +7,20 @@
 
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+        <!-- css -->
         <link rel="stylesheet" href="/static/css/style.css">
 
+        <!-- title -->
         <title>SIP: {% block title %}{% endblock title%}</title>
 
+        <!-- favicon -->
         <link rel="icon" type="image/x-icon" href="/static/img/favicon.png">
+
+        <!-- font -->
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
 
+        <!-- Javascript -->
         <script src="/static/js/script.js"></script>
 
     </head>
@@ -27,7 +36,7 @@
                         <li class="navclose"><button onclick="navbtn()" >x</button></li>
                         <li><a href="/">Home</a></li>
                         <li><a href="about">About</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="terms">Terms & Conditions</a></li>
                         <li><a href="#">Privacy Policy</a></li>
                         <li><a href="#">Contact</a></li>
                     </ul>
