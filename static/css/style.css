@@ -437,3 +437,35 @@ footer span a{
 #p3{
 	font-family: Arial, Helvetica, sans-serif;
 }
+
+
+/*-------------------------xxxxxx          About Us - added by Aravind       xxxxxx--------------------------*/
+
+.tc{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-weight: bold;
+	font-size: 45px;
+	padding-top: 20px;
+	padding-bottom: 15px;
+	color: #565a61;
+	padding-left: 70px;
+	padding-right: 70px;
+}
+
+.tc_para1{
+    font-family: Arial, Helvetica, sans-serif;
+	padding-top: 20px;
+    font-size: 20px;
+    padding-bottom: 20px;
+	padding-left: 70px;
+	padding-right: 70px;
+}
+
+.tc_para2{
+    font-family: Arial, Helvetica, sans-serif;
+	padding-top: 20px;
+    font-size: 20px;
+    padding-bottom: 20px;
+	padding-left: 70px;
+	padding-right: 70px;
+}
