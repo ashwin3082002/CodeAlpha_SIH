@@ -21,7 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index),
     path('login/',include('loginpg.urls')),
-    # added by Laavesh
+    path('contact',views.contact),
     path('about', views.about),
     path('terms', views.terms),
     path('privacy', views.privacy)
