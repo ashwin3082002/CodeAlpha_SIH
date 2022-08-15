@@ -2,36 +2,46 @@
 
 {% block title %}
     Student Login
-{% endblock %}
+{% endblock title %}
 
 
 {% block main %}
 
-<div class="login-page">
+			<div class="form-container">
 
-    <form action="" method="post">
+				<div class="form">
 
-        <h2>Student Login</h2>
+					<p>STUDENT LOGIN</p>
 
-        <div class="login-credential">
+					<br>
 
-            <label>Student ID:</label>
-            <br/>
-            <input type="text" pattern="[0-9]{4}[A-Z]{5}" title="The student ID must be in the format '1981AHZXA'" required>
-        </div>
+					<form action="" method="post">
+						<label for="name">Student ID:</label>
 
-        <div class="login-credential">
-            <label>Password:</label>
-            <br/>
-            <input type="password" required>
-        </div>
+						<br>
 
-        <p>Forgot password? <a href="#">Reset Password</a></p>
+						<input type="text" id="name" name="name" required>
 
-        <input type="submit" value="SUBMIT">
+						<br>
+						<br>
 
-    </form>
+						<label for="password">Password:</label>
 
-</div>
+						<br>
 
-{% endblock %}
+						<input type="password" required>
+
+						<br>
+						<br>
+
+                        <p style="font-size: 1rem; padding-bottom:40px;">Forgot password? <a href="/login/passwordresetotp">Reset Password</a></p>
+
+						<input type="submit" value="SUBMIT">
+
+					</form>
+
+				</div>
+
+			</div>
+
+{%endblock main%}

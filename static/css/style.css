@@ -147,7 +147,72 @@ footer span a{
 	height:175px;
 }
 
+/*-------------------------xxxxxx          Forms        xxxxxx--------------------------*/
 
+
+
+
+.form-container{
+	display:flex;
+	min-width:100vw;
+	min-height:80vh;
+	justify-content:center;
+	align-items:center;
+}
+.form-container .form{
+	font-family:'Source Sans Pro', Helvetica, Arial, Lucida, sans-serif;
+	padding:10px;
+}
+.form-container .form p{
+	width:100%;
+	text-align:center;
+	font-size:1.8rem;
+	font-weight:bold;
+	color:#565a61;
+}
+.form-container .form form{
+	background-color:white;
+	padding:20px;
+	border:none;
+	border-radius:10px;
+	box-shadow:0 0 10px black;
+	color:#565a61;
+	align-content:center;
+}
+.form form label{
+	font-size:1.3rem;
+}
+.form form input[type="text"], input[type="email"], input[type="password"]{
+	border-radius:10px;
+	border:solid 1px #565a61;
+	font-size:1rem;
+	padding:8px;
+	width:500px;
+}
+.form form textarea{
+	border-radius:10px;
+	border:solid 1px #565a61;
+	font-size:1rem;
+	padding:8px;
+	height:150px;
+	width:500px;
+}
+.form form input[type="submit"]{
+	font-size:1rem;
+	padding:8px;
+	text-align:center;
+	width:100%;
+	background-color:#ffdd00;
+	color:#565a61;
+	border:none;
+	border-radius:10px;
+	cursor:pointer;
+	transition:0.4s;
+}
+.form form input[type="submit"]:hover{
+	scale:1.05;
+	transition:0.4s;
+}
 
 
 

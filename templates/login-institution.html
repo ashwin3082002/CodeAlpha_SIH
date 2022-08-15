@@ -1,36 +1,46 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Student Login
-{% endblock %}
+    Institution Login
+{% endblock title %}
 
 
 {% block main %}
+            <div class="form-container">
 
-<div class="login-page">
+				<div class="form">
 
-    <form action="" method="post">
+					<p>INSTITUTION LOGIN</p>
 
-        <h2>Institution Login</h2>
+					<br>
 
-        <div class="login-credential">
-            <label>Institution ID:</label>
-            <br/>
-            <input type="text" required>
-        </div>
+					<form action="" method="post">
+						<label for="name">Institution ID:</label>
 
-        <div class="login-credential">
-            <label>Password:</label>
-            <br/>
-            <input type="password" required>
-        </div>
+						<br>
 
-        <p>Forgot password? <a href="#">Reset Password</a></p>
+						<input type="text" id="name" name="name" required>
 
-        <input type="submit" value="SUBMIT">
+						<br>
+						<br>
 
-    </form>
+						<label for="password">Password:</label>
 
-</div>
+						<br>
 
-{% endblock %}
+						<input type="password" required>
+
+						<br>
+						<br>
+
+                        <p style="font-size: 1rem; padding-bottom:40px;">Forgot password? <a href="/login/passwordresetotp">Reset Password</a></p>
+
+						<input type="submit" value="SUBMIT">
+
+					</form>
+
+				</div>
+
+			</div>
+
+{%endblock main%}

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Admin Login
+    Home
 {% endblock title %}
 
 
@@ -11,12 +11,10 @@
 
 				<div class="form">
 
-					<p>ADMIN LOGIN</p>
-
-					<br>
 
 					<form action="" method="post">
-						<label for="name">Admin ID:</label>
+
+						<label for="name">EMAIL:</label>
 
 						<br>
 
@@ -25,16 +23,21 @@
 						<br>
 						<br>
 
-						<label for="password">Password:</label>
-
-						<br>
-
-						<input type="password" required>
+						<input type="submit" value="SEND OTP">
 
 						<br>
 						<br>
 
-                        <p style="font-size: 1rem; padding-bottom:40px;">Forgot password? <a href="/login/passwordresetotp">Reset Password</a></p>
+						<label for="name">Enter OTP:</label>
+
+						<br>
+
+						<input type="text" id="name" name="name">
+
+						<br>
+						<br>
+
+                        <p style="font-size: 1rem; padding-bottom:40px;">Didn't receive OTP? <a href="#">Resend OTP</a></p>
 
 						<input type="submit" value="SUBMIT">
 
@@ -43,6 +46,4 @@
 				</div>
 
 			</div>
-
-
 {%endblock main%}

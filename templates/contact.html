@@ -1,22 +1,21 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Admin Login
+    Contact
 {% endblock title %}
 
 
 {% block main %}
-
             <div class="form-container">
 
 				<div class="form">
 
-					<p>ADMIN LOGIN</p>
+					<p>CONTACT</p>
 
 					<br>
 
 					<form action="" method="post">
-						<label for="name">Admin ID:</label>
+						<label for="name">Name:</label>
 
 						<br>
 
@@ -25,16 +24,23 @@
 						<br>
 						<br>
 
-						<label for="password">Password:</label>
+						<label for="email">Email:</label>
 
 						<br>
 
-						<input type="password" required>
+						<input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"required>
 
 						<br>
 						<br>
 
-                        <p style="font-size: 1rem; padding-bottom:40px;">Forgot password? <a href="/login/passwordresetotp">Reset Password</a></p>
+						<label for="comment">Message:</label>
+
+						<br>
+
+						<textarea id="comment" name="comment" required></textarea>
+
+						<br>
+						<br>
 
 						<input type="submit" value="SUBMIT">
 
@@ -44,5 +50,5 @@
 
 			</div>
 
+{% endblock main %}
 
-{%endblock main%}

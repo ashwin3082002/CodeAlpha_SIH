@@ -1,73 +1,68 @@
-{% load static %}
-
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIP: {% block title %}{% endblock title%}</title>
 
-<html>
-    <head>
+    <link rel="icon" type="image/x-icon" href="favicon.png">
 
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
 
-        <!-- css -->
-        <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
 
-        <!-- title -->
-        <title>SIP: {% block title %}{% endblock title%}</title>
+	<script src="/static/js/script.js"></script>
 
-        <!-- favicon -->
-        <link rel="icon" type="image/x-icon" href="/static/img/favicon.png">
+</head>
+<body>
+    <div class="container">
+		
+		<header>
+			<h1><a href="/"><img src="/static/img/logo.png"></a></h1>
 
-        <!-- font -->
-        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+			<nav id="navbar">
+				<ul>
+					<li class="navclose"><button onclick="navbtn()">x</button></li>
+					<li><a href="/">Home</a></li>
+					<li><a href="/about">About</a></li>
+					<li><a href="/terms">Terms & Conditions</a></li>
+					<li><a href="/privacy">Privacy Policy</a></li>
+					<li><a href="/contact">Contact</a></li>
+				</ul>
+			</nav>
 
-        <!-- Javascript -->
-        <script src="/static/js/script.js"></script>
+			<div class="nav-icon" id="nav-icon">
+				<button onclick="navbtn()">
 
-    </head>
+					<div>
+					</div>
 
-    <body>
-        <div class="container">
+					<div>
+					</div>
+
+					<div>
+					</div>
+
+				</button>
+			</div>
+
+		</header>
+		<main>
+			<div class="headspace"></div>
+
             
-            <header>
-                <h1><a href="/"><img src="/static/img/logo.png"></a></h1>
 
-                <nav id="navbar">
-                    <ul>
-                        <li class="navclose"><button onclick="navbtn()" >x</button></li>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="about">About</a></li>
-                        <li><a href="terms">Terms & Conditions</a></li>
-                        <li><a href="privacy">Privacy Policy</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </nav>
-
-                <div class="nav-icon" id="nav-icon">
-                    <button onclick="navbtn()">
-
-                        <div>
-                        </div>
-
-                        <div>
-                        </div>
-
-                        <div>
-                        </div>
-
-                    </button>
-                </div>
-
-            </header>
-            <main>
-                <div class="headspace"></div>
-                {% block main %}{% endblock %}
+			{% block main %}{% endblock %}
 
 
-            </main>
-            <footer>
-                <p>&#169; 2022 &nbsp; <span><a href="#">SIP.COM</a></span></p>
-            </footer>
-        </div>
-    </body>
 
+
+		</main>
+		<footer>
+			<p>&#169; &nbsp; 2022 &nbsp; <span><a href="#">SIP.COM</a></span></p>
+		</footer>
+
+	</div>
+</body>
 </html>
