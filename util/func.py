@@ -43,10 +43,7 @@ def check_id(s):
 def parse_id(s):
     """
     Parses the id and returns the year(1234) and serial(abcde) as a dict
-<<<<<<< HEAD
 
-=======
->>>>>>> 9eacd32a8b5e2ae5dd2da81cb9b1603fd93f848e
     :param s: ID
     :type s: str
     :return: A dict of {'year': 0000 and 'serial' : 'xxxxx'}
