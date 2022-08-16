@@ -7,17 +7,19 @@
 
 {% block main %}
 
+{% if messages %}
+	<div class="messages">
+		{% for message in messages %}
+			<p {% if message.tags %}class="{{message.tags}}"{% endif %}>{{message}}</p>
+		{% endfor %}
+	</div>
+{% endif %}
+
             <div class="form-container">
 				
 
 				<div class="form">
-					{% if messages %}
-						<div class="messages">
-							{% for message in messages %}
-								<li {% if message.tags %}class="{{message.tags}}"{% endif %}>{{message}}</li>
-							{% endfor %}
-						</div>
-					{% endif %}
+					
 
 
 					<p>ADMIN LOGIN</p>

@@ -442,6 +442,20 @@ footer span a{
 
 }
 
+.messages{
+	padding: 20px;
+	background-color: rgb(255, 155, 155);
+	width: 100%;
+	color: #000000;
+    font-size: 20px;
+	font-family:'Source Sans Pro', Helvetica, Arial, Lucida, sans-serif;
+	text-align: center;
+	font-weight: bold;
+	word-spacing: 6px;
+	position: fixed;
+	top: 70px;
+}
+
 
 
 /*-------------------------xxxxxx          Student Dashboard        xxxxxx--------------------------*/
