@@ -70,4 +70,21 @@ def check_id_insti(s):
     else:
         return False
 
+def check_email(s):
+    """
+    Checks if email is valid or invalid
+
+    :param s: email
+    :type s: str
+    :return: True or False
+    :rtype: bool
+    """
+    if re.search(
+        r"^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
+        s,
+        re.IGNORECASE
+    ):
+        return True
+    else:
+        return False
 
