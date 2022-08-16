@@ -1,0 +1,193 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Admin
+{% endblock title %}
+
+
+{% block main %}
+    
+<div class="dashboard-wrapper">
+
+    <p>ADMIN DASHBOARD</p>
+
+    <div class="dashboard">
+
+        <div class="dashboard-head">
+
+            <div class="dashboard-head-top">
+                
+
+
+            </div>
+
+            <div class="dashboard-head-bottom">
+
+                
+
+            </div>
+
+        </div>
+
+        <div class="profile-pic">
+
+            <img src="">
+
+        </div>
+
+        <div class="dashboard-nav">
+
+            <p class="dashboard-name">ASHWIN</p>
+
+            <p class="dashboard-id">ID: ABCDEF</p>
+
+            <div class="dashboard-link">
+                <ul>
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Create Profile</a></li>
+                    <li><a href="#">Search profile</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="dashboard-body" id="dashboard-body">
+
+            <div class="profile" id="profile" >
+
+                <h1>PROFILE</h1>
+
+                <div class="details">
+
+                    <div>
+
+                        <p class="label">NAME:</p> <p>ASHWIN</p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="label">ID:</p> <P>ABCDEF</p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="label">EMAIL:</p> <p>kmithunraj@mithunraj.com</p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="label">MOBILE NO:</p> <p>9360700000</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="create-profile" id="create-profile" style="">
+
+                <h1>CREATE PROFILE</h1>
+
+                <div class="profile-form-container">
+
+                    <div class="profile-form">
+
+                        <form action="" method="post">
+                            
+                            <label for="ins-name">INSTITUTION NAME:</label>
+    
+                            <br>
+    
+                            <input type="text" id="ins-name" name="ins-name" required>
+    
+                            <br>
+                            <br>
+
+                            <label>INSTITUTION TYPE:</label>
+
+                            <br>
+
+                            <select name="type" id="type" required>
+                                <option value="options">SELECT OPTION</option>
+                                <option value="school">STATE UNIVERSITY</option>
+                                <option value="engineering">DEEMED</option>
+                                <option value="medical">AUTONOMOUS</option>
+                                <option value="arts">AFFILIATED</option>
+                                <option value="iit">IIT</option>
+                                <option value="nit">NIT</option>
+                                <option value="cbse">CBSE</option>
+                                <option value="icse">ICSE</option>
+                                <option value="state-board">STATE BOARD</option>
+                              </select>
+
+                            <br>
+                            <br>
+    
+                            <label for="email">EMAIL:</label>
+    
+                            <br>
+    
+                            <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"required>
+    
+                            <br>
+                            <br>
+
+                            <label for="state">STATE:</label>
+    
+                            <br>
+    
+                            <input type="text" id="state" name="state" required>
+
+                            <br>
+                            <br>
+
+                            <label for="city">CITY:</label>
+    
+                            <br>
+    
+                            <input type="text" id="city" name="city" required>
+
+                            <br>
+                            <br>
+
+                            <label for="pincode">PINCODE:</label>
+    
+                            <br>
+    
+                            <input type="text" id="pincode" name="pincode" required>
+
+                            <br>
+                            <br>
+    
+                            <input type="submit" value="SUBMIT">
+    
+                        </form>
+    
+                    </div>
+    
+                </div>
+
+            </div>
+
+            <div class="edit-profile" id="edit-profile" style="display: none;">
+
+                <h1>EDIT PROFILE</h1>
+
+                <div class="details">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock main %}
+

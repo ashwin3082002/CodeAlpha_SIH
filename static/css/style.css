@@ -1,42 +1,39 @@
 *{
-	overflow-x:hidden;
-	margin:0 auto;
-	padding:0px;
-	scroll-behavior:smooth;
+  overflow-x:hidden;
+  margin:0 auto;
+  padding:0px;
+  scroll-behavior:smooth;
 }
 
 body{
-    z-index:1;
+     z-index:1;
 }
-
-
 .container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color:#f3f3f3;
 }
-
 main {
-	flex: 1;
-	width: 100%;
+  flex: 1;
+  width:100%;
 }
-
 .headspace{
-	height:75px;
+	height:73px;
 	width:100%;
 }
 header{
-	z-index:2;
-	width:100%;
-	background-color:#ffdd00;
-	text-align:center;
-	position:fixed;
-	float:left;
+       z-index:2;
+	   width:100%;
+	   background-color:#ffdd00;
+	   text-align:center;
+	   position:fixed;
+	   float:left;
 }
 header h1{
-	float:left;
-	text-align:left;
-	width:100px;
+          float:left;
+		  text-align:left;
+		  width:100px;
 }
 header h1 a{
 	text-decoration:none;
@@ -87,10 +84,9 @@ header nav ul li a:hover{
 header .nav-icon{
 	display:none;
 }
-
 footer{
 	background-color:#ffdd00;
-	
+	font-family:'Source Sans Pro', Helvetica, Arial, Lucida, sans-serif;
 	color:black;
 	text-align:center;
 	padding:10px;
@@ -108,19 +104,58 @@ footer span a{
 }
 
 
+/*-------------------------xxxxxx          Banner        xxxxxx--------------------------*/
+
+.banner{
+	height:280px;
+	background-color:#ffdd00;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*-------------------------xxxxxx          Login Wrapper        xxxxxx--------------------------*/
+
+.login p{
+	width:100%;
+	font-size:1.7rem;
+	font-family: 'Source Sans Pro', Helvetica, Arial, Lucida, sans-serif;
+	font-weight:bold;
+	color:#565a61;
+    text-align:center;
+	padding-top:20px;
+}
 
 
 .login-wrapper{
 	display:flex;
 	width:100%;
-	padding-top:20px;
-	padding-bottom:20px;
+	padding-top:30px;
+	padding-bottom:30px;
 	justify-content:space-between;
 	text-align:center;
 }
 .login-items{
 	transition:0.4s;
+	padding:10px;
 }
 .login-items:hover{
 	scale:1.1;
@@ -141,11 +176,61 @@ footer span a{
 	border-color:#ffdd00;
 	border-radius:50%;
 	overflow:hidden;
+	box-shadow:0 0 10px black;
 }
 .login-items .login-item img{
 	width:175px;
 	height:175px;
 }
+
+
+
+
+
+
+/*-------------------------xxxxxx          Features        xxxxxx--------------------------*/
+
+
+.features-wrapper{
+		background-color:#ffdd00;
+		font-family:'Source Sans Pro', Helvetica, Arial, Lucida, sans-serif;
+		color:#565a61;
+		padding:10px;
+}
+.features-wrapper h2{
+	text-align:center;
+	width:100%;
+	padding:10px;
+	font-size:1.7rem;
+}
+.features{
+	width:100%;
+	display:flex;
+	justify-content:space-between;
+	padding:10px;
+}
+.features .feature{
+	padding:10px;
+	height:300px;
+	width:300px;
+	background-color:white;
+	border:none;
+	border-radius:10px;
+	box-shadow:0 0 10px black;
+}
+.features .feature h3{
+	font-size:1.3rem;
+	width:100%;
+	text-align:center;
+}
+
+
+
+
+
+
+
+
 
 /*-------------------------xxxxxx          Forms        xxxxxx--------------------------*/
 
@@ -189,6 +274,13 @@ footer span a{
 	padding:8px;
 	width:500px;
 }
+.form form select{
+	border-radius:10px;
+	border:solid 1px #565a61;
+	font-size:1rem;
+	padding:8px;
+	width:500px;
+}
 .form form textarea{
 	border-radius:10px;
 	border:solid 1px #565a61;
@@ -219,8 +311,86 @@ footer span a{
 
 
 
+.profile-form-container{
+	min-width:100vw;
+	padding: 10px;
+	background-color: #ffffff;
+	border-radius: 10px;
+}
+.profile-form-container .form{
+	font-family:'Source Sans Pro', Helvetica, Arial, Lucida, sans-serif;
+	padding:10px;
+	width: 100%;
+}
+.profile-form-container .form p{
+	width:100%;
+	text-align:center;
+	font-size:1.8rem;
+	font-weight:bold;
+	color:#565a61;
+}
+.profile-form-container .form form{
+	background-color:white;
+	padding:20px;
+	border:none;
+	border-radius:10px;
+	box-shadow:0 0 10px black;
+	color:#565a61;
+	align-content:center;
+	width: 100%;
+}
+.profile-form form label{
+	font-size:1.3rem;
+}
+.profile-form form input[type="text"], input[type="email"], input[type="password"]{
+	border-radius:10px;
+	border:solid 1px #565a61;
+	font-size:1rem;
+	padding:8px;
+	width:80%;
+}
+.profile-form form select{
+	border-radius:10px;
+	border:solid 1px #565a61;
+	font-size:1rem;
+	padding:8px;
+	width:80%;
+}
+.profile-form form textarea{
+	border-radius:10px;
+	border:solid 1px #565a61;
+	font-size:1rem;
+	padding:8px;
+	height:150px;
+	width:80%;
+}
+.profile-form form input[type="submit"]{
+	font-size:1rem;
+	padding:8px;
+	text-align:center;
+	width:100px;
+	background-color:#ffdd00;
+	color:#565a61;
+	border:none;
+	border-radius:10px;
+	cursor:pointer;
+	transition:0.4s;
+}
+.profile-form form input[type="submit"]:hover{
+	scale:1.05;
+	transition:0.4s;
+}
 
-/*-------------------------xxxxxx          Student Login        xxxxxx--------------------------*/
+
+
+
+
+
+
+
+
+
+/*-------------------------xxxxxx          Login        xxxxxx--------------------------*/
 
 
 
@@ -269,8 +439,245 @@ footer span a{
 	border-radius:10px;
 	background-color:#ffdd00;
 	color:#565a61;
+
+}
+
+
+
+/*-------------------------xxxxxx          Student Dashboard        xxxxxx--------------------------*/
+
+
+
+
+.dashboard-wrapper{
+	font-family:'Source Sans Pro', Helvetica, Arial, Lucida, sans-serif;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	color: #565a61;
+}
+.dashboard-wrapper p{
+	font-size: 2rem;
+	font-weight: bold;
+	width: 90%;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.dashboard{
+	width:90%;
+	color: #565a61;
+}
+.dashboard-head{
+	width: 100%;
+}
+.dashboard-head-top{
+	height: 100px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	background-color: #ffdd00;
+}
+.dashboard-head-bottom{
+	height: 100px;
+	background-color: #ffffff;
+}
+.profile-pic{
+	height: 150px;
+	width: 150px;
+	border: #ffffff solid 10px;
+	border-radius: 50%;
+	position: relative;
+	bottom: 180px;
+	left: 20px;
+	float: left;
+	background-color: #565a61;
+	overflow: hidden;
+}
+.profile-pic img{
+	height: 175px;
+	width: 175px;
+}
+.dashboard-nav{
+	width: 100%;
+	background-color: #ffffff;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	position: relative;
+	bottom: 170px;
+}
+.dashboard-nav .dashboard-name{
+	font-size: 2rem;
+}
+.dashboard-nav .dashboard-id{
+	font-size: 1.2rem;
+	padding-top: 0px;
+}
+.dashboard-nav .dashboard-status{
+	font-size: 1.1rem;
+	padding-top: 0px;
+}
+.dashboard-link{
+	width: 100%;
+	text-align: left;
+	padding: 10px;
+}
+.dashboard-link ul{
+	list-style: none;
 	
 }
+.dashboard-link ul li{
+	display: inline-block;
+	padding: 10px;
+	font-size: 1.2rem;
+}
+.dashboard-link ul li a{
+	text-decoration: none;
+	color: #565a61;
+	background-color: #ffdd00;
+	border-radius: 10px;
+	padding: 10px;
+}
+.dashboard-link ul li a:hover{
+	color: #000000;
+}
+.dashboard-body{
+	width: 100%;
+	position: relative;
+	bottom: 160px;
+}
+.dashboard-body .profile{
+	width:100%;
+}
+.dashboard-body .profile h1{
+	padding-top: 20px;
+	padding-bottom: 10px;
+}
+.dashboard-body .profile .details{
+	background-color: #ffffff;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+}
+.dashboard-body .profile .details .label{
+	font-size: 1.5rem;
+	font-weight: bold;
+	width: 250px;
+	padding-left: 10px;
+}
+.dashboard-body .profile .details p{
+	font-size: 1.5rem;
+	font-weight: normal;
+	text-align: left;
+	
+
+}
+.dashboard .profile .details div{
+	width: 100%;
+	display: flex;
+	text-align: left;
+}
+
+
+
+.dashboard-body .get-documents{
+	width:100%;
+}
+.dashboard-body .get-documents h1{
+	padding-top: 20px;
+	padding-bottom: 10px;
+}
+.dashboard-body .get-documents .details{
+	background-color: #ffffff;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+}
+.dashboard-body .get-documents .details .label{
+	font-size: 1.5rem;
+	font-weight: bold;
+	width: 250px;
+	padding-left: 10px;
+}
+.dashboard-body .get-documents .details p{
+	font-size: 1.5rem;
+	font-weight: normal;
+	text-align: left;
+	
+
+}
+.dashboard .get-documents .details div{
+	width: 100%;
+	display: flex;
+	text-align: left;
+	padding: 10px;
+}
+.dashboard .get-documents .details div button{
+	width: 150px;
+	padding: 8px;
+	border: none;
+	border-radius: 7px;
+	background-color: #ffdd00;
+	color: #565a61;
+}
+.dashboard .get-documents .details div button:hover{
+	color: #000000;
+}
+
+
+
+
+
+
+
+.dashboard-body .create-profile{
+	width:100%;
+}
+.dashboard-body .create-profile h1{
+	padding-top: 20px;
+	padding-bottom: 10px;
+}
+.dashboard-body .profile .details{
+	background-color: #ffffff;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+}
+.dashboard-body .profile .details .label{
+	font-size: 1.5rem;
+	font-weight: bold;
+	width: 250px;
+	padding-left: 10px;
+}
+.dashboard-body .profile .details p{
+	font-size: 1.5rem;
+	font-weight: normal;
+	text-align: left;
+	
+
+}
+.dashboard .profile .details div{
+	width: 100%;
+	display: flex;
+	text-align: left;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -283,7 +690,7 @@ footer span a{
 		float:right;
 		align-content:center;
 	}
-	
+
 	header .nav-icon button{
 		height:70px;
 		border:none;
@@ -355,11 +762,11 @@ footer span a{
 		text-align:left;
     }
     header nav ul li a:hover{
-		background-color:#ffdd00;
-		color:#565a61;
-		transition:0.4s;
+	background-color:#ffdd00;
+	color:#565a61;
+	transition:0.4s;
     }
-	
+
 
 }
 
@@ -367,78 +774,117 @@ footer span a{
 
 @media screen and (max-width: 750px){
 
-	.login-page{
-		width:100%;
-	}
-	.login-page form{
-		text-align:center;
-		width:300px;
-		padding:10px;
-	}
-	.login-page form h2{
-		text-align:center;
-		width:90%;
-		font-size:1.8rem;
-		padding:10px;
-	}
-	.login-page form .login-credential{
-		text-align:left;
-		padding-top:10px;
-		padding-bottom:10px;
-	}
-	.login-page form .login-credential label{
-		text-align:left;
-		font-size:1.4rem;
-		padding-top:10px;
-		padding-bottom:10px;
-		width:100%;
-	}
-	.login-page form .login-credential input[type="text"], input[type="password"], input[type="number"]{
-		text-align:left;
-		width:90%;
-		padding:10px;
-		font-size:1.2rem;
-	}
-	.login-page form p{
-		padding-bottom:30px;
-	}
-	.login-page form input[type="submit"]{
-		text-align:center;
-		width:100px;
-		padding:10px;
-		font-size:1.3rem;
-		cursor:pointer;
-		border:none;
-		border-radius:10px;
-		background-color:#ffdd00;
-		color:#565a61;
-		
-	}
+.login-page{
+	width:100%;
+}
+.login-page form{
+	text-align:center;
+	width:300px;
+	padding:10px;
+}
+.login-page form h2{
+	text-align:center;
+	width:90%;
+	font-size:1.8rem;
+	padding:10px;
+}
+.login-page form .login-credential{
+	text-align:left;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+.login-page form .login-credential label{
+	text-align:left;
+	font-size:1.4rem;
+	padding-top:10px;
+	padding-bottom:10px;
+	width:100%;
+}
+.login-page form .login-credential input[type="text"], input[type="password"], input[type="number"]{
+	text-align:left;
+	width:90%;
+	padding:10px;
+	font-size:1.2rem;
+}
+.login-page form p{
+	padding-bottom:30px;
+}
+.login-page form input[type="submit"]{
+	text-align:center;
+	width:100px;
+	padding:10px;
+	font-size:1.3rem;
+	cursor:pointer;
+	border:none;
+	border-radius:10px;
+	background-color:#ffdd00;
+	color:#565a61;
+
+}
 
 
-	.login-wrapper{
-		padding-top:20px;
-		padding-bottom:20px;
-		display:flex;
-		flex-wrap:wrap;
-		width:100%;
-		justify-content:space-between;
-		text-align:center;
-	}
-	.login-items{
-		width:51%;
-	}
-	.login-items p{
-		font-size:1.3rem;
-		padding-bottom:40px;
-	}
-	.login-item{
-		width:175px;
-		height:175px;
-		border:solid 5px;
-		border-color:#ffdd00;
-		border-radius:50%;
-	}
+
+
+.login-wrapper{
+	padding-top:20px;
+	padding-bottom:20px;
+	display:flex;
+	flex-wrap:wrap;
+	width:100%;
+	justify-content:space-between;
+	text-align:center;
+	scale:0.9;
+}
+.login-items{
+	width:51%;
+}
+.login-items p{
+	font-size:1.3rem;
+	padding-bottom:40px;
+}
+.login-item{
+	width:175px;
+	height:175px;
+	border:solid 5px;
+	border-color:#ffdd00;
+	border-radius:50%;
+}
+
+
+
+
+
+
+
+.form-container .form {
+	scale:0.9;
+}
+.form form input[type="text"], input[type="email"], input[type="password"], input[type="number"]{
+	width:270px;
+}
+.form form textarea{
+	width:270px;
+}
+
+
+
+
+.dashboard-body .profile .details .label{
+	font-size: 1.3rem;
+	width: 200px;
+}
+.dashboard-body .profile .details p{
+	font-size: 1.1rem;
+}
+
+
+.dashboard-body .profile .details .label{
+	font-size: 1.3rem;
+	width: 200px;
+}
+.dashboard-body .profile .details p{
+	font-size: 1.1rem;
+}
 
 }
 
@@ -595,3 +1041,4 @@ footer span a{
     font-size: 20px;
     padding-bottom: 10px;
 }
+
