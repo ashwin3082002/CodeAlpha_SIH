@@ -24,5 +24,7 @@ urlpatterns = [
     path('contact',views.contact),
     path('about', views.about),
     path('terms', views.terms),
-    path('privacy', views.privacy)
+    path('privacy', views.privacy),
+    path('dashboard/', include('dash.urls')),
+    path('signout',views.signout),
 ]
