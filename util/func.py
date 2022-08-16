@@ -4,10 +4,11 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 import random
-#added by Laavesh
+# added by Laavesh
 import re
 
 
+# added by Ashwin
 
 def sendotp(emailto):
     subject = 'OTP | Student Information Portal'
@@ -25,7 +26,7 @@ def sendotp(emailto):
     email.send()
     return otp
 
-#added by Laavesh
+# added by Laavesh
 
 def check_id_stud(s):
     """
@@ -88,3 +89,31 @@ def check_email(s):
     else:
         return False
 
+def check_phn(n):
+    """
+    Checks if phone number is vaild
+    
+    ID format : 0000xxxxx0
+    0-int
+    x-alphabet(a-z, case insensitive)
+    """
+    if re.search(r'^(?:(?:\+91)|(?:0091))?\d{10}$', n):
+    # if re.search(r'^(\+91)\d{10}$', n):
+        return True
+    else:
+        return False
+
+def parse_phn(n):
+    """
+    Parses the number and returns the number without country code
+
+    :param n: phone number
+    :type s: str
+    :return: phone number without country code
+    :rtype: int
+    """
+    if search := re.search(r'^(?:(?:\+91)|(?:0091))?(\d{10})$', n):
+        phn = list(search.groups())
+        return int(phn[0])
+    else:
+        return False
