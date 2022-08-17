@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'loginpg.apps.LoginpgConfig',
     'dash.apps.DashConfig',
+    'sip_db'
 ]
 
 MIDDLEWARE = [

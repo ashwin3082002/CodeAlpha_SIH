@@ -12,6 +12,19 @@ def admin(request):
         user = User.objects.get(username=uname)
         user_email = user.email
         nam=user.get_full_name()
-        return render(request, 'dashboard_admin.html',{'username':uname, 'name':nam, 'email':user_email})
+        return render(request, 'dashboards\dashboard_admin.html',{'username':uname, 'name':nam, 'email':user_email})
     else:
         return redirect('/login/admin')
+
+
+def student(request):
+    if True:
+        return render(request, 'dashboards\dashboard_student.html',{'username':uname, 'name':nam, 'email':user_email})
+    else:
+        return redirect('/login/student')
+
+def institution(request):
+    if True:
+        return render(request, 'dashboards\dashboard_institution.html',{'username':uname, 'name':nam, 'email':user_email})
+    else:
+        return redirect('/login/insti')
