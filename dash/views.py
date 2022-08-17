@@ -4,6 +4,10 @@ from django.contrib.auth.models import User
 # Create your views here.
 def admin(request):
     if request.user.is_authenticated:
+        if request.method == "POST":
+            iname = request.POST.get('ins-name')
+            print(iname)
+            return redirect('/dashboard/admin')
         uname=request.user.get_username()
         user = User.objects.get(username=uname)
         user_email = user.email
