@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
+
 # Create your views here.
 
 def student(request):
@@ -17,9 +18,12 @@ def admin(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request,user)
+            request.session['username']=username
             return redirect('/dashboard/admin')
         else:
             messages.error(request, "Incorrect Credentials")
+    if request.session.get('username')!=None:
+        return redirect('/dashboard/admin') 
     return render(request, 'login-admin.html')
 
 def pass_reset_otp(request):
