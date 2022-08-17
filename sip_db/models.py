@@ -16,3 +16,27 @@ class user_details(models.Model):
 
     def __str__(self):
         return self.name
+
+class institution_details():
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=50)
+    type_insti = models.CharField(max_length=50)
+    city = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    pincode = models.CharField(max_length=50)
+    email = models.EmailField(max_length=50)
+    contact = models.CharField(max_length=14)
+
+class degree(models.Model):
+    sid =  models.ForeignKey(user_details)
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100)
+    insti_id = models.ForeignKey(institution_details)
+    status = models.CharField(max_length=10)
+    discipline = models.CharField(max_length=20)
+    date_join = models.DateField()
+    date_leave = models.DateField()
+    grade = models.CharField(max_length=10)
+
+
+
