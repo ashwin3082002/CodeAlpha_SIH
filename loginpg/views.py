@@ -7,32 +7,33 @@ from django.contrib import messages
 
 def student(request):
     if request.method=='POST':
-        username = request.POST.get('username')
+        username = request.POST.get('name')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request,user)
-            request.session['username']=username
+            if request.user.is_staff or request.user.is_superuser:
+                messages.error(request, "Login not permitted")
+                logout(request)
             return redirect('/dashboard/student')
         else:
             messages.error(request, "Incorrect Credentials")
-    if request.session.get('username')!=None:
-        return redirect('/dashboard/admin') 
     return render(request, 'login-student.html')
 
 def institution(request):
     if request.method=='POST':
-            username = request.POST.get('username')
+            username = request.POST.get('name')
             password = request.POST.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request,user)
-                request.session['username']=username
-                return redirect('/dashboard/institution')
+                if request.user.is_staff and not request.user.is_superuser:
+                    return redirect('/dashboard/institution')
+                else:
+                    messages.error(request, "Login not permitted")
+                    logout(request)
             else:
                 messages.error(request, "Incorrect Credentials")
-    if request.session.get('username')!=None:
-        return redirect('/dashboard/institution') 
     return render(request, 'login-institution.html')
 
 def admin(request):
@@ -42,12 +43,13 @@ def admin(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request,user)
-            request.session['username']=username
-            return redirect('/dashboard/admin')
+            if request.user.is_superuser:
+                return redirect('/dashboard/admin')
+            else:
+                messages.error(request, "Login not permitted")
+                logout(request)
         else:
             messages.error(request, "Incorrect Credentials")
-    if request.session.get('username')!=None:
-        return redirect('/dashboard/admin') 
     return render(request, 'login-admin.html')
 
 def pass_reset_otp(request):

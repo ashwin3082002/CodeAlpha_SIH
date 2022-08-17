@@ -6,6 +6,13 @@
 
 
 {% block main %}
+{% if messages %}
+	<div class="messages">
+		{% for message in messages %}
+			<p {% if message.tags %}class="{{message.tags}}"{% endif %}>{{message}}</p>
+		{% endfor %}
+	</div>
+{% endif %}
             <div class="form-container">
 
 				<div class="form">
@@ -20,7 +27,7 @@
 
 						<br>
 
-						<input type="text" id="name" name="name" required>
+						<input type="text" name="name" required>
 
 						<br>
 						<br>
@@ -29,7 +36,7 @@
 
 						<br>
 
-						<input type="password" required>
+						<input type="password" name="password" required>
 
 						<br>
 						<br>

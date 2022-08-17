@@ -15,8 +15,4 @@ def contact(request):
 def signout(request):
     logout(request)
     messages.success(request, "Logged out successfully")
-    try:
-        del request.session['username']
-    except KeyError:
-        pass
-    return redirect('/login/admin')
+    return redirect('/')
