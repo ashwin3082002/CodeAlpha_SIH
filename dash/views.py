@@ -18,13 +18,21 @@ def admin(request):
 
 
 def student(request):
-    if True:
+    if request.user.is_authenticated:
+        uname=request.user.get_username()
+        user = User.objects.get(username=uname)
+        user_email = user.email
+        nam=user.get_full_name()
         return render(request, 'dashboards\dashboard_student.html',{'username':uname, 'name':nam, 'email':user_email})
     else:
         return redirect('/login/student')
 
 def institution(request):
-    if True:
+    if request.user.is_authenticated:
+        uname=request.user.get_username()
+        user = User.objects.get(username=uname)
+        user_email = user.email
+        nam=user.get_full_name()
         return render(request, 'dashboards\dashboard_institution.html',{'username':uname, 'name':nam, 'email':user_email})
     else:
-        return redirect('/login/insti')
+        return redirect('/login/institution')
