@@ -14,7 +14,8 @@
 
 					<br>
 
-					<form action="" method="post">
+					<form action="/login/institution" method="post">
+						{% csrf_token %}
 						<label for="name">Institution ID:</label>
 
 						<br>

@@ -1,0 +1,175 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Student
+{% endblock title %}
+
+
+{% block main %}
+    
+<div class="dashboard-wrapper">
+
+    <p>STUDENT DASHBOARD</p>
+
+    <div class="dashboard">
+
+        <div class="dashboard-head">
+
+            <div class="dashboard-head-top">
+                
+
+
+            </div>
+
+            <div class="dashboard-head-bottom">
+
+                
+
+            </div>
+
+        </div>
+
+        <div class="profile-pic">
+
+            <img src="">
+
+        </div>
+
+        <div class="dashboard-nav">
+
+            <p class="dashboard-name">K MITHUN RAJ</p>
+
+            <p class="dashboard-status">STATUS: <span style="color: green;">ACTIVE</span></p>
+
+            <div class="dashboard-link">
+                <ul>
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Edit Profile</a></li>
+                    <li><a href="#">Get Documents</a></li>
+                    <li><a class="logout" href="/signout">Logout</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="dashboard-body" id="dashboard-body">
+
+            <div class="profile" id="profile" >
+
+                <h1>PROFILE</h1>
+
+                <div class="details">
+
+                    <div>
+
+                        <p class="label">NAME:</p> <p>K MITHUN RAJ</p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="label">ID:</p> <p>2002ABCDE</p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="label">DOB:</p> <p>10-08-2002</p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="label">GENDER:</p> <p>M</p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="label">FATHER / MOTHER / GAURDIAN NAME:</p> <p>K KUMAR</p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="label">ADHAAR NO:</p> <p>0000 0000 0000</p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="label">EMAIL:</p> <p>kmithunraj@mithunraj.com</p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="label">CONTACT NO:</p> <p>9360700000</p>
+
+                    </div>
+                    
+                    <div>
+
+                        <p class="label">INSTITUTION NAME:</p> <p>PANIMALAR ENGINEERING COLLEGE</p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="label">INSTITUTION ID:</p> <p>BDHDSN</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="edit-profile" id="edit-profile" style="display: none;">
+
+                <h1>EDIT PROFILE</h1>
+
+                <div class="details">
+
+                </div>
+
+            </div>
+
+            <div class="get-documents" id="get-documents">
+
+                <h1>GET DOCUMENTS</h1>
+
+                <div class="details">
+
+                    <div>
+
+                        <p class="label">Bonafide:<p>
+
+                        <button href="" href="">DOWNLOAD</button>
+                    </div>
+
+                    <div>
+
+                        <p class="label">NOC:<p>
+
+                        <button href="" href="">DOWNLOAD</button>
+                    </div>
+
+                    <div>
+
+                        <p class="label">Transfer Certificate:<p>
+
+                        <button href="" href="">DOWNLOAD</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock main %}
+
