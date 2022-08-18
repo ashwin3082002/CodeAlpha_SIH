@@ -41,11 +41,14 @@ def admin(request):
             print('Database Updated :)')
 
             return redirect('/dashboard/admin')
+        # getting username from login
         uname=request.user.get_username()
+        # getting other user details in a obj 'user'
         user = User.objects.get(username=uname)
+
         user_email = user.email
-        nam=user.get_full_name()
-        return render(request, 'dashboards\dashboard_admin.html',{'username':uname, 'name':nam, 'email':user_email})
+        name = user.get_full_name()
+        return render(request, 'dashboards\dashboard_admin.html',{'username':uname, 'name':name, 'email':user_email})
     else:
         return redirect('/login/admin')
 
