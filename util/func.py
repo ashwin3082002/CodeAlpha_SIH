@@ -4,6 +4,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 import random
+import json
 # added by Laavesh
 import re
 
@@ -117,3 +118,60 @@ def parse_phn(n):
         return int(phn[0])
     else:
         return False
+    
+def stu_id_read():
+    file=open('util\ID_DATA\student_id.txt', 'r')
+    uni=file.read()
+    uni_info=json.loads(uni)
+    return uni_info
+
+def stu_id_write(uni_info):
+    with open('util\ID_DATA\student_id.txt', 'w') as convert_file:
+        convert_file.write(json.dumps(uni_info))
+
+def insti_id_read():
+    file=open('util\ID_DATA\insti_id.txt', 'r')
+    uni=file.read()
+    uni_info=json.loads(uni)
+    return uni_info
+
+def insti_id_write(uni_info):
+    with open('util\ID_DATA\insti_id.txt', 'w') as convert_file:
+        convert_file.write(json.dumps(uni_info))
+
+def stu_id_gen(uni_info):
+    def id_stu():
+        id = 'S'
+        for i in range(7):
+            a = random.choice(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'])
+            id+=a
+        return id
+    id=id_stu()
+    while True:
+        if id in uni_info:
+            id=id_stu()
+        else:
+            uni_info.append(id)
+            stu_id_write(uni_info)
+            break
+    return id
+
+def insti_id_gen(uni_info):
+    def id_stu():
+        id = 'I'
+        for i in range(6):
+            a = random.choice(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'])
+            id+=a
+        return id
+    id=id_stu()
+    while True:
+        if id in uni_info:
+            id=id_stu()
+        else:
+            uni_info.append(id)
+            insti_id_write(uni_info)
+            break
+    return id
+
+# print(insti_id_gen(insti_id_read()))
+# print(stu_id_gen(stu_id_read()))
