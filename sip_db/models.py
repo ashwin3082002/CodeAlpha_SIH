@@ -35,15 +35,18 @@ class institution_detail(models.Model):
         return self.name    
 
 class degree(models.Model):
-    sid =  models.ForeignKey(student_detail, on_delete=models.CASCADE)
-    id = models.IntegerField(primary_key=True)
+    sid =  models.ManyToManyField(student_detail)
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    insti_id = models.ForeignKey(institution_detail, on_delete=models.CASCADE)
+    insti_id = models.ManyToManyField(institution_detail)
     status = models.CharField(max_length=10)
     discipline = models.CharField(max_length=20)
     date_join = models.DateField()
     date_leave = models.DateField()
     grade = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.id + ' - ' + self.name   
 
 class course(models.Model):
     degree_id=models.ForeignKey(degree, on_delete=models.CASCADE)
@@ -52,4 +55,7 @@ class course(models.Model):
     obtained_marks = models.CharField(max_length=10)
     credits = models.CharField(max_length=10)
     semester = models.CharField(max_length=2)
+
+    def __str__(self):
+        return self.name
 
