@@ -37,7 +37,7 @@
 
         <div class="dashboard-nav">
 
-            <p class="dashboard-name">ASHWIN</p>
+            <p class="dashboard-name">{{name}}</p>
 
             <div class="dashboard-link">
                 <ul>
@@ -60,25 +60,19 @@
 
                     <div>
 
-                        <p class="label">NAME:</p> <p>ASHWIN</p>
+                        <p class="label">NAME:</p> <p>{{name}}</p>
 
                     </div>
 
                     <div>
 
-                        <p class="label">ID:</p> <P>ABCDEF</p>
+                        <p class="label">ID:</p> <P>{{username}}</p>
 
                     </div>
 
                     <div>
 
-                        <p class="label">EMAIL:</p> <p>kmithunraj@mithunraj.com</p>
-
-                    </div>
-
-                    <div>
-
-                        <p class="label">CONTACT NO:</p> <p>9360700000</p>
+                        <p class="label">EMAIL:</p> <p>{{email}}</p>
 
                     </div>
 
@@ -86,7 +80,7 @@
 
             </div>
 
-            <div class="create-profile" id="create-profile">
+            <div class="create-profile" id="create-profile" style="">
 
                 <h1>CREATE PROFILE</h1>
 
@@ -94,8 +88,8 @@
 
                     <div class="profile-form">
 
-                        <form action="" method="post">
-                            
+                        <form action="/dashboard/admin" method="post">
+                            {% csrf_token %}
                             <label for="ins-name">INSTITUTION NAME:</label>
     
                             <br>
@@ -131,15 +125,6 @@
     
                             <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"required>
     
-                            <br>
-                            <br>
-
-                            <label for="contact">CONTACT NO:</label>
-    
-                            <br>
-    
-                            <input type="text" id="contact" name="contact" required>
-
                             <br>
                             <br>
 

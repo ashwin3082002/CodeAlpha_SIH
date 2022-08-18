@@ -20,14 +20,14 @@ class user_detail(models.Model):
         return self.name
 
 class institution_detail(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     type_insti = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
     pincode = models.CharField(max_length=50)
     email = models.EmailField(max_length=50)
-    contact = models.CharField(max_length=14)
+    contact = models.CharField(max_length=14, null=True, blank=True)
 
 class degree(models.Model):
     sid =  models.ForeignKey(user_detail, on_delete=models.CASCADE)
