@@ -2,7 +2,7 @@ import email
 from email.headerregistry import Address
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from sip_db.models import institution_detail, student_detail
+from sip_db.models import institution_detail, student_detail, degree, course
 from util import func
 
 # Create your views here.
@@ -17,10 +17,13 @@ def admin(request):
             i_city = request.POST.get('city')
             i_pincode = request.POST.get('pincode')
 
+            #generate insti id
+            i_id = func.insti_id_gen()
+
             # must add contact later
             #database instance
             db_insti = institution_detail(
-                id= func.insti_id_gen(),
+                id= i_id,
                 name=i_name,
                 type_insti=i_type,
                 email=i_email,
@@ -30,15 +33,14 @@ def admin(request):
                 pincode = i_pincode,
             )
             db_insti.save()
-            # db_insti.name = i_name
-            # db_insti.type_insti = i_type
-            # db_insti.email = i_email
-            # db_insti.contact = i_contact
-            # db_insti.state = i_state
-            # db_insti.city = i_city
-            # db_insti.pincode = i_pincode
-            # db_insti.save()
+
+            #create new user and grant staff status
+            User.objects.create_user(i_id, i_email, 'password', is_staff = True)
+            #new_user.is_staff = True
+            #print('id:', i_id)
             print('Database Updated :)')
+
+            # to send id and pass as email
 
             return redirect('/dashboard/admin')
         # getting username from login
@@ -56,6 +58,9 @@ def admin(request):
 def student(request):
     if request.user.is_authenticated:
         uname=request.user.get_username()
+        #awaiting changes
+        user_details = student_detail.objects.filter(sid=uname)
+        print(user_details)
         user = User.objects.get(username=uname)
         user_email = user.email
         nam=user.get_full_name()
