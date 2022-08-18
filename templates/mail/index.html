@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta content="text/html" charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f6f9fc;
+      }
+
+      table {
+        border-spacing: 0;
+      }
+
+      td {
+        padding: 0;
+      }
+
+      img {
+        border: 0;
+      }
+
+      .wrapper {
+        width: 100%;
+        padding-bottom: 40px;
+        background-color: #f6f9fc;
+        table-layout: fixed;
+      }
+
+      .Email {
+        max-width: 600px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        margin-top: 30px;
+      }
+
+      .outer {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 600px;
+        border-spacing: 0;
+        font-family: sans-serif;
+        color: #4a4a4a;
+      }
+
+      @media screen and (max-width: 600px) {
+      }
+
+      @media screen and (max-width: 400px) {
+      }
+    </style>
+  </head>
+  <body>
+    <center class="wrapper">
+      <div class="Email">
+        <table class="outer" align="center">
+          <tr>
+            <td>
+              <table width="100%" style="padding-bottom: 4px">
+                <tr>
+                  <td
+                    style="
+                      background-image: linear-gradient(to bottom right,#7bcdff,#1181b2);
+                      padding: 10px;
+                      text-align: center;
+                      border-top-left-radius: 8px;
+                      border-top-right-radius: 10px;
+                    "
+                  >
+                    <h1 style="color: #ffdd00">STUDENT IDENTIFICATION PORTAL</h1>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <img
+                src="jpeg2.jpg"
+                alt="Banner"
+                width="600px"
+                style="
+                  border-bottom-left-radius: 10px;
+                  border-bottom-right-radius: 10px;
+                "
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <table width="100%">
+                <tr>
+                  <td
+                    style="
+                      background-image: linear-gradient(to bottom right,#7bcdff,#1181b2);
+                      padding: 10px;
+                      text-align: center;
+                      border-top-left-radius: 10px;
+                      border-top-right-radius: 10px;
+                    "
+                  >
+                    <h1 style="color: #ffdd00; font-family: roboto">Hurray!</h1>
+
+                    <p
+                      style="
+                        color: white;
+                        font-family: Verdana, Geneva, Tahoma, sans-serif;
+                      "
+                    >
+                      Verification on your Student status is successful.
+                    </p>
+
+                    <p
+                      style="
+                        color: white;
+                        font-family: Verdana, Geneva, Tahoma, sans-serif;
+                        text-align: left;
+                        padding-left: 12px;
+                      "
+                    >
+                      • The documents submitted has been verified succesfully
+                      with required details and marked your user verified. 
+                    </p>
+
+                    <p
+                      style="
+                        color: #ffdd00;
+                        text-align: left;
+                        border-left: 16px solid transparent;
+                        font-family: Verdana, Geneva, Tahoma, sans-serif;
+                      "
+                    >
+                      USERNAME: {{ id }} 
+                      <br>
+
+                      PASSWORD: {{ pwd }}
+                    </p>
+
+                    <p
+                      style="
+                        color: white;
+                        font-family: Verdana, Geneva, Tahoma, sans-serif;
+                      "
+                    >
+                      ~use the above login & password to change password of your
+                      own.
+                    </p>
+
+                    <p
+                      style="
+                        color: white;
+                        font-family: Verdana, Geneva, Tahoma, sans-serif;
+                        text-align: left;
+                        padding-left: 12px;
+                      "
+                    >
+                      • Fortunately, your SIP-ID was created and you're enrolled in an
+                      accredited school/college or university.
+                    </p>
+
+                    <p
+                      style="
+                        color: #ffdd00;
+                        text-align: left;
+                        border-left: 16px solid transparent;
+                        font-family: Verdana, Geneva, Tahoma, sans-serif;
+                      "
+                    >
+                      College/School name: {{i_name}} 
+                      <br>
+                      College/School id: {{i_id}}
+                    </p>
+
+                    <p
+                      style="
+                        color: white;
+                        font-family: Georgia, 'Times New Roman', Times, serif;
+                        padding-top: 15px;
+                        padding-bottom: 20px;
+                        font-size: large;
+                      "
+                    >
+                      Congratulation! Future of India. Thank you.
+                    </p>
+
+                    <p
+                      style="
+                        color: #ffdd00;
+                        text-align: right;
+                        font-family: roboto ;
+                        font-weight: bold;
+                        border-right: 16px solid transparent;
+                        margin-bottom: 60px;
+                        font-size: 22px;
+                      "
+                    >
+                      TEAM-SIP,
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </center>
+  </body>
+</html>

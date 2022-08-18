@@ -37,7 +37,7 @@ def admin(request):
             #create new user and grant staff status
             User.objects.create_user(i_id, i_email, 'password', is_staff = True)
             #new_user.is_staff = True
-            #print('id:', i_id)
+            print('id:', i_id)
             print('Database Updated :)')
 
             # to send id and pass as email
