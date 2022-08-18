@@ -1,18 +1,33 @@
 import email
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from sip_db import models
 
 # Create your views here.
 def admin(request):
     if request.user.is_authenticated:
         if request.method == "POST":
-            iname = request.POST.get('ins-name')
-            type = request.POST.get('type')
-            email = request.POST.get('email')
-            state = request.POST.get('state')
-            city = request.POST.get('city')
-            pincode = request.POST.get('pincode')
-            print(iname, type, email, state, city, pincode)
+            i_name = request.POST.get('ins-name')
+            i_type = request.POST.get('type')
+            i_email = request.POST.get('email')
+            i_contact = request.POST.get('contact')
+            i_state = request.POST.get('state')
+            i_city = request.POST.get('city')
+            i_pincode = request.POST.get('pincode')
+
+
+            #database instance
+            db_insti = models.institution_detail
+            db_insti.id = 
+            db_insti.name = i_name
+            db_insti.type_insti = i_type
+            db_insti.email = i_email
+            db_insti.contact = i_contact
+            db_insti.state = i_state
+            db_insti.city = i_city
+            db_insti.pincode = i_pincode
+            print('Database Updated :)')
+            
             return redirect('/dashboard/admin')
         uname=request.user.get_username()
         user = User.objects.get(username=uname)
