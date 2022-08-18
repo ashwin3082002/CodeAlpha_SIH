@@ -18,7 +18,6 @@ def admin(request):
 
             #database instance
             db_insti = models.institution_detail
-            db_insti.id = 
             db_insti.name = i_name
             db_insti.type_insti = i_type
             db_insti.email = i_email
@@ -27,7 +26,7 @@ def admin(request):
             db_insti.city = i_city
             db_insti.pincode = i_pincode
             print('Database Updated :)')
-            
+
             return redirect('/dashboard/admin')
         uname=request.user.get_username()
         user = User.objects.get(username=uname)
