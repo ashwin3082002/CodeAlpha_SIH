@@ -139,7 +139,7 @@ def insti_id_write(uni_info):
     with open('util\ID_DATA\insti_id.txt', 'w') as convert_file:
         convert_file.write(json.dumps(uni_info))
 
-def stu_id_gen(uni_info):
+def stu_id_gen(uni_info=stu_id_read()):
     def id_stu():
         id = 'S'
         for i in range(7):
@@ -156,7 +156,7 @@ def stu_id_gen(uni_info):
             break
     return id
 
-def insti_id_gen(uni_info):
+def insti_id_gen(uni_info=insti_id_read()):
     def id_stu():
         id = 'I'
         for i in range(6):

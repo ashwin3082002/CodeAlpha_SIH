@@ -2,6 +2,7 @@ import email
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from sip_db.models import institution_detail
+from util import func
 
 # Create your views here.
 def admin(request):
@@ -10,7 +11,7 @@ def admin(request):
             i_name = request.POST.get('ins-name')
             i_type = request.POST.get('type')
             i_email = request.POST.get('email')
-            #i_contact = request.POST.get('contact')
+            i_contact = request.POST.get('contact')
             i_state = request.POST.get('state')
             i_city = request.POST.get('city')
             i_pincode = request.POST.get('pincode')
@@ -18,10 +19,11 @@ def admin(request):
             # must add contact later
             #database instance
             db_insti = institution_detail(
+                id= func.insti_id_gen(),
                 name=i_name,
                 type_insti=i_type,
                 email=i_email,
-                #contact = i_contact,
+                contact = i_contact,
                 state = i_state,
                 city = i_city,
                 pincode = i_pincode,
