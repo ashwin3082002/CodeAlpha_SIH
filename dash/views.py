@@ -1,3 +1,4 @@
+import email
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 
@@ -6,7 +7,12 @@ def admin(request):
     if request.user.is_authenticated:
         if request.method == "POST":
             iname = request.POST.get('ins-name')
-            print(iname)
+            type = request.POST.get('type')
+            email = request.POST.get('email')
+            state = request.POST.get('state')
+            city = request.POST.get('city')
+            pincode = request.POST.get('pincode')
+            print(iname, type, email, state, city, pincode)
             return redirect('/dashboard/admin')
         uname=request.user.get_username()
         user = User.objects.get(username=uname)
