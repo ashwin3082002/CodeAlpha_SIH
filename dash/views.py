@@ -35,9 +35,14 @@ def admin(request):
             db_insti.save()
 
             #create new user and grant staff status
-            User.objects.create_user(i_id, i_email, 'password', is_staff = True)
+            User.objects.create_user(
+                username = i_id, 
+                email = i_email,
+                password = 'password',
+                is_staff = True
+            )
             #new_user.is_staff = True
-            print('id:', i_id)
+            print('id: ', i_id)
             print('Database Updated :)')
 
             # to send id and pass as email
@@ -84,8 +89,11 @@ def institution(request):
                 pincode = request.POST.get('pincode')
                 community = request.POST.get('community')
 
+                # generate insti id
+                i_id = func.stu_id_gen()
+
                 db_student = student_detail(
-                    sid = func.stu_id_gen(),
+                    sid = i_id,
                     name = s_name,
                     dob= dob,
                     guardian_name = guardian,
@@ -104,6 +112,15 @@ def institution(request):
 
                 db_student.save()
                 print('Database Updated :)')
+
+                # create student user with no permissions
+                User.objects.create_user(
+                    username = i_id,
+                    email = email,
+                    password= 'password',
+                )
+
+                print('id:', i_id)
 
 
         uname=request.user.get_username()
