@@ -1,7 +1,8 @@
 import email
+from email.headerregistry import Address
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from sip_db.models import institution_detail
+from sip_db.models import institution_detail, student_detail
 from util import func
 
 # Create your views here.
@@ -61,6 +62,42 @@ def student(request):
 
 def institution(request):
     if request.user.is_authenticated:
+        if request.method == "POST":
+                s_name = request.POST.get('stu-name')
+                dob = request.POST.get('dob')
+                guardian = request.POST.get('guardian')
+                aadhar = request.POST.get('aadhar')
+                gender = request.POST.get('gender')
+                email = request.POST.get('email')
+                contact = request.POST.get('contact')
+                address = request.POST.get('address')
+                city = request.POST.get('city')
+                state = request.POST.get('state')
+                pincode = request.POST.get('pincode')
+                community = request.POST.get('community')
+
+                db_student = student_detail(
+                    sid = func.stu_id_gen(),
+                    name = s_name,
+                    dob= dob,
+                    guardian_name = guardian,
+                    email= email,
+                    mobile=contact,
+                    aadhar=aadhar,
+                    gender=gender,
+                    active_status=False,
+                    community= community,
+                    #new
+                    address=address,
+                    city=city,
+                    state=state,
+                    pincode=pincode
+                )
+
+                db_student.save()
+                print('Database Updated :)')
+
+
         uname=request.user.get_username()
         user = User.objects.get(username=uname)
         user_email = user.email

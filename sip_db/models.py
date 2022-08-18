@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-class user_detail(models.Model):
+class student_detail(models.Model):
     sid = models.CharField(primary_key=True, max_length=10)
     name = models.CharField(max_length=120)
     dob = models.CharField(max_length=10)
@@ -13,6 +13,10 @@ class user_detail(models.Model):
     gender = models.CharField(max_length=10)
     active_status = models.CharField(max_length=20)
     community = models.CharField(max_length=10)
+    address = models.TextField(default='')
+    city = models.CharField(max_length=30, default='')
+    state = models.CharField(max_length=20, default='')
+    pincode = models.CharField(max_length=6, default='')
     
     def __str__(self):
         return self.name
@@ -27,8 +31,11 @@ class institution_detail(models.Model):
     email = models.EmailField(max_length=50)
     contact = models.CharField(max_length=14, null=True, blank=True)
 
+    def __str__(self):
+        return self.name    
+
 class degree(models.Model):
-    sid =  models.ForeignKey(user_detail, on_delete=models.CASCADE)
+    sid =  models.ForeignKey(student_detail, on_delete=models.CASCADE)
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     insti_id = models.ForeignKey(institution_detail, on_delete=models.CASCADE)
