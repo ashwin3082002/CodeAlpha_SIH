@@ -87,7 +87,7 @@
                                     <br>
                                     <br>
 
-                                    <input type="submit" value="SEARCH">
+                                    <input type="submit" name = "search" value="search">
 
                                 </form>
 
@@ -104,15 +104,16 @@
                                     <div class="search-res">
                                     <div class="pit"><p>Institution Name:</p><p>{{i.name}}</p></div>
                                     <div class="pit"><p>Institution ID:</p><p>{{i.id}}</p></div>
-                                    <div class="pit"><p>Institution Location:</p><p>{{i.city}}, {{i.state}}</p></div>
+                                    <div class="pit"><p>Institution City:</p><p>{{i.city}}</p></div>
+                                    <div class="pit"><p>Institution State:</p><p>{{i.state}}</p></div>
                                     </div>
 
                                     <br>
 
                                     <div class="srcbtn">
 
-                                        <button>VIEW</button>
-
+                                            <button type="submit" name="view" value = "view">VIEW</button>
+                                        
                                     </div>
 
                                 </div>

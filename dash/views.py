@@ -67,12 +67,16 @@ def admin(request):
 def admin_search(request):
     if request.user.is_authenticated:
         if request.method == "POST":
-            i_name = request.POST.get('institution-id')
-            search_details = institution_detail.objects.filter(id = i_name).values()
-            if search_details:
-                return render(request, 'dashboards\dashboard_admin_search.html', {'i': search_details[0]})
-            else:
-                messages.error(request, "Institution not found.")
+            if 'search' in request.POST:
+                i_id = request.POST.get('institution-id')
+                search_details = institution_detail.objects.filter(id = i_id).values()
+                if search_details:
+                    return render(request, 'dashboards\dashboard_admin_search.html', {'i': search_details[0]})
+                else:
+                    messages.error(request, "Institution not found.")
+                    return render(request, 'dashboards\dashboard_admin_search.html')
+            if 'view' in request.POST:
+                
                 return render(request, 'dashboards\dashboard_admin_search.html')
         else:
             return render(request, 'dashboards\dashboard_admin_search.html')
