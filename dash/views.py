@@ -140,8 +140,10 @@ def student(request):
 
         user_details = student_detail.objects.filter(sid = uname).values()
         
-        
-        return render(request, 'dashboards\dashboard_student.html', {'s': user_details[0]})
+        if user_details:
+            return render(request, 'dashboards\dashboard_student.html', {'s': user_details[0]})
+        else:
+            return render(request, 'dashboards\dashboard_student.html')
     else:
         return redirect('/login/student')
 
