@@ -83,6 +83,13 @@ def admin_search(request):
     else:
         return redirect('/login/admin')
     
+def admin_edit(request):
+    if request.user.is_authenticated:
+        return render(request, 'dashboards\dashboard_admin_edit.html')
+    else:
+        return redirect('/login/admin')
+
+
 
 
 def student(request):
