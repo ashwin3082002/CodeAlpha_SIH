@@ -75,9 +75,6 @@ def admin_search(request):
                 else:
                     messages.error(request, "Institution not found.")
                     return render(request, 'dashboards\dashboard_admin_search.html')
-            if 'view' in request.POST:
-                
-                return render(request, 'dashboards\dashboard_admin_search.html')
         else:
             return render(request, 'dashboards\dashboard_admin_search.html')
     else:
@@ -85,6 +82,50 @@ def admin_search(request):
     
 def admin_edit(request):
     if request.user.is_authenticated:
+        if request.method == "POST":
+
+            # search insti
+            if 'search' in request.POST:
+                i_id = request.POST.get('institution-id')
+                search_details = institution_detail.objects.filter(id = i_id).values()
+                if search_details:
+                    return render(request, 'dashboards\dashboard_admin_edit.html', {'i': search_details[0]})
+                else:
+                    messages.error(request, "Institution not found.")
+                    return render(request, 'dashboards\dashboard_admin_edit.html')
+
+
+            # change insti details
+            if 'edit' in request.POST:
+                i_id = request.POST.get('institution-id')
+                i_name = request.POST.get('ins-name')
+                i_type = request.POST.get('type')
+                i_email = request.POST.get('email')
+                i_contact = request.POST.get('contact')
+                i_state = request.POST.get('state')
+                i_city = request.POST.get('city')
+                i_pincode = request.POST.get('pincode')
+
+                # updating details
+                i = institution_detail.objects.get(id = i_id)
+                if i:
+                    i.id= i_id
+                    i.name=i_name
+                    i.type_insti=i_type
+                    i.email=i_email
+                    i.contact = i_contact
+                    i.state = i_state
+                    i.city = i_city
+                    i.pincode = i_pincode
+
+                    # saving updates to database
+                    i.save()
+                    messages.success(request, "Successfully updated")
+                    return render(request, 'dashboards\dashboard_admin_edit.html')
+                else:
+                    messages.error(request, "Institution not found.")
+                    return render(request, 'dashboards\dashboard_admin_edit.html')
+
         return render(request, 'dashboards\dashboard_admin_edit.html')
     else:
         return redirect('/login/admin')

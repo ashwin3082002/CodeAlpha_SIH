@@ -53,9 +53,10 @@
 
                 <div class="dashboard-link">
                     <ul>
-                        <li><a href="#">Profile</a></li>
+                        <li><a href="/dashboard/admin">Profile</a></li>
                         <li><a href="#">Create Profile</a></li>
-                        <li><a href="#">Search profile</a></li>
+                        <li><a href="/dashboard/admin/search">Search profile</a></li>
+                        <li><a href="/dashboard/admin/edit">Edit profile</a></li>
                         <li><a class="logout" href="/signout">Logout</a></li>
                     </ul>
                 </div>
@@ -79,25 +80,21 @@
             
                                     <br>
             
-                                    <input type="text" id="institution-id" name="institution-id" required>
+                                    <input type="text" id="institution-id" name="institution-id" value = "{{i.id}}" required>
             
                                     <br>
                                     <br>
 
                                     <input type="submit" name = "search" value="SEARCH">
-
-                                </form>
-
-                                
-                                <form action="" method="post">
-
-                                    {% csrf_token %}
+                                    
+                                    <br>
+                                    <br>
                                 
                                     <label for="ins-name">INSTITUTION NAME:</label>
             
                                     <br>
             
-                                    <input type="text" id="ins-name"  name="ins-name" value="{name}" required >
+                                    <input type="text" id="ins-name"  name="ins-name" value="{{i.name}}"  > 
             
                                     <br>
                                     <br>
@@ -106,8 +103,8 @@
 
                                     <br>
 
-                                    <select name="type" id="ins-type" required >
-                                        <option value="selected" selected hidden>{type}</option>
+                                    <select name="type" id="type"  >
+                                        <option value="selected" selected hidden>{{i.type_insti}}</option>
                                         <option value="options">SELECT OPTION</option>
                                         <option value="school">STATE UNIVERSITY</option>
                                         <option value="engineering">DEEMED</option>
@@ -127,7 +124,7 @@
             
                                     <br>
             
-                                    <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value="{email}" required >
+                                    <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value="{{i.email}}"  >
             
                                     <br>
                                     <br>
@@ -136,16 +133,18 @@
             
                                     <br>
             
-                                    <input type="text" id="contact" name="contact" value="{contact no}" required >
+                                    <input type="text" id="contact" name="contact" value="{{i.contact}}"  >
 
                                     <br>
                                     <br>
 
-                                    <label for="address">ADDRESS:</label>
+                                    
+
+                                    <label for="city">CITY:</label>
             
                                     <br>
             
-                                    <textarea type="text" id="address" name="address" required >{address}</textarea>
+                                    <input type="text" id="city" name="city" value="{{i.city}}"  >
 
                                     <br>
                                     <br>
@@ -154,16 +153,7 @@
             
                                     <br>
             
-                                    <input type="text" id="state" name="state" value="{state}" required >
-
-                                    <br>
-                                    <br>
-
-                                    <label for="city">CITY:</label>
-            
-                                    <br>
-            
-                                    <input type="text" id="city" name="city" value="{city}" required >
+                                    <input type="text" id="state" name="state" value="{{i.state}}"  >
 
                                     <br>
                                     <br>
@@ -172,7 +162,7 @@
             
                                     <br>
             
-                                    <input type="text" id="pincode" name="pincode" value="{pincode}" required >
+                                    <input type="text" id="pincode" name="pincode" value="{{i.pincode}}"  >
 
                                     <br>
                                     <br>
