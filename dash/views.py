@@ -68,13 +68,12 @@ def admin(request):
 def student(request):
     if request.user.is_authenticated:
         uname=request.user.get_username()
-        #awaiting changes
-        user_details = student_detail.objects.filter(sid=uname)
-        print(user_details)
-        user = User.objects.get(username=uname)
-        user_email = user.email
-        nam=user.get_full_name()
-        return render(request, 'dashboards\dashboard_student.html',{'username':uname, 'name':nam, 'email':user_email})
+        
+
+        user_details = student_detail.objects.filter(sid = uname).values()
+        
+        
+        return render(request, 'dashboards\dashboard_student.html', {'s':user_details[0]})
     else:
         return redirect('/login/student')
 
@@ -109,7 +108,6 @@ def institution(request):
                     gender=gender,
                     active_status=False,
                     community= community,
-                    #new
                     address=address,
                     city=city,
                     state=state,

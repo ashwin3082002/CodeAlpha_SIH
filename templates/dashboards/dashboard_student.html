@@ -37,9 +37,9 @@
 
             <div class="dashboard-nav">
 
-                <p class="dashboard-name">{{name}}</p>
+                <p class="dashboard-name">{{s.name}}</p>
 
-                <p class="dashboard-status">STATUS:  <span style="color: green;">{{status}}</span></p>
+                <p class="dashboard-status">STATUS:  <span style="color: green;">{{s.active_status}}</span></p>
 
                 <div class="dashboard-link">
                     <ul>
@@ -61,50 +61,49 @@
                     <div class="details">
 
                         <div>
-
-                            <p class="label">NAME:</p> <p>{{name}}</p>
-
-                        </div>
-
-                        <div>
-
-                            <p class="label">ID:</p> <p>{{sid}}</p>
+                            <p class="label">NAME:</p> <p>{{s.name}}</p>
 
                         </div>
 
                         <div>
 
-                            <p class="label">DOB:</p> <p>{{dob}}</p>
+                            <p class="label">ID:</p> <p>{{s.sid}}</p>
 
                         </div>
 
                         <div>
 
-                            <p class="label">GENDER:</p> <p>{{gender}}</p>
+                            <p class="label">DOB:</p> <p>{{s.dob}}</p>
 
                         </div>
 
                         <div>
 
-                            <p class="label">FATHER / MOTHER / GAURDIAN NAME:</p> <p>{{guardian}}</p>
+                            <p class="label">GENDER:</p> <p>{{s.gender}}</p>
 
                         </div>
 
                         <div>
 
-                            <p class="label">ADHAAR NO:</p> <p>{{aadhar}}</p>
+                            <p class="label">FATHER / MOTHER / GAURDIAN NAME:</p> <p>{{s.guardian_name}}</p>
 
                         </div>
 
                         <div>
 
-                            <p class="label">EMAIL:</p> <p>{{email}}</p>
+                            <p class="label">ADHAAR NO:</p> <p>{{s.aadhar}}</p>
 
                         </div>
 
                         <div>
 
-                            <p class="label">CONTACT NO:</p> <p>{{contact}}</p>
+                            <p class="label">EMAIL:</p> <p>{{s.email}}</p>
+
+                        </div>
+
+                        <div>
+
+                            <p class="label">CONTACT NO:</p> <p>{{s.contact}}</p>
 
                         </div>
                         
