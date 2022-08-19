@@ -6,6 +6,7 @@
 
 
 {% block main %}
+
 {% if messages %}
 	<div class="messages_d">
 		{% for message in messages %}
@@ -21,27 +22,15 @@
         <p>ADMIN DASHBOARD</p>
 
         <div class="dashboard">
-
             <div class="dashboard-head">
-
                 <div class="dashboard-head-top">
-                    
-
-
                 </div>
-
                 <div class="dashboard-head-bottom">
-
-                    
-
                 </div>
-
             </div>
 
             <div class="profile-pic">
-
                 <img src="">
-
             </div>
 
             <div class="dashboard-nav">
@@ -56,62 +45,39 @@
                         <li><a class="logout" href="/signout">Logout</a></li>
                     </ul>
                 </div>
-
             </div>
 
             <div class="dashboard-body" id="dashboard-body">
-
                 <div class="profile" id="profile" >
-
                     <h1>PROFILE</h1>
-
                     <div class="details">
-
                         <div>
-
                             <p class="label">NAME:</p> <p>{{name}}</p>
-
                         </div>
-
                         <div>
-
                             <p class="label">ID:</p> <P>{{username}}</p>
-
                         </div>
-
                         <div>
-
                             <p class="label">EMAIL:</p> <p>{{email}}</p>
-
                         </div>
-
                     </div>
-
                 </div>
-
                 <div class="create-profile" id="create-profile" style="">
 
                     <h1>CREATE PROFILE</h1>
 
                     <div class="profile-form-container">
-
                         <div class="profile-form">
-
                             <form action="/dashboard/admin" method="post">
                                 {% csrf_token %}
                                 <label for="ins-name">INSTITUTION NAME:</label>
-        
                                 <br>
-        
                                 <input type="text" id="ins-name" name="ins-name" required>
-        
                                 <br>
                                 <br>
 
                                 <label>INSTITUTION TYPE:</label>
-
                                 <br>
-
                                 <select name="type" id="type" required>
                                     <option value="options">SELECT OPTION</option>
                                     <option value="school">STATE UNIVERSITY</option>
@@ -124,63 +90,44 @@
                                     <option value="icse">ICSE</option>
                                     <option value="state-board">STATE BOARD</option>
                                 </select>
-
                                 <br>
                                 <br>
         
                                 <label for="email">EMAIL:</label>
-        
                                 <br>
-        
                                 <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"required>
-        
                                 <br>
                                 <br>
 
                                 <label for="contact">CONTACT NO:</label>
-        
                                 <br>
-        
                                 <input type="text" id="contact" name="contact" required>
-
                                 <br>
                                 <br>
 
                                 <label for="state">STATE:</label>
-        
                                 <br>
-        
                                 <input type="text" id="state" name="state" required>
-
                                 <br>
                                 <br>
 
                                 <label for="city">CITY:</label>
-        
                                 <br>
-        
                                 <input type="text" id="city" name="city" required>
-
                                 <br>
                                 <br>
 
                                 <label for="pincode">PINCODE:</label>
-        
                                 <br>
-        
                                 <input type="text" id="pincode" name="pincode" required>
-
                                 <br>
                                 <br>
         
                                 <input type="submit" value="SUBMIT">
         
                             </form>
-        
                         </div>
-        
                     </div>
-
                 </div>
 
                 <div class="edit-profile" id="edit-profile" style="display: none;">
@@ -188,15 +135,10 @@
                     <h1>EDIT PROFILE</h1>
 
                     <div class="details">
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 </div>
 
