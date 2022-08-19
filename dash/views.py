@@ -64,6 +64,9 @@ def admin(request):
     else:
         return redirect('/login/admin')
 
+def admin_search(request):
+    return render(request, 'dashboards\dashboard_admin_search.html')
+
 
 def student(request):
     if request.user.is_authenticated:

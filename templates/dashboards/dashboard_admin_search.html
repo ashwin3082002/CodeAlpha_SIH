@@ -1,0 +1,139 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Admin
+{% endblock title %}
+
+
+{% block main %}
+
+{% if messages %}
+	<div class="messages_d">
+		{% for message in messages %}
+			<p {% if message.tags %}class="{{message.tags}}"{% endif %}>{{message}}</p>
+		{% endfor %}
+	</div>
+{% endif %}
+
+
+<div class="dashboard_spacing">    
+    <div class="dashboard-wrapper">
+
+        <p>ADMIN DASHBOARD</p>
+
+        <div class="dashboard">
+
+            <div class="dashboard-head">
+
+                <div class="dashboard-head-top">
+                    
+
+
+                </div>
+
+                <div class="dashboard-head-bottom">
+
+                    
+
+                </div>
+
+            </div>
+
+            <div class="profile-pic">
+
+                <img src="">
+
+            </div>
+
+            <div class="dashboard-nav">
+
+                <p class="dashboard-name">ASHWIN</p>
+
+                <div class="dashboard-link">
+                    <ul>
+                        <li><a href="#">Profile</a></li>
+                        <li><a href="#">Create Profile</a></li>
+                        <li><a href="#">Search profile</a></li>
+                        <li><a class="logout" href="/signout">Logout</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="dashboard-body" id="dashboard-body">
+
+
+
+                <div class="search-profile" id="search-profile">
+
+                    <h1>SEARCH PROFILE</h1>
+
+                    <div class="search-profile-container">
+
+                        <div class="profile-form-container">
+
+                            <div class="profile-form">
+
+                                <form action="/dashboard/admin/search" method="POST">
+
+                                    {% csrf_token %}
+                                    
+                                    <label for="ins-name">INSTITUTION ID:</label>
+            
+                                    <br>
+            
+                                    <input type="text" id="institution-id" name="institution-id" required>
+            
+                                    <br>
+                                    <br>
+
+                                    <input type="submit" value="SEARCH">
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                        <div class="profile-form-container" id="search-results-container" style="display: none;">
+
+                            <div class="profile-form">
+
+                                <div class="search-result">
+
+                                    <div class="search-res">
+                                    <div class="pit"><p>INSTITUTION NAME:</p><p>{{i.name}}</p></div>
+                                    <div class="pit"><p>INSTITUTION ID:</p><p>{{i.id}}</p></div>
+                                    <div class="pit"><p>INSTITUTION ADDRESS:</p><p>{{i.address}}</p></div>
+                                    </div>
+
+                                    <br>
+
+                                    <div class="srcbtn">
+
+                                        <button>VIEW</button>
+
+                                    </div>
+
+                                </div>
+                                
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                        
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock main %}
+
