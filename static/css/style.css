@@ -144,6 +144,9 @@ footer span a{
 	padding-top:20px;
 }
 
+.login_spacing {
+	padding-top: 200px;
+}
 
 .login-wrapper{
 	display:flex;
@@ -154,12 +157,12 @@ footer span a{
 	text-align:center;
 }
 .login-items{
-	transition:0.4s;
+	transition:0s;
 	padding:10px;
 }
 .login-items:hover{
 	scale:1.1;
-	transition:0.4s;
+	transition:0.3s;
 }
 .login-items p{
 	font-size:1.3rem;

@@ -6,43 +6,49 @@
 
 
 {% block main %}
-    
-        <div class="login-wrapper">
 
-            <div class="login-items">
-                <a href="login/student">
-                    <div class="login-item">
-                        <img src="/static/img/login-student.png">
-                    </div>
-                    <br>
-                    <p>Student Corner</p>
-                </a>
-            </div>
+{% if messages %}
+	<div class="messages">
+		{% for message in messages %}
+			<p {% if message.tags %}class="{{message.tags}}"{% endif %}>{{message}}</p>
+		{% endfor %}
+	</div>
+{% endif %}
+<div class = "login_spacing">    
+    <div class="login-wrapper">
 
-            <div class="login-items">
-                <a href="login/institution">
-                    <div class="login-item">
-                        <img src="/static/img/login-institution.png">
-                    </div>
-                    <br>
-                    <p>Institution Corner</p>
-                </a>
-            </div>
-
-            <div class="login-items">
-                <a href="login/admin">
+        <div class="login-items">
+            <a href="login/student">
                 <div class="login-item">
-                <img src="/static/img/login-admin.png">
-            </div>
+                    <img src="/static/img/login-student.png">
+                </div>
+                <br>
+                <p>Student Corner</p>
+            </a>
+        </div>
 
-            <br>
-            
-            <p>Admin Corner</p>
+        <div class="login-items">
+            <a href="login/institution">
+                <div class="login-item">
+                    <img src="/static/img/login-institution.png">
+                </div>
+                <br>
+                <p>Institution Corner</p>
+            </a>
+        </div>
+
+        <div class="login-items">
+            <a href="login/admin">
+                <div class="login-item">
+                    <img src="/static/img/login-admin.png">
+                </div>
+                <br>
+                <p>Admin Corner</p>
             </a>
 
         </div>
     </div>
-    
+</div>
     <p>
     
     
