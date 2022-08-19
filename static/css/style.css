@@ -910,7 +910,7 @@ footer span a{
 	padding-right: 80px;
 }
 
-#Top{
+.about_us #Top{
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	font-weight: bold;
 	font-size: 45px;
@@ -919,12 +919,12 @@ footer span a{
 	color: #565a61;
 }
 
-#Top-para{
+.about_us #Top-para{
 	font-family: Arial, Helvetica, sans-serif;
 	padding-bottom:15px;
 }
 
-#sub-1{
+.about_us #sub-1{
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	font-weight: bold;
 	padding-bottom: 10px;
@@ -932,12 +932,12 @@ footer span a{
 	font-size: 25px;
 }
 
-#p1{
+.about_us #p1{
 	padding-bottom: 10px;
 	font-family: Arial, Helvetica, sans-serif;
 }
 
-#sub-2{
+.about_us #sub-2{
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	font-weight: bold;
 	font-size: 25px;
@@ -945,12 +945,12 @@ footer span a{
 	padding-bottom: 10px;
 }
 
-#p2{
+.about_us #p2{
 	font-family: Arial, Helvetica, sans-serif;
 	padding-bottom: 10px;
 }
 
-#sub-3{
+.about_us #sub-3{
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	font-weight: bold;
 	font-size: 25px;
@@ -958,12 +958,12 @@ footer span a{
 	color: #565a61;
 }
 
-#p3{
+.about_us #p3{
 	font-family: Arial, Helvetica, sans-serif;
 }
 
 
-/*-------------------------xxxxxx          About Us - by Aravind       xxxxxx--------------------------*/
+/*-------------------------xxxxxx          T&C - by Aravind       xxxxxx--------------------------*/
 
 #tc{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -983,7 +983,7 @@ footer span a{
 	padding: 15px 0px
 }
 
-/*-------------------------xxxxxx          T&C - by Aravind      xxxxxx--------------------------*/
+/*Privacy - by Aravind*/
 
 #pp{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -1056,7 +1056,7 @@ footer span a{
 
 
 
-/*-------------------------xxxxxx          Dashboard       xxxxxx--------------------------*/
+/*Dashboard*/
 
 
 
@@ -1079,7 +1079,7 @@ footer span a{
 
 }
 
-/*-------------------------xxxxxx          Student Dashboard  - Mithun      xxxxxx--------------------------*/
+/*Student Dashboard  - Mithun*/
 
 .dashboard_spacing{
 	padding-top: 100px;
