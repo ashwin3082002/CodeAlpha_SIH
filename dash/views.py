@@ -65,7 +65,20 @@ def admin(request):
         return redirect('/login/admin')
 
 def admin_search(request):
-    return render(request, 'dashboards\dashboard_admin_search.html')
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            i_name = request.POST.get('institution-id')
+            search_details = institution_detail.objects.filter(id = i_name).values()
+            if search_details:
+                return render(request, 'dashboards\dashboard_admin_search.html', {'i': search_details[0]})
+            else:
+                messages.error(request, "Institution not found.")
+                return render(request, 'dashboards\dashboard_admin_search.html')
+        else:
+            return render(request, 'dashboards\dashboard_admin_search.html')
+    else:
+        return redirect('/login/admin')
+    
 
 
 def student(request):
@@ -76,7 +89,7 @@ def student(request):
         user_details = student_detail.objects.filter(sid = uname).values()
         
         
-        return render(request, 'dashboards\dashboard_student.html', {'s':user_details[0]})
+        return render(request, 'dashboards\dashboard_student.html', {'s': user_details[0]})
     else:
         return redirect('/login/student')
 

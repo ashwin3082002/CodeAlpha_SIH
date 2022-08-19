@@ -1300,3 +1300,35 @@ footer span a{
 	display: flex;
 	text-align: left;
 }
+
+/* insti search */
+.search-result{
+	width: 100%;
+}
+.search-result .search-res{
+	width:50% ;
+	float: left;
+}
+.search-result .search-res p{
+	font-size: 1.2rem;
+}
+
+.pit{
+	display: flex;
+	justify-content: space-between;
+
+}
+.srcbtn{
+	padding: 10px;
+}
+.srcbtn button{
+	background-color: #ffdd00;
+	color: #565a61;
+	padding: 10px;
+	border: none;
+	border-radius: 10px;
+	transition: 0.4s;
+}
+.srcbtn button:hover{
+	scale:1.1;
+}
