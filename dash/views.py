@@ -1,9 +1,11 @@
 import email
+from email import message
 from email.headerregistry import Address
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from sip_db.models import institution_detail, student_detail, degree, course
 from util import func
+from django.contrib import messages
 
 # Create your views here.
 def admin(request):
@@ -45,9 +47,12 @@ def admin(request):
             print('id: ', i_id)
             print('Database Updated :)')
 
+            messages.success(request, "Successfully created institution profile.")
+
             # to send id and pass as email
 
             return redirect('/dashboard/admin')
+
         # getting username from login
         uname=request.user.get_username()
         # getting other user details in a obj 'user'
@@ -72,6 +77,7 @@ def student(request):
         return render(request, 'dashboards\dashboard_student.html',{'username':uname, 'name':nam, 'email':user_email})
     else:
         return redirect('/login/student')
+
 
 def institution(request):
     if request.user.is_authenticated:
@@ -112,6 +118,8 @@ def institution(request):
 
                 db_student.save()
                 print('Database Updated :)')
+
+                messages.success(request, "Successfully created student profile.")
 
                 # create student user with no permissions
                 User.objects.create_user(

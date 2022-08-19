@@ -6,179 +6,190 @@
 
 
 {% block main %}
-    
-<div class="dashboard-wrapper">
-
-    <p>ADMIN DASHBOARD</p>
-
-    <div class="dashboard">
-
-        <div class="dashboard-head">
-
-            <div class="dashboard-head-top">
-                
+{% if messages %}
+	<div class="messages_d">
+		{% for message in messages %}
+			<p {% if message.tags %}class="{{message.tags}}"{% endif %}>{{message}}</p>
+		{% endfor %}
+	</div>
+{% endif %}
 
 
-            </div>
+<div class="dashboard_spacing">    
+    <div class="dashboard-wrapper">
 
-            <div class="dashboard-head-bottom">
+        <p>ADMIN DASHBOARD</p>
 
-                
+        <div class="dashboard">
 
-            </div>
+            <div class="dashboard-head">
 
-        </div>
+                <div class="dashboard-head-top">
+                    
 
-        <div class="profile-pic">
 
-            <img src="">
+                </div>
 
-        </div>
+                <div class="dashboard-head-bottom">
 
-        <div class="dashboard-nav">
-
-            <p class="dashboard-name">{{name}}</p>
-
-            <div class="dashboard-link">
-                <ul>
-                    <li><a href="#">Profile</a></li>
-                    <li><a href="#">Create Profile</a></li>
-                    <li><a href="#">Search profile</a></li>
-                    <li><a class="logout" href="/signout">Logout</a></li>
-                </ul>
-            </div>
-
-        </div>
-
-        <div class="dashboard-body" id="dashboard-body">
-
-            <div class="profile" id="profile" >
-
-                <h1>PROFILE</h1>
-
-                <div class="details">
-
-                    <div>
-
-                        <p class="label">NAME:</p> <p>{{name}}</p>
-
-                    </div>
-
-                    <div>
-
-                        <p class="label">ID:</p> <P>{{username}}</p>
-
-                    </div>
-
-                    <div>
-
-                        <p class="label">EMAIL:</p> <p>{{email}}</p>
-
-                    </div>
+                    
 
                 </div>
 
             </div>
 
-            <div class="create-profile" id="create-profile" style="">
+            <div class="profile-pic">
 
-                <h1>CREATE PROFILE</h1>
+                <img src="">
 
-                <div class="profile-form-container">
+            </div>
 
-                    <div class="profile-form">
+            <div class="dashboard-nav">
 
-                        <form action="/dashboard/admin" method="post">
-                            {% csrf_token %}
-                            <label for="ins-name">INSTITUTION NAME:</label>
-    
-                            <br>
-    
-                            <input type="text" id="ins-name" name="ins-name" required>
-    
-                            <br>
-                            <br>
+                <p class="dashboard-name">{{name}}</p>
 
-                            <label>INSTITUTION TYPE:</label>
-
-                            <br>
-
-                            <select name="type" id="type" required>
-                                <option value="options">SELECT OPTION</option>
-                                <option value="school">STATE UNIVERSITY</option>
-                                <option value="engineering">DEEMED</option>
-                                <option value="medical">AUTONOMOUS</option>
-                                <option value="arts">AFFILIATED</option>
-                                <option value="iit">IIT</option>
-                                <option value="nit">NIT</option>
-                                <option value="cbse">CBSE</option>
-                                <option value="icse">ICSE</option>
-                                <option value="state-board">STATE BOARD</option>
-                              </select>
-
-                            <br>
-                            <br>
-    
-                            <label for="email">EMAIL:</label>
-    
-                            <br>
-    
-                            <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"required>
-    
-                            <br>
-                            <br>
-
-                            <label for="contact">CONTACT NO:</label>
-    
-                            <br>
-    
-                            <input type="text" id="contact" name="contact" required>
-
-                            <br>
-                            <br>
-
-                            <label for="state">STATE:</label>
-    
-                            <br>
-    
-                            <input type="text" id="state" name="state" required>
-
-                            <br>
-                            <br>
-
-                            <label for="city">CITY:</label>
-    
-                            <br>
-    
-                            <input type="text" id="city" name="city" required>
-
-                            <br>
-                            <br>
-
-                            <label for="pincode">PINCODE:</label>
-    
-                            <br>
-    
-                            <input type="text" id="pincode" name="pincode" required>
-
-                            <br>
-                            <br>
-    
-                            <input type="submit" value="SUBMIT">
-    
-                        </form>
-    
-                    </div>
-    
+                <div class="dashboard-link">
+                    <ul>
+                        <li><a href="#">Profile</a></li>
+                        <li><a href="#">Create Profile</a></li>
+                        <li><a href="#">Search profile</a></li>
+                        <li><a class="logout" href="/signout">Logout</a></li>
+                    </ul>
                 </div>
 
             </div>
 
-            <div class="edit-profile" id="edit-profile" style="display: none;">
+            <div class="dashboard-body" id="dashboard-body">
 
-                <h1>EDIT PROFILE</h1>
+                <div class="profile" id="profile" >
 
-                <div class="details">
+                    <h1>PROFILE</h1>
+
+                    <div class="details">
+
+                        <div>
+
+                            <p class="label">NAME:</p> <p>{{name}}</p>
+
+                        </div>
+
+                        <div>
+
+                            <p class="label">ID:</p> <P>{{username}}</p>
+
+                        </div>
+
+                        <div>
+
+                            <p class="label">EMAIL:</p> <p>{{email}}</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="create-profile" id="create-profile" style="">
+
+                    <h1>CREATE PROFILE</h1>
+
+                    <div class="profile-form-container">
+
+                        <div class="profile-form">
+
+                            <form action="/dashboard/admin" method="post">
+                                {% csrf_token %}
+                                <label for="ins-name">INSTITUTION NAME:</label>
+        
+                                <br>
+        
+                                <input type="text" id="ins-name" name="ins-name" required>
+        
+                                <br>
+                                <br>
+
+                                <label>INSTITUTION TYPE:</label>
+
+                                <br>
+
+                                <select name="type" id="type" required>
+                                    <option value="options">SELECT OPTION</option>
+                                    <option value="school">STATE UNIVERSITY</option>
+                                    <option value="engineering">DEEMED</option>
+                                    <option value="medical">AUTONOMOUS</option>
+                                    <option value="arts">AFFILIATED</option>
+                                    <option value="iit">IIT</option>
+                                    <option value="nit">NIT</option>
+                                    <option value="cbse">CBSE</option>
+                                    <option value="icse">ICSE</option>
+                                    <option value="state-board">STATE BOARD</option>
+                                </select>
+
+                                <br>
+                                <br>
+        
+                                <label for="email">EMAIL:</label>
+        
+                                <br>
+        
+                                <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"required>
+        
+                                <br>
+                                <br>
+
+                                <label for="contact">CONTACT NO:</label>
+        
+                                <br>
+        
+                                <input type="text" id="contact" name="contact" required>
+
+                                <br>
+                                <br>
+
+                                <label for="state">STATE:</label>
+        
+                                <br>
+        
+                                <input type="text" id="state" name="state" required>
+
+                                <br>
+                                <br>
+
+                                <label for="city">CITY:</label>
+        
+                                <br>
+        
+                                <input type="text" id="city" name="city" required>
+
+                                <br>
+                                <br>
+
+                                <label for="pincode">PINCODE:</label>
+        
+                                <br>
+        
+                                <input type="text" id="pincode" name="pincode" required>
+
+                                <br>
+                                <br>
+        
+                                <input type="submit" value="SUBMIT">
+        
+                            </form>
+        
+                        </div>
+        
+                    </div>
+
+                </div>
+
+                <div class="edit-profile" id="edit-profile" style="display: none;">
+
+                    <h1>EDIT PROFILE</h1>
+
+                    <div class="details">
+
+                    </div>
 
                 </div>
 
@@ -187,7 +198,6 @@
         </div>
 
     </div>
-
 </div>
 
 

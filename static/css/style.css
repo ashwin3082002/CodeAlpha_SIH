@@ -455,16 +455,28 @@ footer span a{
 	text-align: center;
 	font-weight: bold;
 	word-spacing: 6px;
-	position: fixed;
+	position: absolute;
 	top: 70px;
 }
 
 
 
-/*-------------------------xxxxxx          Student Dashboard        xxxxxx--------------------------*/
+/*-------------------------xxxxxx           Dashboard        xxxxxx--------------------------*/
 
 
-
+.messages_d {
+	padding: 20px;
+	background-color: rgb(127, 222, 191);
+	width: 100%;
+	color: #000000;
+    font-size: 20px;
+	font-family:'Source Sans Pro', Helvetica, Arial, Lucida, sans-serif;
+	text-align: center;
+	font-weight: bold;
+	word-spacing: 6px;
+	position: absolute;
+	top: 70px;
+}
 
 .dashboard-wrapper{
 	font-family:'Source Sans Pro', Helvetica, Arial, Lucida, sans-serif;
@@ -1069,7 +1081,9 @@ footer span a{
 
 /*-------------------------xxxxxx          Student Dashboard  - Mithun      xxxxxx--------------------------*/
 
-
+.dashboard_spacing{
+	padding-top: 100px;
+}
 
 
 .dashboard-wrapper{
