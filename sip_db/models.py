@@ -17,9 +17,10 @@ class student_detail(models.Model):
     city = models.CharField(max_length=30, default='')
     state = models.CharField(max_length=20, default='')
     pincode = models.CharField(max_length=6, default='')
+    i_id = models.ManyToManyField('institution_detail')
     
     def __str__(self):
-        return self.sid
+        return self.name
 
 class institution_detail(models.Model):
     id = models.CharField(primary_key=True, max_length=10)
@@ -32,7 +33,7 @@ class institution_detail(models.Model):
     contact = models.CharField(max_length=14, null=True, blank=True)
 
     def __str__(self):
-        return self.id
+        return self.name
 
 class degree(models.Model):
     sid =  models.ManyToManyField(student_detail)
