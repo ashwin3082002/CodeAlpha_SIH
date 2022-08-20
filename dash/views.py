@@ -213,16 +213,19 @@ def institution(request):
 def institution_search(request):
     if request.user.is_authenticated:
         if request.method == "POST":
-            if 'search' in request.POST:
-                i_id = request.POST.get('student-id')
-                search_details = institution_detail.objects.filter(id = i_id).values()
-                if search_details:
-                    return render(request, 'dashboards\dashboard_institution_search.html', {'i': search_details[0]})
-                else:
-                    messages.error(request, "Institution not found.")
-                    return render(request, 'dashboards\dashboard_institution_search.html')
+            s_id = request.POST.get('stu_id')
+            search_details = student_detail.objects.filter(sid = s_id).values()
+            if search_details:
+                return render(request, 'dashboards\dashboard_institution_search.html', {'s': search_details[0]})
+            else:
+                messages.error(request, "Student not found.")
+                return render(request, 'dashboards\dashboard_institution_search.html')
         else:
-            return render(request, 'dashboards\dashboard_institution_search.html')
+            uname=request.user.get_username()
+            user = User.objects.get(username=uname)
+            user_email = user.email
+            nam=user.get_full_name()
+            return render(request, 'dashboards\dashboard_institution_search.html',{'username':uname, 'name':nam, 'email':user_email})
     else:
         return redirect('/login/institution')
   

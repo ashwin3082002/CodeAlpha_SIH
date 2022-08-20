@@ -70,19 +70,19 @@
 
                         <div>
 
-                            <p class="label">NAME:</p> <p>{{i.name}}</p>
+                            <p class="label">NAME:</p> <p>{{name}}</p>
 
                         </div>
 
                         <div>
 
-                            <p class="label">ID:</p> <P>{{i.username}}</p>
+                            <p class="label">ID:</p> <P>{{username}}</p>
 
                         </div>
 
                         <div>
 
-                            <p class="label">EMAIL:</p> <p>{{i.email}}</p>
+                            <p class="label">EMAIL:</p> <p>{{email}}</p>
 
                         </div>
 
@@ -101,7 +101,7 @@
                             <div class="profile-form">
 
                                 <form action="/dashboard/institution/search" method="post">
-                                    
+                                    {% csrf_token %}
                                     <label for="stu_id">STUDENT ID:</label>
             
                                     <br>
@@ -127,7 +127,7 @@
 
                                     <div class="search-res">
                                     <div class="pit"><p>STUDENT NAME:</p><p>{{s.name}}</p></div>
-                                    <div class="pit"><p>STUDENT ID:</p><p>{{s.id}}</p></div>
+                                    <div class="pit"><p>STUDENT ID:</p><p>{{s.sid}}</p></div>
                                     <div class="pit"><p>DOB:</p><p>{{s.address}}</p></div>
                                     <div class="pit"><p>FATHER/ MOTHER/ GAURDIAN NAME:</p><p>{{s.guardian_name}}</p></div>
                                     <div class="pit"><p>GENDER</p><p>{{s.gender}}</p></div>
