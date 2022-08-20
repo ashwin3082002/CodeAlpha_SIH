@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from sip_db.models import student_detail
+from sip_db.models import student_detail, institution_detail
 from util import func
-
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -55,13 +55,14 @@ def admin(request):
     return render(request, 'login-admin.html')
 
 def pass_reset_otp(request):
+    request.session['directaccess']=False
     if request.method=="POST":
         if "sendotp" in request.POST:
             common_id = request.POST.get('id')
             res = func.check_id(common_id)
             
             if res == 's':
-                
+                request.session['uin'] = common_id
                 search_details = student_detail.objects.filter(sid = common_id).values()
                 
                 if search_details:
@@ -72,20 +73,49 @@ def pass_reset_otp(request):
                 else:
                     messages.error(request,'ID not valid.')
                     
-            elif res == 'S':
-                pass
+            elif res == 'i':
+                request.session['uin'] = common_id
+                search_details = institution_detail.objects.filter(id = common_id).values()
+                
+                if search_details:
+                    user_emailid = search_details[0]["email"]
+                    otp = func.sendotp(user_emailid)
+                    request.session['otp']=otp
+                    return render(request, 'pass_reset_otp.html', {'id' : common_id, 'disable':"disabled"})
+                else:
+                    messages.error(request,'ID not valid.')
             else:
                 messages.error(request,'ID not valid.')
                 return render(request,'pass_reset_otp.html')
+
         elif 'submit' in request.POST:
             u_otp = request.POST.get('u_otp')
             
             if int(u_otp) == int(request.session['otp']):
-                print("Successfull")
+                request.session['directaccess']=True
+                return redirect("/login/resetpassword")
             else:
-                print("Unlucky")
+                messages.error(request, "Wrong OTP")
 
     return render(request,'pass_reset_otp.html')
 
 def resetpassword(request):
-    return render(request,'reset-password.html')
+    if request.session.get('directaccess')==False or request.session.get('directaccess')==None :
+        return redirect("/login/passwordresetotp")
+    elif request.session.get('directaccess')==True:
+        if request.method == "POST":
+            npass = request.POST.get('password')
+            cpass = request.POST.get('confirm-password')
+            print(npass, cpass)
+            if npass == cpass:
+                uin = request.session['uin']
+                u = User.objects.get(username=uin)
+                u.set_password(cpass)
+                u.save()
+                messages.success(request,"Password Changed")
+                return redirect("/")
+            else:
+                messages.error(request, "Confirm Password Should be same as new password")
+                return render(request,'reset-password.html')
+        else:
+            return render(request,'reset-password.html')   
