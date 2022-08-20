@@ -1,0 +1,238 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Institution
+{% endblock title %}
+
+
+{% block main %}
+
+{% if messages %}
+	<div class="messages_d">
+		{% for message in messages %}
+			<p {% if message.tags %}class="{{message.tags}}"{% endif %}>{{message}}</p>
+		{% endfor %}
+	</div>
+{% endif %}
+
+
+<div class="dashboard_spacing">    
+    <div class="dashboard-wrapper">
+
+        <p>INSTITUTION DASHBOARD</p>
+
+        <div class="dashboard">
+
+            <div class="dashboard-head">
+
+                <div class="dashboard-head-top">
+                    
+
+
+                </div>
+
+                <div class="dashboard-head-bottom">
+
+                    
+
+                </div>
+
+            </div>
+
+            <div class="profile-pic">
+
+                <img src="">
+
+            </div>
+
+            <div class="dashboard-nav">
+
+                <p class="dashboard-name">{{i.name}}</p>
+
+                <p>ID: {{i.id}}</p>
+
+                <div class="dashboard-link">
+                    <ul>
+                        <li><a href="/dashboard/institution">Profile</a></li>
+                        <li><a href="#">Create Profile</a></li>
+                        <li><a href="/dashboard/institution/search">Search profile</a></li>
+                        <li><a href="/dashboard/institution/edit">Edit profile</a></li>
+                        <li><a class="logout" href="/signout">Logout</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="dashboard-body" id="dashboard-body">
+
+                <div class="create-profile" id="create-profile">
+
+                    <h1>EDIT STUDENT PROFILE</h1>
+
+                        <div class="profile-form-container">
+
+                            <div class="profile-form">
+                                <form action="/dashboard/institution/edit" method="POST">
+
+                                    {% csrf_token %}
+                                    
+                                    <label for="ins-name">STUDENT ID:</label>
+            
+                                    <br>
+            
+                                    <input type="text" id="institution-id" name="s-id" value = "{{s.sid}}" required>
+            
+                                    <br>
+                                    <br>
+
+                                    <input type="submit" name = "search" value="SEARCH">
+                                    
+                                    <br>
+                                    <br>
+                                
+                                    <label for="ins-name">STUDENT NAME:</label>
+            
+                                    <br>
+            
+                                    <input type="text" id="ins-name"  name="s-name" value="{{s.name}}"  > 
+            
+                                    <br>
+                                    <br>
+									
+									<label for="ins-name">DOB:</label>
+                
+                                        <br>
+                
+                                        <input type="text" id="dob" name="dob" value="{{s.dob}}" >
+                
+                                        <br>
+                                        <br>
+
+                                        <label for="ins-name">FATHER/MOTHER/GAURDIAN NAME:</label>
+                
+                                        <br>
+                
+                                        <input type="text" id="pgname" value="{{i.gaurdian_name}}" name="pgname" >
+                
+                                        <br>
+                                        <br>
+
+                                        <label for="adhaar">ADHAAR NO:</label>
+                
+                                        <br>
+                
+                                        <input type="text" id="adhaar" value="{{s.aadhar}}" name="adhaar" >
+                
+                                        <br>
+                                        <br>
+
+                                        <label>GENDER:</label>
+
+                                        <br>
+
+                                        <select name="type" id="gender" required>
+										    <option value="selected" selected hidden>{{s.gender}}</option>
+                                            <option value="options">SELECT OPTION</option>
+                                            <option value="male">MALE</option>
+                                            <option value="female">FEMALE</option>
+                                          </select>
+
+                                        <br>
+                                        <br>
+
+                                    <label>COMMUNITY:</label>
+
+                                    <br>
+
+                                    <select name="type" id="type"  >
+                                        <option value="selected" selected hidden>{{s.community}}</option>
+                                        <option value="options">SELECT OPTION</option>
+                                        <option value="school">GENERAL</option>
+                                        <option value="engineering">OBC</option>
+                                        <option value="medical">SC</option>
+                                        <option value="arts">ST</option>
+                                    </select>
+
+                                    <br>
+                                    <br>
+            
+                                    <label for="email">EMAIL:</label>
+            
+                                    <br>
+            
+                                    <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value="{{s.email}}"  >
+            
+                                    <br>
+                                    <br>
+
+                                    <label for="contact">CONTACT NO:</label>
+            
+                                    <br>
+            
+                                    <input type="text" id="contact" name="contact" value="{{s.contact}}"  >
+
+                                    <br>
+                                    <br>
+									
+									<label for="comment">ADDRESS:</label>
+
+                                        <br>
+
+                                        <textarea id="comment" name="comment" value="{{s.address}}" ></textarea>
+
+                                        <br>
+                                        <br>
+
+                                    
+
+                                    <label for="city">CITY:</label>
+            
+                                    <br>
+            
+                                    <input type="text" id="city" name="city" value="{{s.city}}"  >
+
+                                    <br>
+                                    <br>
+
+                                    <label for="state">STATE:</label>
+            
+                                    <br>
+            
+                                    <input type="text" id="state" name="state" value="{{s.state}}"  >
+
+                                    <br>
+                                    <br>
+
+                                    <label for="pincode">PINCODE:</label>
+            
+                                    <br>
+            
+                                    <input type="text" id="pincode" name="pincode" value="{{s.pincode}}"  >
+
+                                    <br>
+                                    <br>
+
+                                    <input type="submit" value="SUBMIT" name="edit">
+            
+                                </form>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+            </div>
+
+                        <div class="profile-form-container">
+
+                            <div class="profile-form">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock main %}
+

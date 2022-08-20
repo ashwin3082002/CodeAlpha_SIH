@@ -228,4 +228,66 @@ def institution_search(request):
             return render(request, 'dashboards\dashboard_institution_search.html',{'username':uname, 'name':nam, 'email':user_email})
     else:
         return redirect('/login/institution')
-  
+
+
+def institution_edit(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+
+            # search insti
+            if 'search' in request.POST:
+                s_id = request.POST.get('s-id')
+                search_details = student_detail.objects.filter(sid = s_id).values()
+                if search_details:
+                    return render(request, 'dashboards\dashboard_institution_edit.html', {'i': search_details[0]})
+                else:
+                    messages.error(request, "Institution not found.")
+                    return render(request, 'dashboards\dashboard_institution_edit.html')
+
+
+            # change insti details
+            if 'edit' in request.POST:
+                s_name = request.POST.get('s-name')
+                s_dob = request.POST.get('dob')
+                s_guardian = request.POST.get('pgname')
+                s_email = request.POST.get('email')
+                s_mobile = request.POST.get('mobile')
+                s_aadhar = request.POST.get('aadhar')
+                s_gender = request.POST.get('gender')
+                s_status = request.POST.get('active_status')
+                s_community = request.POST.get('state')
+                s_address = request.POST.get('city')
+                s_city = request.POST.get('pincode')
+                s_state = request.POST.get('state')
+                s_pincode = request.POST.get('pincode')
+
+
+                # updating details
+                s = student_detail.objects.get(sid = s_id)
+                if s:
+                    s.sid = s_id,
+                    s.name = s_name,
+                    s.dob= s_dob,
+                    s.guardian_name = s_guardian,
+                    s.email= s_email,
+                    s.mobile= s_mobile,
+                    s.aadhar= s_aadhar,
+                    s.gender= s_gender,
+                    s.active_status= s_status,
+                    s.community= s_community,
+                    s.address= s_address,
+                    s.city= s_city,
+                    s.state= s_state,
+                    s.pincode= s_pincode
+
+                    # saving updates to database
+                    s.save()
+                    messages.success(request, "Successfully updated")
+                    return render(request, 'dashboards\dashboard_institution_edit.html')
+                else:
+                    messages.error(request, "Student not found.")
+                    return render(request, 'dashboards\dashboard_institution_edit.html')
+
+        return render(request, 'dashboards\dashboard_institution_edit.html')
+    else:
+        return redirect('/login/admin')
