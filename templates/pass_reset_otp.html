@@ -12,18 +12,19 @@
 				<div class="form">
 
 
-					<form action="" method="post">
+					<form action="passwordresetotp" method="POST">
+						{% csrf_token %}
 
-						<label for="name">EMAIL:</label>
-
-						<br>
-
-						<input type="text" id="name" name="name" required>
+						<label for="name">ID:</label>
 
 						<br>
+
+						<input type="text" value="{{id}}" id="id" name="id" required>
+
+						<br>
 						<br>
 
-						<input type="submit" value="SEND OTP">
+						<input type="submit" name="sendotp" value="SEND OTP">
 
 						<br>
 						<br>
@@ -32,14 +33,14 @@
 
 						<br>
 
-						<input type="text" id="name" name="name">
+						<input type="text" id="u_otp" name="u_otp">
 
 						<br>
 						<br>
 
                         <p style="font-size: 1rem; padding-bottom:40px;">Didn't receive OTP? <a href="#">Resend OTP</a></p>
 
-						<input type="submit" value="SUBMIT">
+						<input type="submit" name="submit" value="SUBMIT">
 
 					</form>
 
