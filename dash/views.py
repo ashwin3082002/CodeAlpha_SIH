@@ -48,8 +48,6 @@ def admin(request):
                     is_staff = True
                 )
                 #new_user.is_staff = True
-                print('id: ', i_id)
-                print('Database Updated :)')
 
                 messages.success(request, "Successfully created institution profile.")
                 return redirect('/dashboard/admin')
@@ -154,22 +152,24 @@ def student(request):
 def institution(request):
     if request.user.is_authenticated:
         if request.method == "POST":
-                s_name = request.POST.get('stu-name')
-                dob = request.POST.get('dob')
-                guardian = request.POST.get('guardian')
-                aadhar = request.POST.get('aadhar')
-                gender = request.POST.get('gender')
-                email = request.POST.get('email')
-                contact = request.POST.get('contact')
-                address = request.POST.get('address')
-                city = request.POST.get('city')
-                state = request.POST.get('state')
-                pincode = request.POST.get('pincode')
-                community = request.POST.get('community')
+            s_name = request.POST.get('stu-name')
+            dob = request.POST.get('dob')
+            guardian = request.POST.get('guardian')
+            aadhar = request.POST.get('aadhar')
+            gender = request.POST.get('gender')
+            email = request.POST.get('email')
+            contact = request.POST.get('contact')
+            address = request.POST.get('address')
+            city = request.POST.get('city')
+            state = request.POST.get('state')
+            pincode = request.POST.get('pincode')
+            community = request.POST.get('community')
+            password = User.objects.make_random_password()
+            
+            # generate insti id
+            i_id = func.stu_id_gen()
 
-                # generate insti id
-                i_id = func.stu_id_gen()
-
+            if func.stu_creation(email,i_id,password):
                 db_student = student_detail(
                     sid = i_id,
                     name = s_name,
@@ -188,20 +188,15 @@ def institution(request):
                 )
 
                 db_student.save()
-                print('Database Updated :)')
-
-                messages.success(request, "Successfully created student profile.")
 
                 # create student user with no permissions
                 User.objects.create_user(
+                    first_name = s_name,
                     username = i_id,
                     email = email,
-                    password= 'password',
+                    password= password,
                 )
-
-                print('id:', i_id)
-
-
+                messages.success(request, "Successfully created student profile.")
         uname=request.user.get_username()
         user = User.objects.get(username=uname)
         user_email = user.email
