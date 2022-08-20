@@ -15,7 +15,7 @@ def sendotp(emailto):
     subject = 'OTP | Student Information Portal'
     to = emailto
     otp=random.randint(111111,999999)
-    html_content = render_to_string('otp_mail.html',{'otp_code':otp})
+    html_content = render_to_string('mail\otp_mail.html',{'otp_code':otp})
     text_content = strip_tags(html_content)
     email = EmailMultiAlternatives(
         subject,
@@ -26,6 +26,36 @@ def sendotp(emailto):
     email.attach_alternative(html_content,"text/html")
     email.send()
     return otp
+
+def insti_creation(emailto,uname,psw):
+    subject = 'Institute Profile Created | Student Information Portal'
+    to = emailto
+    html_content = render_to_string('mail\insti_creation.html',{'uname':uname,'psw':psw})
+    text_content = strip_tags(html_content)
+    email = EmailMultiAlternatives(
+        subject,    
+        text_content,
+        settings.EMAIL_HOST_USER,
+        [to]
+    )
+    email.attach_alternative(html_content,"text/html")
+    email.send()
+    return True
+
+def stu_creation(emailto,uname,psw):
+    subject = 'Student Profile Created | Student Information Portal'
+    to = emailto
+    html_content = render_to_string('mail\Student_creation.html',{'uname':uname,'psw':psw})
+    text_content = strip_tags(html_content)
+    email = EmailMultiAlternatives(
+        subject,    
+        text_content,
+        settings.EMAIL_HOST_USER,
+        [to]
+    )
+    email.attach_alternative(html_content,"text/html")
+    email.send()
+    return True
 
 # added by Laavesh
 
@@ -172,6 +202,3 @@ def insti_id_gen(uni_info=insti_id_read()):
             insti_id_write(uni_info)
             break
     return id
-
-# print(insti_id_gen(insti_id_read()))
-# print(stu_id_gen(stu_id_read()))

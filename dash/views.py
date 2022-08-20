@@ -18,41 +18,44 @@ def admin(request):
             i_state = request.POST.get('state')
             i_city = request.POST.get('city')
             i_pincode = request.POST.get('pincode')
+            password = User.objects.make_random_password()
 
             #generate insti id
             i_id = func.insti_id_gen()
 
             # must add contact later
-            #database instance
-            db_insti = institution_detail(
-                id= i_id,
-                name=i_name,
-                type_insti=i_type,
-                email=i_email,
-                contact = i_contact,
-                state = i_state,
-                city = i_city,
-                pincode = i_pincode,
-            )
-            db_insti.save()
-
-            #create new user and grant staff status
-            User.objects.create_user(
-                username = i_id, 
-                email = i_email,
-                password = 'password',
-                is_staff = True
-            )
-            #new_user.is_staff = True
-            print('id: ', i_id)
-            print('Database Updated :)')
-
-            messages.success(request, "Successfully created institution profile.")
-
             # to send id and pass as email
+            if func.insti_creation(i_email,i_id,password):
+                #database instance
+                db_insti = institution_detail(
+                    id= i_id,
+                    name=i_name,
+                    type_insti=i_type,
+                    email=i_email,
+                    contact = i_contact,
+                    state = i_state,
+                    city = i_city,
+                    pincode = i_pincode,
+                )
+                db_insti.save()
 
-            return redirect('/dashboard/admin')
+                #create new user and grant staff status
+                User.objects.create_user(
+                    first_name = i_name,
+                    username = i_id, 
+                    email = i_email,
+                    password = password,
+                    is_staff = True
+                )
+                #new_user.is_staff = True
+                print('id: ', i_id)
+                print('Database Updated :)')
 
+                messages.success(request, "Successfully created institution profile.")
+                return redirect('/dashboard/admin')
+            else:
+                messages.success(request, "Something Went Wrong! Try Again After Some Time")
+                return redirect('/dashboard/admin')
         # getting username from login
         uname=request.user.get_username()
         # getting other user details in a obj 'user'
