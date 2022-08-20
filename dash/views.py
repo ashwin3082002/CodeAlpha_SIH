@@ -148,6 +148,7 @@ def student(request):
         return redirect('/login/student')
 
 
+
 def institution(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -222,7 +223,6 @@ def institution_search(request):
             return render(request, 'dashboards\dashboard_institution_search.html',{'username':uname, 'name':nam, 'email':user_email})
     else:
         return redirect('/login/institution')
-
 
 def institution_edit(request):
     if request.user.is_authenticated:
