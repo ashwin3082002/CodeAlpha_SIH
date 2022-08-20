@@ -68,7 +68,7 @@ def pass_reset_otp(request):
                     user_emailid = search_details[0]["email"]
                     otp = func.sendotp(user_emailid)
                     request.session['otp']=otp
-                    
+                    return render(request, 'pass_reset_otp.html', {'id' : common_id, 'disable':"disabled"})
                 else:
                     messages.error(request,'ID not valid.')
                     
