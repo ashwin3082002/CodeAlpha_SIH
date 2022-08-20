@@ -133,7 +133,6 @@ def admin_edit(request):
 
 
 
-
 def student(request):
     if request.user.is_authenticated:
         uname=request.user.get_username()
@@ -211,7 +210,7 @@ def institution_search(request):
             s_id = request.POST.get('stu_id')
             search_details = student_detail.objects.filter(sid = s_id).values()
             if search_details:
-                return render(request, 'dashboards\dashboard_institution_search.html', {'s': search_details[0]})
+                return render(request, 'dashboards\dashboard_institution_search.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email})
             else:
                 messages.error(request, "Student not found.")
                 return render(request, 'dashboards\dashboard_institution_search.html')
@@ -227,62 +226,69 @@ def institution_search(request):
 
 def institution_edit(request):
     if request.user.is_authenticated:
+        uname=request.user.get_username()
+        user = User.objects.get(username=uname)
+        user_email = user.email
+        nam=user.get_full_name()
+        
         if request.method == "POST":
 
-            # search insti
+            # search student
             if 'search' in request.POST:
                 s_id = request.POST.get('s-id')
                 search_details = student_detail.objects.filter(sid = s_id).values()
                 if search_details:
-                    return render(request, 'dashboards\dashboard_institution_edit.html', {'i': search_details[0]})
+                    return render(request, 'dashboards\dashboard_institution_edit.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email})
                 else:
-                    messages.error(request, "Institution not found.")
-                    return render(request, 'dashboards\dashboard_institution_edit.html')
+                    messages.error(request, "Student not found.")
+                    return render(request, 'dashboards\dashboard_institution_edit.html',  {'username':uname, 'name':nam, 'email':user_email})
 
 
-            # change insti details
+            # change student details
             if 'edit' in request.POST:
+                s_id = request.POST.get('s-id')
                 s_name = request.POST.get('s-name')
                 s_dob = request.POST.get('dob')
                 s_guardian = request.POST.get('pgname')
                 s_email = request.POST.get('email')
-                s_mobile = request.POST.get('mobile')
+                s_mobile = request.POST.get('contact')
                 s_aadhar = request.POST.get('aadhar')
                 s_gender = request.POST.get('gender')
                 s_status = request.POST.get('active_status')
-                s_community = request.POST.get('state')
-                s_address = request.POST.get('city')
-                s_city = request.POST.get('pincode')
+                s_community = request.POST.get('community')
+                s_address = request.POST.get('address')
+                s_city = request.POST.get('city')
                 s_state = request.POST.get('state')
                 s_pincode = request.POST.get('pincode')
 
-
+                #hardcode active status
+                s_status = True
                 # updating details
                 s = student_detail.objects.get(sid = s_id)
                 if s:
-                    s.sid = s_id,
-                    s.name = s_name,
-                    s.dob= s_dob,
-                    s.guardian_name = s_guardian,
-                    s.email= s_email,
-                    s.mobile= s_mobile,
-                    s.aadhar= s_aadhar,
-                    s.gender= s_gender,
-                    s.active_status= s_status,
-                    s.community= s_community,
-                    s.address= s_address,
-                    s.city= s_city,
-                    s.state= s_state,
+                    s.name = s_name
+                    s.dob= s_dob
+                    s.guardian_name = s_guardian
+                    s.email= s_email
+                    s.mobile= s_mobile
+                    s.aadhar= s_aadhar
+                    s.gender= s_gender
+                    s.active_status= s_status
+                    s.community= s_community
+                    s.address= s_address
+                    s.city= s_city
+                    s.state= s_state
                     s.pincode= s_pincode
 
                     # saving updates to database
                     s.save()
                     messages.success(request, "Successfully updated")
-                    return render(request, 'dashboards\dashboard_institution_edit.html')
+                    return render(request, 'dashboards\dashboard_institution_edit.html', {'username':uname, 'name':nam, 'email':user_email})
                 else:
                     messages.error(request, "Student not found.")
-                    return render(request, 'dashboards\dashboard_institution_edit.html')
+                    return render(request, 'dashboards\dashboard_institution_edit.html', {'username':uname, 'name':nam, 'email':user_email})
 
-        return render(request, 'dashboards\dashboard_institution_edit.html')
+        
+        return render(request, 'dashboards\dashboard_institution_edit.html', {'username':uname, 'name':nam, 'email':user_email})
     else:
-        return redirect('/login/admin')
+        return redirect('/login/institution')

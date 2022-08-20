@@ -47,9 +47,9 @@
 
             <div class="dashboard-nav">
 
-                <p class="dashboard-name">{{i.name}}</p>
+                <p class="dashboard-name">Institution Name: {{name}}</p>
 
-                <p>ID: {{i.id}}</p>
+                <p>ID: {{username}}</p>
 
                 <div class="dashboard-link">
                     <ul>
@@ -112,7 +112,7 @@
                 
                                         <br>
                 
-                                        <input type="text" id="pgname" value="{{i.gaurdian_name}}" name="pgname" >
+                                        <input type="text" id="pgname" value="{{s.guardian_name}}" name="pgname" >
                 
                                         <br>
                                         <br>
@@ -121,7 +121,7 @@
                 
                                         <br>
                 
-                                        <input type="text" id="adhaar" value="{{s.aadhar}}" name="adhaar" >
+                                        <input type="text" id="aadhar" value="{{s.aadhar}}" name="aadhar" >
                 
                                         <br>
                                         <br>
@@ -130,7 +130,7 @@
 
                                         <br>
 
-                                        <select name="type" id="gender" required>
+                                        <select name="gender" id="gender" required>
 										    <option value="selected" selected hidden>{{s.gender}}</option>
                                             <option value="options">SELECT OPTION</option>
                                             <option value="male">MALE</option>
@@ -144,7 +144,7 @@
 
                                     <br>
 
-                                    <select name="type" id="type"  >
+                                    <select name="community" id="community"  >
                                         <option value="selected" selected hidden>{{s.community}}</option>
                                         <option value="options">SELECT OPTION</option>
                                         <option value="school">GENERAL</option>
@@ -169,16 +169,16 @@
             
                                     <br>
             
-                                    <input type="text" id="contact" name="contact" value="{{s.contact}}"  >
+                                    <input type="text" id="contact" name="contact" value="{{s.mobile}}"  >
 
                                     <br>
                                     <br>
 									
-									<label for="comment">ADDRESS:</label>
+									<label for="address">ADDRESS:</label>
 
                                         <br>
 
-                                        <textarea id="comment" name="comment" value="{{s.address}}" ></textarea>
+                                        <textarea id="address" name="address" >{{s.address}}</textarea>
 
                                         <br>
                                         <br>

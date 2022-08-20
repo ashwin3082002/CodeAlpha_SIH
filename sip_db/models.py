@@ -5,7 +5,7 @@ from django.db import models
 class student_detail(models.Model):
     sid = models.CharField(primary_key=True, max_length=10)
     name = models.CharField(max_length=120)
-    dob = models.CharField(max_length=10)
+    dob = models.CharField(max_length=20)
     guardian_name = models.CharField(max_length=120)
     email = models.EmailField()
     mobile = models.CharField(max_length=10)
