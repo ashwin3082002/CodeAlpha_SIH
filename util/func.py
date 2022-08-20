@@ -148,6 +148,19 @@ def parse_phn(n):
         return int(phn[0])
     else:
         return False
+
+
+
+def check_id(id):
+    if search := re.search(r'^(S{1}|I{1})([A-Z]{6,7})$', id, re.IGNORECASE):
+        id = list(search.groups())
+        if id[0] == 'S':
+            return 's'
+        elif id[0] == 'I':
+            return 'i'
+        return False
+    else:
+        return False
     
 def stu_id_read():
     file=open('util\ID_DATA\student_id.txt', 'r')
