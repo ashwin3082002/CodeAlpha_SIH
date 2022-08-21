@@ -27,4 +27,5 @@ urlpatterns = [
     path('privacy', views.privacy),
     path('dashboard/', include('dash.urls')),
     path('signout',views.signout),
+    path('api/',include('sip_api.urls'))
 ]

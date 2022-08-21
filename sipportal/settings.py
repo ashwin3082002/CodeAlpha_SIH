@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'loginpg.apps.LoginpgConfig',
     'dash.apps.DashConfig',
-    'sip_db'
+    'sip_db',
+    'sip_api',
 ]
 
 MIDDLEWARE = [
