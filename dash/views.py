@@ -295,11 +295,37 @@ def institution_edit(request):
 
 def institution_addstudent(request):
     if request.user.is_authenticated:
-        uname=request.user.get_username()
-        user = User.objects.get(username=uname)
-        user_email = user.email
-        nam=user.get_full_name()
-        return render(request, 'dashboards\dashboard_institution_add_student.html', {'username':uname, 'name':nam, 'email':user_email})
+        if request.method == "POST":
+            s_id = request.POST.get('student-id')
+            d_name = request.POST.get('degree-name')
+            discipline = request.POST.get('discipline')
+            join_year = request.POST.get('joining-year')
+
+            uname=request.user.get_username()
+            stu = student_detail.objects.get(sid = s_id)
+            ins = institution_detail.objects.get(id = uname)
+
+            db_degree = degree(
+                sid = stu,
+                i_id = ins,
+                name = d_name,
+                status = 'Pursuing',
+                discipline = discipline,
+                year_join = join_year,
+            )
+            db_degree.save()
+
+            messages.success(request, 'Successfully assigned student to institution and degree.')
+            user = User.objects.get(username=uname)
+            user_email = user.email
+            nam=user.get_full_name()
+            return render(request, 'dashboards\dashboard_institution_add_student.html', {'username':uname, 'name':nam, 'email':user_email})
+        else:
+            uname=request.user.get_username()
+            user = User.objects.get(username=uname)
+            user_email = user.email
+            nam=user.get_full_name()
+            return render(request, 'dashboards\dashboard_institution_add_student.html', {'username':uname, 'name':nam, 'email':user_email})
     else:
         return redirect('/login/institution')
 
