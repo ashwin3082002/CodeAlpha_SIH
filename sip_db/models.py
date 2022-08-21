@@ -18,8 +18,6 @@ class student_detail(models.Model):
     state = models.CharField(max_length=20, default='')
     pincode = models.CharField(max_length=6, default='')
     
-    
-    
     def __str__(self):
         return self.name
 
@@ -51,6 +49,7 @@ class degree(models.Model):
         return str(self.name)
 
 class course(models.Model):
+    cid = models.AutoField()
     did= models.ForeignKey(degree, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     total_marks = models.CharField(max_length=10)
