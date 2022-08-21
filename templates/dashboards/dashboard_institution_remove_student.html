@@ -69,15 +69,16 @@
 
                 <div class="create-profile" id="create-profile">
 
-                    <h1>ADD STUDENT TO INSTITUTION</h1>
+                    <h1>REMOVE STUDENT FROM INSTITUTION</h1>
 
                         <div class="profile-form-container">
 
                             <div class="profile-form">
-                                <form action="/dashboard/institution/add" method="post">
-                                        
+                                <form action="/dashboard/institution/remove" method="post">
+
                                     {% csrf_token %}
-                                    <label for="add-student">STUDENT ID:</label>
+
+                                    <label for="student-id">STUDENT ID:</label>
             
                                     <br>
             
@@ -85,45 +86,40 @@
             
                                     <br>
                                     <br>
-            
-                                    <label for="degree-name">DEGREE NAME:</label>
+
+                                    <label for="final-mark">CGPA / TOTAL MARK:</label>
             
                                     <br>
             
-                                    <input type="text" id="degree-name"  name="degree-name" required >
-            
+                                    <input type="text" id="final-mark"  name="final-mark" required >
+
                                     <br>
                                     <br>
 
-                                    <label for="">DISCIPLINE:</label>
+                                    <label for="degree-completion-date">LEAVING YEAR:</label>
 
                                     <br>
+            
+                                    <input type="text" id="degree-completion-date"  name="degree-completion-date"  required >
+            
+                                    <br>
+                                    <br>
+                                    
+                                    <label for="type">LEAVING TYPE:</label>
 
-                                    <select name="discipline" id="discipline" required >
-                                        <option value="ENGINEERING">ENGINEERING</option>
-                                        <option value="MEDICAL">MEDICAL</option>
-                                        <option value="LAW">LAW</option>
-                                        <option value="SCIENCE">SCIENCE</option>
-                                        <option value="ARTS">ARTS</option>
-                                        <option value="DIPLOMA">DIPLOMA</option>
-                                        <option value="HSE">HSE</option>
-                                        <option value="SSLC">SSLC</option>
+                                    <br>
+            
+                                    <select name="type" id="type" required >
+                                        
+                                        <option value="Selected" Selected disabled>SELECT</option>
+                                        <option value="Completed">COMPLETED</option>
+                                        <option value="Transfer">TRANSFER</option>
                                       </select>
-
-                                    <br>
-                                    <br>
-
-                                    <label for="joining-date">JOINING YEAR:</label>
-            
-                                    <br>
-            
-                                    <input type="text" id="joining-date"  name="joining-date" style="font-size: 1.2rem; width: 80%; padding: 5px; border-radius: 10px; border: solid 1px #565a61 ;" required >
             
                                     <br>
                                     <br>
 
-
-                                    <input value="ADD" type="submit">
+                                    <input value="REMOVE" type="submit">
             
                                 </form>
 
