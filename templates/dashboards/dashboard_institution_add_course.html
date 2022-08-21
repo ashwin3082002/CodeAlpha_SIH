@@ -1,0 +1,168 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Institution
+{% endblock title %}
+
+
+{% block main %}
+
+{% if messages %}
+	<div class="messages_d">
+		{% for message in messages %}
+			<p {% if message.tags %}class="{{message.tags}}"{% endif %}>{{message}}</p>
+		{% endfor %}
+	</div>
+{% endif %}
+
+
+<div class="dashboard_spacing">    
+    <div class="dashboard-wrapper">
+
+        <p>INSTITUTION DASHBOARD</p>
+
+        <div class="dashboard">
+
+            <div class="dashboard-head">
+
+                <div class="dashboard-head-top">
+                    
+
+
+                </div>
+
+                <div class="dashboard-head-bottom">
+
+                    
+
+                </div>
+
+            </div>
+
+            <div class="profile-pic">
+
+                <img src="">
+
+            </div>
+
+            <div class="dashboard-nav">
+
+                <p class="dashboard-name">Institution Name: {{name}}</p>
+
+                <p>ID: {{username}}</p>
+
+                <div class="dashboard-link">
+                    <ul>
+                        <li><a href="/dashboard/institution">Profile</a></li>
+                        <li><a href="#">Create Student</a></li>
+                        <li><a href="/dashboard/institution/search">Search Student</a></li>
+                        <li><a href="/dashboard/institution/edit">Edit Student</a></li>
+                        <li><a href="/dashboard/institution/add">Add Student</a></li>
+                        <li><a href="/dashboard/institution/remove">Remove Student</a></li>
+                        <li><a href="/dashboard/institution/addcourse">Add Course</a></li>
+                        <li><a class="logout" href="/signout">Logout</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="dashboard-body" id="dashboard-body">
+
+                <div class="create-profile" id="create-profile">
+
+                    <h1>ADD COURSE</h1>
+
+                        <div class="profile-form-container">
+
+                            <div class="profile-form">
+                                <div class="profile-form">
+
+                                    <form action="/dashboard/institution/addcourse" method="post">
+                                        
+                                        {% csrf_token %}
+
+                                        <label for="degree-id">DEGREE ID:</label>
+                
+                                        <br>
+                
+                                        <input type="text" id="degree-id"  name="degree-id" required >
+                
+                                        <br>
+                                        <br>
+
+                                        <label for="degree-name">DEGREE NAME:</label>
+                
+                                        <br>
+                
+                                        <input type="text" id="degree-name"  name="degree-name" required >
+                
+                                        <br>
+                                        <br>
+
+                                        <label for="total-mark">TOTAL MARK:</label>
+                
+                                        <br>
+                
+                                        <input type="text" id="total-mark"  name="total-mark" required >
+
+                                        <br>
+                                        <br>
+
+                                        <label for="obtained-mark">OBTAINED MARK:</label>
+                
+                                        <br>
+                
+                                        <input type="text" id="obtained-mark"  name="obtained-mark" required >
+
+                                        <br>
+                                        <br>
+
+                                        <label for="credits">CREDITS:</label>
+                
+                                        <br>
+                
+                                        <input type="text" id="credits"  name="credits" required >
+
+                                        <br>
+                                        <br>
+
+                                        <label for="semester">SEMESTER:</label>
+                
+                                        <br>
+                
+                                        <input type="text" id="semester"  name="semester" required >
+
+                                        <br>
+                                        <br>
+
+
+
+                                        <input value="ADD" type="submit">
+                
+                                    </form>
+
+                                    
+
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+            </div>
+
+                        <div class="profile-form-container">
+
+                            <div class="profile-form">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock main %}
+

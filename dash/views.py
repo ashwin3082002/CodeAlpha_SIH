@@ -312,3 +312,13 @@ def institution_removestudent(request):
         return render(request, 'dashboards\dashboard_institution_remove_student.html', {'username':uname, 'name':nam, 'email':user_email})
     else:
         return redirect('/login/institution')
+
+def institution_addcourse(request):
+    if request.user.is_authenticated:
+        uname=request.user.get_username()
+        user = User.objects.get(username=uname)
+        user_email = user.email
+        nam=user.get_full_name()
+        return render(request, 'dashboards\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email})
+    else:
+        return redirect('/login/institution')
