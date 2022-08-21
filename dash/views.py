@@ -208,6 +208,10 @@ def institution(request):
 def institution_search(request):
     if request.user.is_authenticated:
         if request.method == "POST":
+            uname=request.user.get_username()
+            user = User.objects.get(username=uname)
+            user_email = user.email
+            nam=user.get_full_name()
             s_id = request.POST.get('stu_id')
             search_details = student_detail.objects.filter(sid = s_id).values()
             if search_details:
