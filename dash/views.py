@@ -292,3 +292,13 @@ def institution_edit(request):
         return render(request, 'dashboards\dashboard_institution_edit.html', {'username':uname, 'name':nam, 'email':user_email})
     else:
         return redirect('/login/institution')
+
+def institution_addstudent(request):
+    if request.user.is_authenticated:
+        uname=request.user.get_username()
+        user = User.objects.get(username=uname)
+        user_email = user.email
+        nam=user.get_full_name()
+        return render(request, 'dashboards\dashboard_institution_add_student.html', {'username':uname, 'name':nam, 'email':user_email})
+    else:
+        return redirect('/login/institution')

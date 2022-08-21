@@ -11,6 +11,6 @@ urlpatterns = [
     path('institution', views.institution),
     path('institution/search', views.institution_search),
     path('institution/edit', views.institution_edit),
-    
+    path('institution/add', views.institution_addstudent),
 
 ]

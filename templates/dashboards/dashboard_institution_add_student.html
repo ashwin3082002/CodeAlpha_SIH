@@ -68,152 +68,61 @@
 
                 <div class="create-profile" id="create-profile">
 
-                    <h1>EDIT STUDENT PROFILE</h1>
+                    <h1>ADD STUDENT TO INSTITUTION</h1>
 
                         <div class="profile-form-container">
 
                             <div class="profile-form">
-                                <form action="/dashboard/institution/edit" method="POST">
-
+                                <form action="" method="post">
+                                        
                                     {% csrf_token %}
-                                    
-                                    <label for="ins-name">STUDENT ID:</label>
+                                    <label for="add-student">STUDENT ID:</label>
             
                                     <br>
             
-                                    <input type="text" id="institution-id" name="s-id" value = "{{s.sid}}" required>
+                                    <input type="text" id="student-id"  name="student-id" required >
             
                                     <br>
                                     <br>
-
-                                    <input type="submit" name = "search" value="SEARCH">
-                                    
-                                    <br>
-                                    <br>
-                                
-                                    <label for="ins-name">STUDENT NAME:</label>
+            
+                                    <label for="degree-name">DEGREE NAME:</label>
             
                                     <br>
             
-                                    <input type="text" id="ins-name"  name="s-name" value="{{s.name}}"  > 
-            
-                                    <br>
-                                    <br>
-									
-									<label for="ins-name">DOB:</label>
-                
-                                        <br>
-                
-                                        <input type="text" id="dob" name="dob" value="{{s.dob}}" >
-                
-                                        <br>
-                                        <br>
-
-                                        <label for="ins-name">FATHER/MOTHER/GAURDIAN NAME:</label>
-                
-                                        <br>
-                
-                                        <input type="text" id="pgname" value="{{s.guardian_name}}" name="pgname" >
-                
-                                        <br>
-                                        <br>
-
-                                        <label for="adhaar">ADHAAR NO:</label>
-                
-                                        <br>
-                
-                                        <input type="text" id="aadhar" value="{{s.aadhar}}" name="aadhar" >
-                
-                                        <br>
-                                        <br>
-
-                                        <label>GENDER:</label>
-
-                                        <br>
-
-                                        <select name="gender" id="gender">
-										    <option value="{{s.gender}}" selected hidden>{{s.gender}}</option>
-                                            <option value="options">SELECT OPTION</option>
-                                            <option value="Male">MALE</option>
-                                            <option value="Female">FEMALE</option>
-                                          </select>
-
-                                        <br>
-                                        <br>
-
-                                    <label>COMMUNITY:</label>
-
-                                    <br>
-
-                                    <select name="community" id="community"  >
-                                        <option value="{{s.community}}" selected hidden>{{s.community}}</option>
-                                        <option value="options">SELECT OPTION</option>
-                                        <option value="General">GENERAL</option>
-                                        <option value="OBC">OBC</option>
-                                        <option value="SC">SC</option>
-                                        <option value="ST">ST</option>
-                                    </select>
-
-                                    <br>
-                                    <br>
-            
-                                    <label for="email">EMAIL:</label>
-            
-                                    <br>
-            
-                                    <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value="{{s.email}}"  >
+                                    <input type="text" id="degree-name"  name="degree-name" required >
             
                                     <br>
                                     <br>
 
-                                    <label for="contact">CONTACT NO:</label>
+                                    <label for="">DISCIPLINE:</label>
+
+                                    <br>
+
+                                    <select name="discipline" id="discipline" required >
+                                        <option value="ENGINEERING">ENGINEERING</option>
+                                        <option value="MEDICAL">MEDICAL</option>
+                                        <option value="LAW">LAW</option>
+                                        <option value="SCIENCE">SCIENCE</option>
+                                        <option value="ARTS">ARTS</option>
+                                        <option value="DIPLOMA">DIPLOMA</option>
+                                        <option value="HSE">HSE</option>
+                                        <option value="SSLC">SSLC</option>
+                                      </select>
+
+                                    <br>
+                                    <br>
+
+                                    <label for="joining-date">JOINING YEAR:</label>
             
                                     <br>
             
-                                    <input type="text" id="contact" name="contact" value="{{s.mobile}}"  >
-
-                                    <br>
-                                    <br>
-									
-									<label for="address">ADDRESS:</label>
-
-                                        <br>
-
-                                        <textarea id="address" name="address" >{{s.address}}</textarea>
-
-                                        <br>
-                                        <br>
-
-                                    
-
-                                    <label for="city">CITY:</label>
+                                    <input type="text" id="joining-date"  name="joining-date" style="font-size: 1.2rem; width: 80%; padding: 5px; border-radius: 10px; border: solid 1px #565a61 ;" required >
             
                                     <br>
-            
-                                    <input type="text" id="city" name="city" value="{{s.city}}"  >
-
-                                    <br>
                                     <br>
 
-                                    <label for="state">STATE:</label>
-            
-                                    <br>
-            
-                                    <input type="text" id="state" name="state" value="{{s.state}}"  >
 
-                                    <br>
-                                    <br>
-
-                                    <label for="pincode">PINCODE:</label>
-            
-                                    <br>
-            
-                                    <input type="text" id="pincode" name="pincode" value="{{s.pincode}}"  >
-
-                                    <br>
-                                    <br>
-
-                                    <input type="submit" value="SUBMIT" name="edit">
+                                    <input value="ADD" type="submit">
             
                                 </form>
 
