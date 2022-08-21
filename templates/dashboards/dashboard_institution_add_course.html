@@ -80,6 +80,20 @@
                                     <form action="/dashboard/institution/addcourse" method="post">
                                         
                                         {% csrf_token %}
+										
+										<label for="search-student">STUDENT ID:</label>
+                
+                                        <br>
+                
+                                        <input type="text" id="search-student"  name="search-student" required >
+                
+                                        <br>
+                                        <br>
+										
+										<input type="submit" value="SEARCH">
+
+                                        <br>
+                                        <br>
 
                                         <label for="degree-id">DEGREE ID:</label>
                 
@@ -90,7 +104,7 @@
                                         <br>
                                         <br>
 
-                                        <label for="degree-name">DEGREE NAME:</label>
+                                        <label for="degree-name">COURSE NAME:</label>
                 
                                         <br>
                 

@@ -270,7 +270,7 @@ footer span a{
 .form form label{
 	font-size:1.3rem;
 }
-.form form input[type="text"], input[type="email"], input[type="password"]{
+.form form input[type="text"], input[type="email"], input[type="password"], input[type="search"]{
 	border-radius:10px;
 	border:solid 1px #565a61;
 	font-size:1rem;

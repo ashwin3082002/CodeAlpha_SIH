@@ -51,6 +51,7 @@ class degree(models.Model):
         return str(self.name)
 
 class course(models.Model):
+    cid=models.AutoField(primary_key=True)
     did= models.ForeignKey(degree, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     total_marks = models.CharField(max_length=10)

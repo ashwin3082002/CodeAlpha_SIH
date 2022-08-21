@@ -335,11 +335,28 @@ def institution_addstudent(request):
 
 def institution_removestudent(request):
     if request.user.is_authenticated:
-        uname=request.user.get_username()
-        user = User.objects.get(username=uname)
-        user_email = user.email
-        nam=user.get_full_name()
-        return render(request, 'dashboards\dashboard_institution_remove_student.html', {'username':uname, 'name':nam, 'email':user_email})
+        if request.method == "POST":
+            s_id = request.POST.get('student-id')
+            fmark = request.POST.get('final-mark')
+            leave_year = request.POST.get('degree-completion-date')
+            leave_type = request.POST.get('type')
+
+            uname=request.user.get_username()
+            d_instance = degree.objects.get(sid = s_id)
+            print(d_instance)
+            
+
+            messages.success(request, 'Successfully assigned student to institution and degree.')
+            user = User.objects.get(username=uname)
+            user_email = user.email
+            nam=user.get_full_name()
+            return render(request, 'dashboards\dashboard_institution_remove_student.html', {'username':uname, 'name':nam, 'email':user_email})
+        else:          
+            uname=request.user.get_username()
+            user = User.objects.get(username=uname)
+            user_email = user.email
+            nam=user.get_full_name()
+            return render(request, 'dashboards\dashboard_institution_remove_student.html', {'username':uname, 'name':nam, 'email':user_email})
     else:
         return redirect('/login/institution')
 
