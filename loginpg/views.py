@@ -90,12 +90,14 @@ def pass_reset_otp(request):
 
         elif 'submit' in request.POST:
             u_otp = request.POST.get('u_otp')
-            
-            if int(u_otp) == int(request.session['otp']):
-                request.session['directaccess']=True
-                return redirect("/login/resetpassword")
-            else:
-                messages.error(request, "Wrong OTP")
+            try:
+                if int(u_otp) == int(request.session['otp']):
+                    request.session['directaccess']=True
+                    return redirect("/login/resetpassword")
+                else:
+                    messages.error(request, "Wrong OTP")
+            except:
+                messages.error(request,"Wrong OTP!")
 
     return render(request,'pass_reset_otp.html')
 
