@@ -17,7 +17,8 @@ class student_detail(models.Model):
     city = models.CharField(max_length=30, default='')
     state = models.CharField(max_length=20, default='')
     pincode = models.CharField(max_length=6, default='')
-    i_id = models.ManyToManyField('institution_detail')
+    
+    
     
     def __str__(self):
         return self.name
@@ -36,21 +37,21 @@ class institution_detail(models.Model):
         return self.name
 
 class degree(models.Model):
-    sid =  models.ManyToManyField(student_detail)
     id = models.AutoField(primary_key=True)
+    sid = models.ForeignKey(student_detail, on_delete=models.CASCADE)
+    i_id = models.ForeignKey(institution_detail, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    insti_id = models.ManyToManyField(institution_detail)
-    status = models.CharField(max_length=10)
+    status = models.CharField(max_length=10) # pursuing, drop , completed
     discipline = models.CharField(max_length=20)
-    date_join = models.DateField()
-    date_leave = models.DateField()
-    grade = models.CharField(max_length=10)
+    year_join = models.CharField(max_length=10)
+    year_leave = models.CharField(max_length=10, blank=True, null=True)
+    grade = models.CharField(max_length=10, blank=True, null=True)
 
     def __str__(self):
-        return str(self.id)
+        return str(self.name)
 
 class course(models.Model):
-    sid=models.ForeignKey(student_detail, on_delete=models.CASCADE)
+    did= models.ForeignKey(degree, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     total_marks = models.CharField(max_length=10)
     obtained_marks = models.CharField(max_length=10)
@@ -59,4 +60,3 @@ class course(models.Model):
 
     def __str__(self):
         return self.name
-
