@@ -1,9 +1,10 @@
 import email
 from email import message
 from email.headerregistry import Address
+from urllib import request
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from sip_db.models import institution_detail, student_detail, degree, course, docreq
+from sip_db.models import api_details, institution_detail, student_detail, degree, course, docreq
 from util import func
 from django.contrib import messages
 
@@ -477,3 +478,33 @@ def student_get_docu(request):
     else:
         return redirect('/login/student')
 
+def create_api(request):
+    uname=request.user.get_username()
+    user = User.objects.get(username=uname)
+    user_email = user.email
+    nam=user.get_full_name()
+    if request.method == "POST":
+        org_name = request.POST.get('organization-name')
+        email = request.POST.get('organization-email')
+        api_key = func.api_key_gen()
+        perm = request.POST.get('type')
+        db_instance = api_details(
+            org_name = org_name,
+            api_key = api_key,
+            email = email,
+            permissions = perm
+        )
+        if func.api_mail_creation(email,org_name,api_key):
+            db_instance.save()
+            messages.success(request,"API Key Generated Successfully")
+        else:
+            messages.success(request,"Something Went Wrong Try Again")
+            
+    return render(request, "dashboards\institution\create-api.html",{'username':uname, 'name':nam, 'email':user_email})
+    
+def revok_api(request):
+    uname=request.user.get_username()
+    user = User.objects.get(username=uname)
+    user_email = user.email
+    nam=user.get_full_name()
+    return render(request, "dashboards\institution\evoke-api.html",{'username':uname, 'name':nam, 'email':user_email})

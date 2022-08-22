@@ -8,6 +8,22 @@ import json
 # added by Laavesh
 import re
 
+#api creation mail
+def api_mail_creation(emailto, orgname, api_key):
+    subject = 'IMP: API ACCESS | Student Information Portal'
+    to = emailto
+    html_content = render_to_string('mail\create_api.html',{'name':orgname,'key':api_key})
+    text_content = strip_tags(html_content)
+    email = EmailMultiAlternatives(
+        subject,    
+        text_content,
+        settings.EMAIL_HOST_USER,
+        [to]
+    )
+    email.attach_alternative(html_content,"text/html")
+    email.send()
+    return True
+
 #api key generation
 def api_key_gen():
     n = random.randint(40,80)

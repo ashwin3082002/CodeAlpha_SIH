@@ -15,6 +15,8 @@ urlpatterns = [
     path('institution/enroll', views.institution_enroll_student),
     path('institution/remove', views.institution_removestudent),
     path('institution/addcourse', views.institution_addcourse),
+    path('institution/createapi',views.create_api),
+    path('institution/revokapi',views.revok_api),
     # student
     path('student', views.student),
     path('student/getdocument', views.student_get_docu),
