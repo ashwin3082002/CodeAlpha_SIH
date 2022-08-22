@@ -74,3 +74,12 @@ class docreq(models.Model):
 
     def __str__(self):
         return self.id
+
+class api_details(models.Model):
+    api_id = models.AutoField(primary_key=True)
+    org_name = models.CharField(max_length=100)
+    api_key = models.CharField(max_length=200)
+    permissions = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.org_name

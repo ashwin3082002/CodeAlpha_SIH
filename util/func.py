@@ -8,6 +8,14 @@ import json
 # added by Laavesh
 import re
 
+#api key generation
+def api_key_gen():
+    n = random.randint(40,80)
+    lst=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z','a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    api_key = str()
+    for i in range(n):
+        api_key+=random.choice(lst)
+    return api_key
 
 # added by Ashwin
 
