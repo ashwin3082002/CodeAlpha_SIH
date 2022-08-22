@@ -3,7 +3,7 @@ from email import message
 from email.headerregistry import Address
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from sip_db.models import institution_detail, student_detail, degree, course
+from sip_db.models import institution_detail, student_detail, degree, course, docreq
 from util import func
 from django.contrib import messages
 
@@ -71,8 +71,11 @@ def admin_search(request):
             if 'search' in request.POST:
                 i_id = request.POST.get('institution-id')
                 search_details = institution_detail.objects.filter(id = i_id).values()
+                # no of students enrolled
+                d_details = degree.objects.filter(i_id=i_id).values()
+
                 if search_details:
-                    return render(request, 'dashboards\dashboard_admin_search.html', {'i': search_details[0]})
+                    return render(request, 'dashboards\dashboard_admin_search.html', {'i': search_details[0],'student_count': len(d_details)})
                 else:
                     messages.error(request, "Institution not found.")
                     return render(request, 'dashboards\dashboard_admin_search.html')
@@ -136,8 +139,6 @@ def admin_edit(request):
 def student(request):
     if request.user.is_authenticated:
         uname=request.user.get_username()
-        
-
         user_details = student_detail.objects.filter(sid = uname).values()
         
         if user_details:
@@ -147,6 +148,30 @@ def student(request):
     else:
         return redirect('/login/student')
 
+def student_get_docu(request):
+    if request.user.is_authenticated:
+        uname=request.user.get_username()
+        user_details = student_detail.objects.filter(sid = uname).values()
+        degree_details = degree.objects.filter(sid=uname).values()
+        print(degree_details)
+        
+        if request.method=='POST':
+            
+            doc_type = request.POST.get('document-type')
+            reason = request.POST.get('reason')
+
+            doc_db = docreq(
+                sid=uname,
+                i_id=i_id,
+                doc_type=doc_type,
+            )
+
+            messages.success(request, 'Successfully requested.')
+            return render(request, 'dashboards\dashboard_student_document.html', {'s': user_details[0]})
+            
+        return render(request, 'dashboards\dashboard_student_document.html', {'s': user_details[0], 'd': degree_details})
+    else:
+        return redirect('/login/student')
 
 
 def institution(request):
@@ -214,6 +239,7 @@ def institution_search(request):
             nam=user.get_full_name()
             s_id = request.POST.get('stu_id')
             search_details = student_detail.objects.filter(sid = s_id).values()
+            
             if search_details:
                 return render(request, 'dashboards\dashboard_institution_search.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email})
             else:

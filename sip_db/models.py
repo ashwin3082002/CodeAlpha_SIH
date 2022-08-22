@@ -1,3 +1,4 @@
+from turtle import ondrag
 from django.db import models
 
 # Create your models here.
@@ -39,7 +40,7 @@ class institution_detail(models.Model):
 class degree(models.Model):
     id = models.AutoField(primary_key=True)
     sid = models.ForeignKey(student_detail, on_delete=models.CASCADE)
-    i_id = models.ForeignKey(institution_detail, on_delete=models.CASCADE)
+    iid = models.ForeignKey(institution_detail, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     status = models.CharField(max_length=10) # pursuing, drop , completed
     discipline = models.CharField(max_length=20)
@@ -61,3 +62,12 @@ class course(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class docreq(models.Model):
+    id = models.AutoField(primary_key=True)
+    sid = models.ForeignKey(student_detail, on_delete=models.CASCADE)
+    i_id = models.ForeignKey(institution_detail, on_delete=models.CASCADE)
+    doc_type = models.CharField(max_length=20)
+    reason = models.CharField(max_length=200)
+    status = models.CharField(max_length=20)

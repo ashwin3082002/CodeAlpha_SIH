@@ -1,0 +1,110 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Student
+{% endblock title %}
+
+
+{% block main %}
+<div class = "dashboard_spacing">
+    <div class="dashboard-wrapper">
+
+        <p>STUDENT DASHBOARD</p>
+
+        <div class="dashboard">
+
+            <div class="dashboard-head">
+
+                <div class="dashboard-head-top">
+                    
+
+
+                </div>
+
+                <div class="dashboard-head-bottom">
+
+                    
+
+                </div>
+
+            </div>
+
+            <div class="profile-pic">
+
+                <img src="">
+
+            </div>
+
+            <div class="dashboard-nav">
+
+                <p class="dashboard-name">{{s.name}}</p>
+
+                <p class="dashboard-status">STATUS:  <span style="color: green;">{{s.active_status}}</span></p>
+
+                <div class="dashboard-link">
+                    <ul>
+                        <li><a href="/dashboard/student">Profile</a></li>
+                        <li><a href="#">Edit Profile</a></li>
+                        <li><a href="/dashboard/student/getdocument">Get Documents</a></li>
+                        <li><a class="logout" href="/signout">Logout</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="dashboard-body" id="dashboard-body">
+
+                <div class="create-profile" id="create-profile">
+
+                    <h1>GET DOCUMENTS</h1>
+
+                        <div class="profile-form-container">
+
+                            <div class="profile-form">
+
+
+                    <div class="details">
+                        <form action="/dashboard/admin/edit" method="POST">
+                            {% csrf_token %}
+                            
+                            <label for="document-type">DOCUMENT TYPE:</label>
+                            <br>
+                            <select name="document-type" id="type" >
+                            <option value="options" selected disabled>CHOOSE OPTION</option>
+                            <option value="bonafide">BONAFIDE</option>
+                            <option value="noc">NOC</option>
+                            </select>
+                            <br>
+                            <br>
+
+                            <label for="institution">INSTITUTION:</label>
+                            <br>
+                            <select name="institution" id="type" >
+                                {% for i in d %}
+                                <option value="{{i.institution_detail.name}}">{{i.institution_detail.name}}</option>
+                                {% endfor %}
+                            </select>
+                            <br>
+                            <br>
+                            <label  for="reason">REASON:</label>
+                            <br>
+                            <textarea maxlength="200" name="reason"></textarea>
+                            <br>
+                            <br>
+
+                            <input type="submit" name="submit" value="REQUEST">
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+        </div>
+    </div>
+</div>
+{% endblock main %}
+

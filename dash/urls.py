@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/search', views.admin_search),
     path('admin/edit', views.admin_edit),
     path('student', views.student),
+    path('student/getdocument', views.student_get_docu),
     path('institution', views.institution),
     path('institution/search', views.institution_search),
     path('institution/edit', views.institution_edit),
