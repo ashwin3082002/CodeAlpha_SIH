@@ -39,8 +39,8 @@ class institution_detail(models.Model):
 
 class degree(models.Model):
     id = models.AutoField(primary_key=True)
-    sid = models.ForeignKey(student_detail, on_delete=models.CASCADE)
-    iid = models.ForeignKey(institution_detail, on_delete=models.CASCADE)
+    sid = models.ForeignKey(student_detail, on_delete=models.CASCADE, db_column='sid')
+    iid = models.ForeignKey(institution_detail, on_delete=models.CASCADE, db_column='iid')
     name = models.CharField(max_length=100)
     status = models.CharField(max_length=10) # pursuing, drop , completed
     discipline = models.CharField(max_length=20)
@@ -53,7 +53,7 @@ class degree(models.Model):
 
 class course(models.Model):
     cid=models.AutoField(primary_key=True)
-    did= models.ForeignKey(degree, on_delete=models.CASCADE)
+    did= models.ForeignKey(degree, on_delete=models.CASCADE, db_column='did')
     name = models.CharField(max_length=100)
     total_marks = models.CharField(max_length=10)
     obtained_marks = models.CharField(max_length=10)
@@ -66,8 +66,8 @@ class course(models.Model):
 
 class docreq(models.Model):
     id = models.AutoField(primary_key=True)
-    sid = models.ForeignKey(student_detail, on_delete=models.CASCADE)
-    i_id = models.ForeignKey(institution_detail, on_delete=models.CASCADE)
+    sid = models.ForeignKey(student_detail, on_delete=models.CASCADE, db_column='sid')
+    i_id = models.ForeignKey(institution_detail, on_delete=models.CASCADE, db_column='i_id')
     doc_type = models.CharField(max_length=20)
     reason = models.CharField(max_length=200)
     status = models.CharField(max_length=20)

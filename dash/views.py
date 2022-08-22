@@ -52,7 +52,7 @@ def admin(request):
                 messages.success(request, "Successfully created institution profile.")
                 return redirect('/dashboard/admin')
             else:
-                messages.success(request, "Something Went Wrong! Try Again After Some Time")
+                messages.error(request, "Something Went Wrong! Try Again After Some Time")
                 return redirect('/dashboard/admin')
         # getting username from login
         uname=request.user.get_username()
@@ -61,7 +61,7 @@ def admin(request):
 
         user_email = user.email
         name = user.get_full_name()
-        return render(request, 'dashboards\dashboard_admin.html',{'username':uname, 'name':name, 'email':user_email})
+        return render(request, 'dashboards\d_admin\dashboard_admin.html',{'username':uname, 'name':name, 'email':user_email})
     else:
         return redirect('/login/admin')
 
@@ -72,15 +72,15 @@ def admin_search(request):
                 i_id = request.POST.get('institution-id')
                 search_details = institution_detail.objects.filter(id = i_id).values()
                 # no of students enrolled
-                d_details = degree.objects.filter(i_id=i_id).values()
+                d_details = degree.objects.filter(iid=i_id).values()
 
                 if search_details:
-                    return render(request, 'dashboards\dashboard_admin_search.html', {'i': search_details[0],'student_count': len(d_details)})
+                    return render(request, 'dashboards\d_admin\dashboard_admin_search.html', {'i': search_details[0],'student_count': len(d_details)})
                 else:
                     messages.error(request, "Institution not found.")
-                    return render(request, 'dashboards\dashboard_admin_search.html')
+                    return redirect('/dashboard/admin/search')
         else:
-            return render(request, 'dashboards\dashboard_admin_search.html')
+            return render(request, 'dashboards\d_admin\dashboard_admin_search.html')
     else:
         return redirect('/login/admin')
     
@@ -93,10 +93,10 @@ def admin_edit(request):
                 i_id = request.POST.get('institution-id')
                 search_details = institution_detail.objects.filter(id = i_id).values()
                 if search_details:
-                    return render(request, 'dashboards\dashboard_admin_edit.html', {'i': search_details[0]})
+                    return render(request, 'dashboards\d_admin\dashboard_admin_edit.html', {'i': search_details[0]})
                 else:
                     messages.error(request, "Institution not found.")
-                    return render(request, 'dashboards\dashboard_admin_edit.html')
+                    return redirect('/dashboard/admin/edit')
 
 
             # change insti details
@@ -125,12 +125,12 @@ def admin_edit(request):
                     # saving updates to database
                     i.save()
                     messages.success(request, "Successfully updated")
-                    return render(request, 'dashboards\dashboard_admin_edit.html')
+                    return redirect('/dashboard/admin/edit')
                 else:
                     messages.error(request, "Institution not found.")
-                    return render(request, 'dashboards\dashboard_admin_edit.html')
+                    return redirect('/dashboard/admin/edit')
 
-        return render(request, 'dashboards\dashboard_admin_edit.html')
+        return render(request, 'dashboards\d_admin\dashboard_admin_edit.html')
     else:
         return redirect('/login/admin')
 
