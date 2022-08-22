@@ -372,18 +372,24 @@ def institution_addcourse(request):
             s_id = request.POST.get('search-student')
 
             if 'search' in request.POST:
-                print('going to search')
                 
                 # get student and institution instances
-                s_details = student_detail.objects.get(sid = s_id)  
-                i_details = institution_detail.objects.get(id = uname)
-                degree_details = degree.objects.get(sid=s_details, i_id=i_details)
+                try:
+                    s_details = student_detail.objects.get(sid = s_id)  
+                    i_details = institution_detail.objects.get(id = uname)
+                    try:
+                        degree_details = degree.objects.get(sid=s_details, i_id=i_details)
+                        return render(request, 'dashboards\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email, 'disabled':'disabled', 's':s_details, 'd':degree_details})
+                    except:
+                        messages.error(request, 'Student not enrolled in your institution.')
+                        return render(request, 'dashboards\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email})
+                except:
+                    messages.error(request, 'Student details invalid.')
+                    return render(request, 'dashboards\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email})
                 
-                return render(request, 'dashboards\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email, 'disabled':'disabled', 's':s_details, 'd':degree_details})
 
             elif 'add' in request.POST:
                 
-                print('going into submit')
 
                 # get student and institution instances
                 s_details = student_detail.objects.get(sid = s_id)  
@@ -398,7 +404,6 @@ def institution_addcourse(request):
                 credits = request.POST.get('credits')
                 sem = request.POST.get('semester')
 
-                print('getting input')
 
                 # save details in database
                 db_course = course(
@@ -410,8 +415,6 @@ def institution_addcourse(request):
                     semester = sem,
                 )
                 db_course.save()
-
-                print('print database')
                 
                 messages.success(request, 'Successfully created course in degree')
                 return render(request, 'dashboards\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email})
