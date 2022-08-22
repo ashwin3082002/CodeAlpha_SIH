@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Institution
+    Admin
 {% endblock title %}
 
 
@@ -14,10 +14,12 @@
 		{% endfor %}
 	</div>
 {% endif %}
+
+
 <div class="dashboard_spacing">    
     <div class="dashboard-wrapper">
 
-        <p>INSTITUTION DASHBOARD</p>
+        <p>ADMIN DASHBOARD</p>
 
         <div class="dashboard">
 
@@ -45,22 +47,19 @@
 
             <div class="dashboard-nav">
 
-                <p class="dashboard-name">Institution Name: {{name}}</p>
+                <p class="dashboard-name">ASHWIN</p>
 
-                <p>ID: {{username}}</p>
+                <p>ID: abcdef</p>
 
                 <div class="dashboard-link">
                     <ul>
-                        <li><a href="/dashboard/institution">Profile</a></li>
-                        <li><a href="#">Create Student</a></li>
-                        <li><a href="/dashboard/institution/search">Search Student</a></li>
-                        <li><a href="/dashboard/institution/edit">Edit Student</a></li>
-                        <li><a href="/dashboard/institution/enroll">Add Student</a></li>
-                        <li><a href="/dashboard/institution/remove">Remove Student</a></li>
-                        <li><a href="/dashboard/institution/addcourse">Add Course</a></li>
-                        <li><a href="/dashboard/institution/createapi">Create API Key</a></li>
-                        <li><a href="/dashboard/institution/revokapi">Revoke API Key</a></li>
-
+                        <li><a href="/dashboard/admin">Profile</a></li>
+                        <li><a href="#">Create Profile</a></li>
+                        <li><a href="/dashboard/admin/search">Search profile</a></li>
+                        <li><a href="/dashboard/admin/edit">Edit profile</a></li>
+                                               
+                        <li><a href="/dashboard/admin/createapi">Create API Key</a></li>
+                        <li><a href="/dashboard/admin/revokapi">Revoke API Key</a></li>
                         <li><a class="logout" href="/signout">Logout</a></li>
                     </ul>
                 </div>

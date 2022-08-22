@@ -489,22 +489,36 @@ def create_api(request):
         api_key = func.api_key_gen()
         perm = request.POST.get('type')
         db_instance = api_details(
-            org_name = org_name,
-            api_key = api_key,
-            email = email,
-            permissions = perm
-        )
-        if func.api_mail_creation(email,org_name,api_key):
-            db_instance.save()
+                org_name = org_name,
+                api_key = api_key,
+                email = email,
+                permissions = perm
+            )
+        db_instance.save()
+        apiid = api_details.objects.filter(email=email).values()
+        apiid = apiid[0]['api_id']
+        if func.api_mail_creation(email,org_name,api_key, apiid):
             messages.success(request,"API Key Generated Successfully")
         else:
             messages.success(request,"Something Went Wrong Try Again")
             
-    return render(request, "dashboards\institution\create-api.html",{'username':uname, 'name':nam, 'email':user_email})
+    return render(request, "dashboards\d_admin\create-api.html",{'username':uname, 'name':nam, 'email':user_email})
     
 def revok_api(request):
     uname=request.user.get_username()
     user = User.objects.get(username=uname)
     user_email = user.email
     nam=user.get_full_name()
-    return render(request, "dashboards\institution\evoke-api.html",{'username':uname, 'name':nam, 'email':user_email})
+    if request.method == "POST":
+        apiid = request.POST.get('apiid')
+        try:
+            a = api_details.objects.filter(api_id=apiid).values()
+            email = a[0]['email']
+            api_details.objects.filter(api_id=apiid).delete()
+            func.api_mail_revok(email,apiid)
+            messages.success(request, "API Access Revoked")
+        except api_details.DoesNotExist:
+            messages.success(request, "API ID Not Found")
+        
+        
+    return render(request, "dashboards\d_admin\evoke-api.html",{'username':uname, 'name':nam, 'email':user_email})

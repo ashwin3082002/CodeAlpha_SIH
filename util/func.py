@@ -9,10 +9,25 @@ import json
 import re
 
 #api creation mail
-def api_mail_creation(emailto, orgname, api_key):
+def api_mail_creation(emailto, orgname, api_key, apiid):
     subject = 'IMP: API ACCESS | Student Information Portal'
     to = emailto
-    html_content = render_to_string('mail\create_api.html',{'name':orgname,'key':api_key})
+    html_content = render_to_string('mail\create_api.html',{'name':orgname,'key':api_key,'apiid': apiid})
+    text_content = strip_tags(html_content)
+    email = EmailMultiAlternatives(
+        subject,    
+        text_content,
+        settings.EMAIL_HOST_USER,
+        [to]
+    )
+    email.attach_alternative(html_content,"text/html")
+    email.send()
+    return True
+#api revoke mail
+def api_mail_revok(emailto, apiid):
+    subject = 'API ACCESS REVOKED | Student Information Portal'
+    to = emailto
+    html_content = render_to_string('mail\evoke_api.html',{'apiid': apiid})
     text_content = strip_tags(html_content)
     email = EmailMultiAlternatives(
         subject,    
