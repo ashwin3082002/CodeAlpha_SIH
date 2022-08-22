@@ -7,7 +7,7 @@ from sip_db.models import institution_detail, student_detail, degree, course, do
 from util import func
 from django.contrib import messages
 
-# Create your views here.
+# ADMIN VIEWS
 def admin(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -52,7 +52,7 @@ def admin(request):
                 messages.success(request, "Successfully created institution profile.")
                 return redirect('/dashboard/admin')
             else:
-                messages.success(request, "Something Went Wrong! Try Again After Some Time")
+                messages.error(request, "Something Went Wrong! Try Again After Some Time")
                 return redirect('/dashboard/admin')
         # getting username from login
         uname=request.user.get_username()
@@ -61,7 +61,7 @@ def admin(request):
 
         user_email = user.email
         name = user.get_full_name()
-        return render(request, 'dashboards\dashboard_admin.html',{'username':uname, 'name':name, 'email':user_email})
+        return render(request, 'dashboards\d_admin\dashboard_admin.html',{'username':uname, 'name':name, 'email':user_email})
     else:
         return redirect('/login/admin')
 
@@ -72,15 +72,15 @@ def admin_search(request):
                 i_id = request.POST.get('institution-id')
                 search_details = institution_detail.objects.filter(id = i_id).values()
                 # no of students enrolled
-                d_details = degree.objects.filter(i_id=i_id).values()
+                d_details = degree.objects.filter(iid=i_id).values()
 
                 if search_details:
-                    return render(request, 'dashboards\dashboard_admin_search.html', {'i': search_details[0],'student_count': len(d_details)})
+                    return render(request, 'dashboards\d_admin\dashboard_admin_search.html', {'i': search_details[0],'student_count': len(d_details)})
                 else:
                     messages.error(request, "Institution not found.")
-                    return render(request, 'dashboards\dashboard_admin_search.html')
+                    return redirect('/dashboard/admin/search')
         else:
-            return render(request, 'dashboards\dashboard_admin_search.html')
+            return render(request, 'dashboards\d_admin\dashboard_admin_search.html')
     else:
         return redirect('/login/admin')
     
@@ -93,10 +93,10 @@ def admin_edit(request):
                 i_id = request.POST.get('institution-id')
                 search_details = institution_detail.objects.filter(id = i_id).values()
                 if search_details:
-                    return render(request, 'dashboards\dashboard_admin_edit.html', {'i': search_details[0]})
+                    return render(request, 'dashboards\d_admin\dashboard_admin_edit.html', {'i': search_details[0]})
                 else:
                     messages.error(request, "Institution not found.")
-                    return render(request, 'dashboards\dashboard_admin_edit.html')
+                    return redirect('/dashboard/admin/edit')
 
 
             # change insti details
@@ -125,66 +125,16 @@ def admin_edit(request):
                     # saving updates to database
                     i.save()
                     messages.success(request, "Successfully updated")
-                    return render(request, 'dashboards\dashboard_admin_edit.html')
+                    return redirect('/dashboard/admin/edit')
                 else:
                     messages.error(request, "Institution not found.")
-                    return render(request, 'dashboards\dashboard_admin_edit.html')
+                    return redirect('/dashboard/admin/edit')
 
-        return render(request, 'dashboards\dashboard_admin_edit.html')
+        return render(request, 'dashboards\d_admin\dashboard_admin_edit.html')
     else:
         return redirect('/login/admin')
 
-
-
-def student(request):
-    if request.user.is_authenticated:
-        uname=request.user.get_username()
-        user_details = student_detail.objects.filter(sid = uname).values()
-        
-        if user_details:
-            return render(request, 'dashboards\dashboard_student.html', {'s': user_details[0]})
-        else:
-            return render(request, 'dashboards\dashboard_student.html')
-    else:
-        return redirect('/login/student')
-
-def student_get_docu(request):
-    if request.user.is_authenticated:
-        uname=request.user.get_username()
-        # create user and degree instances
-        user_details = student_detail.objects.filter(sid = uname).values()
-        degree_details = degree.objects.filter(sid=uname).values()
-        
-        # searching insti where student is studying the degree
-        i_details=[]
-        for i in range(len(degree_details)):
-            temp = degree_details[i]
-            i_details.append(institution_detail.objects.get(id= temp['iid_id']))
-        
-        if request.method=='POST':
-            
-            doc_type = request.POST.get('document-type')
-            i_id = request.POST.get('institution')
-            reason = request.POST.get('reason')
-
-            # creating instances
-            stu = student_detail.objects.get(sid=uname)
-            ins = institution_detail.objects.get(id=i_id)
-            doc_db = docreq(
-                sid=stu,
-                i_id=ins,
-                doc_type=doc_type,
-                reason=reason,
-                status='Pending',
-            )
-            doc_db.save()
-
-            messages.success(request, 'Successfully requested.')
-            return render(request, 'dashboards\dashboard_student_document.html', {'s': user_details[0]})
-            
-        return render(request, 'dashboards\dashboard_student_document.html', {'s': user_details[0], 'd': i_details})
-    else:
-        return redirect('/login/student')
+# INSTITUTION VIEWS
 
 
 def institution(request):
@@ -235,17 +185,19 @@ def institution(request):
                     password= password,
                 )
                 messages.success(request, "Successfully created student profile.")
+                return redirect('/dashboard/institution')
         uname=request.user.get_username()
         user = User.objects.get(username=uname)
         user_email = user.email
         nam=user.get_full_name()
-        return render(request, 'dashboards\dashboard_institution.html',{'username':uname, 'name':nam, 'email':user_email})
+        return render(request, 'dashboards\institution\dashboard_institution.html',{'username':uname, 'name':nam, 'email':user_email})
     else:
         return redirect('/login/institution')
 
 def institution_search(request):
     if request.user.is_authenticated:
         if request.method == "POST":
+            
             uname=request.user.get_username()
             user = User.objects.get(username=uname)
             user_email = user.email
@@ -254,37 +206,37 @@ def institution_search(request):
             search_details = student_detail.objects.filter(sid = s_id).values()
             
             if search_details:
-                return render(request, 'dashboards\dashboard_institution_search.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email})
+                return render(request, 'dashboards\institution\dashboard_institution_search.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email})
             else:
                 messages.error(request, "Student not found.")
-                return render(request, 'dashboards\dashboard_institution_search.html')
+                return redirect('/dashboard/institution/search')
         else:
             uname=request.user.get_username()
             user = User.objects.get(username=uname)
             user_email = user.email
             nam=user.get_full_name()
-            return render(request, 'dashboards\dashboard_institution_search.html',{'username':uname, 'name':nam, 'email':user_email})
+            return render(request, 'dashboards\institution\dashboard_institution_search.html',{'username':uname, 'name':nam, 'email':user_email})
     else:
         return redirect('/login/institution')
 
 def institution_edit(request):
     if request.user.is_authenticated:
+        
         uname=request.user.get_username()
         user = User.objects.get(username=uname)
         user_email = user.email
         nam=user.get_full_name()
-        
-        if request.method == "POST":
 
+        if request.method == "POST":
             # search student
             if 'search' in request.POST:
                 s_id = request.POST.get('s-id')
                 search_details = student_detail.objects.filter(sid = s_id).values()
                 if search_details:
-                    return render(request, 'dashboards\dashboard_institution_edit.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email})
+                    return render(request, 'dashboards\institution\dashboard_institution_edit.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email})
                 else:
                     messages.error(request, "Student not found.")
-                    return render(request, 'dashboards\dashboard_institution_edit.html',  {'username':uname, 'name':nam, 'email':user_email})
+                    return redirect('/dashboard/institution/edit')
 
 
             # change student details
@@ -326,17 +278,17 @@ def institution_edit(request):
                     # saving updates to database
                     s.save()
                     messages.success(request, "Successfully updated")
-                    return render(request, 'dashboards\dashboard_institution_edit.html', {'username':uname, 'name':nam, 'email':user_email})
+                    return redirect('/dashboard/institution/edit')
                 else:
                     messages.error(request, "Student not found.")
-                    return render(request, 'dashboards\dashboard_institution_edit.html', {'username':uname, 'name':nam, 'email':user_email})
+                    return redirect('/dashboard/institution/edit')
 
         
-        return render(request, 'dashboards\dashboard_institution_edit.html', {'username':uname, 'name':nam, 'email':user_email})
+        return render(request, 'dashboards\institution\dashboard_institution_edit.html', {'username':uname, 'name':nam, 'email':user_email})
     else:
         return redirect('/login/institution')
 
-def institution_addstudent(request):
+def institution_enroll_student(request):
     if request.user.is_authenticated:
         if request.method == "POST":
             s_id = request.POST.get('student-id')
@@ -345,12 +297,19 @@ def institution_addstudent(request):
             join_year = request.POST.get('joining-year')
 
             uname=request.user.get_username()
-            stu = student_detail.objects.get(sid = s_id)
-            ins = institution_detail.objects.get(id = uname)
+            
+
+            # get instances
+            try:
+                stu = student_detail.objects.get(sid = s_id)
+                ins = institution_detail.objects.get(id = uname)
+            except:
+                messages.success(request, 'Student ID invalid.')
+                return redirect('/dashboard/institution/enroll')
 
             db_degree = degree(
                 sid = stu,
-                i_id = ins,
+                iid = ins,
                 name = d_name,
                 status = 'Pursuing',
                 discipline = discipline,
@@ -358,17 +317,14 @@ def institution_addstudent(request):
             )
             db_degree.save()
 
-            messages.success(request, 'Successfully assigned student to institution and degree.')
-            user = User.objects.get(username=uname)
-            user_email = user.email
-            nam=user.get_full_name()
-            return render(request, 'dashboards\dashboard_institution_add_student.html', {'username':uname, 'name':nam, 'email':user_email})
+            messages.success(request, 'Successfully enrolled student to institution and degree.')
+            return redirect('/dashboard/institution/enroll')
         else:
             uname=request.user.get_username()
             user = User.objects.get(username=uname)
             user_email = user.email
             nam=user.get_full_name()
-            return render(request, 'dashboards\dashboard_institution_add_student.html', {'username':uname, 'name':nam, 'email':user_email})
+            return render(request, 'dashboards\institution\dashboard_institution_enroll_student.html', {'username':uname, 'name':nam, 'email':user_email})
     else:
         return redirect('/login/institution')
 
@@ -386,28 +342,26 @@ def institution_removestudent(request):
             
 
             messages.success(request, 'Successfully assigned student to institution and degree.')
-            user = User.objects.get(username=uname)
-            user_email = user.email
-            nam=user.get_full_name()
-            return render(request, 'dashboards\dashboard_institution_remove_student.html', {'username':uname, 'name':nam, 'email':user_email})
+            return redirect('/dashboard/institution/remove')
         else:          
             uname=request.user.get_username()
             user = User.objects.get(username=uname)
             user_email = user.email
             nam=user.get_full_name()
-            return render(request, 'dashboards\dashboard_institution_remove_student.html', {'username':uname, 'name':nam, 'email':user_email})
+            return render(request, 'dashboards\institution\dashboard_institution_remove_student.html', {'username':uname, 'name':nam, 'email':user_email})
     else:
         return redirect('/login/institution')
 
 def institution_addcourse(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
+            
+            # get stu id and insti id
             uname=request.user.get_username()
             user = User.objects.get(username=uname)
             user_email = user.email
-            nam = user.get_full_name()
-
-            # get stu id and insti id
+            nam=user.get_full_name()
+            
             s_id = request.POST.get('search-student')
 
             if 'search' in request.POST:
@@ -416,25 +370,30 @@ def institution_addcourse(request):
                 try:
                     s_details = student_detail.objects.get(sid = s_id)  
                     i_details = institution_detail.objects.get(id = uname)
-                    try:
-                        degree_details = degree.objects.get(sid=s_details, i_id=i_details)
-                        return render(request, 'dashboards\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email, 'disabled':'disabled', 's':s_details, 'd':degree_details})
-                    except:
-                        messages.error(request, 'Student not enrolled in your institution.')
-                        return render(request, 'dashboards\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email})
+                    
                 except:
                     messages.error(request, 'Student details invalid.')
-                    return render(request, 'dashboards\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email})
+                    return redirect('/dashboard/institution/addcourse')
                 
-
+                degree_details = degree.objects.get(sid=s_details, iid=i_details, status='Pursuing')
+                if degree_details:
+                    return render(request, 'dashboards\institution\dashboard_institution_add_course.html',
+                        {'username':uname, 'name':nam, 'email':user_email, 'disabled':'disabled', 's':s_details, 'd':degree_details}
+                    )
+                else:
+                    messages.error(request, 'Student not enrolled in your institution.')
+                    return redirect('/dashboard/institution/addcourse')
             elif 'add' in request.POST:
                 
-
                 # get student and institution instances
                 s_details = student_detail.objects.get(sid = s_id)  
                 i_details = institution_detail.objects.get(id = uname)
-                degree_details = degree.objects.get(sid=s_details, i_id=i_details)
-                
+                degree_details = degree.objects.get(sid=s_details, iid=i_details)
+                if degree_details:
+                    pass
+                else:
+                    messages.error(request, 'Student not enrolled in your institution 2')
+                    return redirect('/dashboard/institution/addcourse')
                 
                 # get details
                 course_name = request.POST.get('course-name')
@@ -454,15 +413,67 @@ def institution_addcourse(request):
                     semester = sem,
                 )
                 db_course.save()
-                
+                print('success')
                 messages.success(request, 'Successfully created course in degree')
-                return render(request, 'dashboards\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email})
-
+                return redirect('/dashboard/institution/addcourse')
         else:
             uname=request.user.get_username()
             user = User.objects.get(username=uname)
             user_email = user.email
             nam=user.get_full_name()
-            return render(request, 'dashboards\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email})
+            return render(request, 'dashboards\institution\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email})
     else:
         return redirect('/login/institution')
+
+
+# STUDENT VIEWS
+def student(request):
+    if request.user.is_authenticated:
+        uname=request.user.get_username()
+        user_details = student_detail.objects.filter(sid = uname).values()
+        
+        if user_details:
+            return render(request, 'dashboards\student\dashboard_student.html', {'s': user_details[0]})
+        else:
+            return render(request, 'dashboards\student\dashboard_student.html')
+    else:
+        return redirect('/login/student')
+
+def student_get_docu(request):
+    if request.user.is_authenticated:
+        uname=request.user.get_username()
+        # create user and degree instances
+        user_details = student_detail.objects.filter(sid = uname).values()
+        degree_details = degree.objects.filter(sid=uname).values()
+        
+        # searching insti where student is studying the degree
+        i_details=[]
+        for i in range(len(degree_details)):
+            temp = degree_details[i]
+            i_details.append(institution_detail.objects.get(id= temp['iid_id']))
+        
+        if request.method=='POST':
+            
+            doc_type = request.POST.get('document-type')
+            i_id = request.POST.get('institution')
+            reason = request.POST.get('reason')
+
+            # creating instances
+            stu = student_detail.objects.get(sid=uname)
+            ins = institution_detail.objects.get(id=i_id)
+            doc_db = docreq(
+                sid=stu,
+                i_id=ins,
+                doc_type=doc_type,
+                reason=reason,
+                status='Pending',
+            )
+            doc_db.save()
+
+            messages.success(request, 'Successfully requested.')
+            return render(request, 'dashboards\student\dashboard_student_document.html', {'s': user_details[0]})
+            
+        return render(request, 'dashboards\student\dashboard_student_document.html', {'s': user_details[0], 'd': i_details})
+    else:
+        return redirect('/login/student')
+
