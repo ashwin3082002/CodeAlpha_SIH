@@ -12,7 +12,7 @@ urlpatterns = [
     path('institution', views.institution),
     path('institution/search', views.institution_search),
     path('institution/edit', views.institution_edit),
-    path('institution/add', views.institution_addstudent),
+    path('institution/enroll', views.institution_enroll_student),
     path('institution/remove', views.institution_removestudent),
     path('institution/addcourse', views.institution_addcourse),
     # student
