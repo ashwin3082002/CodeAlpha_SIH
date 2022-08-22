@@ -85,30 +85,31 @@
                 
                                         <br>
                 
-                                        <input type="text" id="search-student"  name="search-student" required >
+                                        <input type="text" id="search-student"  name="search-student" value="{{s.sid}}" required >
                 
                                         <br>
                                         <br>
 										
-										<input type="submit" value="SEARCH">
+										<input type="submit" name="search" {{disabled}} value="SEARCH">
 
                                         <br>
                                         <br>
 
-                                        <label for="degree-id">DEGREE ID:</label>
+                                        <label for="degree-id">DEGREE ID / NAME:</label>
                 
                                         <br>
                 
-                                        <input type="text" id="degree-id"  name="degree-id" required >
+                                        <input type="text" id="degree-id" value="{{d.id}} - {{d.name}}" name="degree-id">
                 
                                         <br>
                                         <br>
+                                    
 
-                                        <label for="degree-name">COURSE NAME:</label>
+                                        <label for="course-name">COURSE NAME:</label>
                 
                                         <br>
                 
-                                        <input type="text" id="degree-name"  name="degree-name" required >
+                                        <input type="text" id="course-name"  name="course-name"  >
                 
                                         <br>
                                         <br>
@@ -117,7 +118,7 @@
                 
                                         <br>
                 
-                                        <input type="text" id="total-mark"  name="total-mark" required >
+                                        <input type="text" id="total-mark"  name="total-mark"  >
 
                                         <br>
                                         <br>
@@ -126,7 +127,7 @@
                 
                                         <br>
                 
-                                        <input type="text" id="obtained-mark"  name="obtained-mark" required >
+                                        <input type="text" id="obtained-mark"  name="obtained-mark">
 
                                         <br>
                                         <br>
@@ -135,7 +136,7 @@
                 
                                         <br>
                 
-                                        <input type="text" id="credits"  name="credits" required >
+                                        <input type="text" id="credits"  name="credits"  >
 
                                         <br>
                                         <br>
@@ -144,14 +145,12 @@
                 
                                         <br>
                 
-                                        <input type="text" id="semester"  name="semester" required >
+                                        <input type="text" id="semester"  name="semester"  >
 
                                         <br>
                                         <br>
 
-
-
-                                        <input value="ADD" type="submit">
+                                        <input value="ADD" name="add" id="add" type="submit">
                 
                                     </form>
 

@@ -362,10 +362,65 @@ def institution_removestudent(request):
 
 def institution_addcourse(request):
     if request.user.is_authenticated:
-        uname=request.user.get_username()
-        user = User.objects.get(username=uname)
-        user_email = user.email
-        nam=user.get_full_name()
-        return render(request, 'dashboards\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email})
+        if request.method == 'POST':
+            uname=request.user.get_username()
+            user = User.objects.get(username=uname)
+            user_email = user.email
+            nam = user.get_full_name()
+
+            # get stu id and insti id
+            s_id = request.POST.get('search-student')
+
+            if 'search' in request.POST:
+                print('going to search')
+                
+                # get student and institution instances
+                s_details = student_detail.objects.get(sid = s_id)  
+                i_details = institution_detail.objects.get(id = uname)
+                degree_details = degree.objects.get(sid=s_details, i_id=i_details)
+                
+                return render(request, 'dashboards\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email, 'disabled':'disabled', 's':s_details, 'd':degree_details})
+
+            elif 'add' in request.POST:
+                
+                print('going into submit')
+
+                # get student and institution instances
+                s_details = student_detail.objects.get(sid = s_id)  
+                i_details = institution_detail.objects.get(id = uname)
+                degree_details = degree.objects.get(sid=s_details, i_id=i_details)
+                
+                
+                # get details
+                course_name = request.POST.get('course-name')
+                t_name = request.POST.get('total-mark')
+                o_name = request.POST.get('total-mark')
+                credits = request.POST.get('credits')
+                sem = request.POST.get('semester')
+
+                print('getting input')
+
+                # save details in database
+                db_course = course(
+                    did =degree_details,
+                    name = course_name,
+                    total_marks = t_name,
+                    obtained_marks = o_name,
+                    credits = credits,
+                    semester = sem,
+                )
+                db_course.save()
+
+                print('print database')
+                
+                messages.success(request, 'Successfully created course in degree')
+                return render(request, 'dashboards\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email})
+
+        else:
+            uname=request.user.get_username()
+            user = User.objects.get(username=uname)
+            user_email = user.email
+            nam=user.get_full_name()
+            return render(request, 'dashboards\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email})
     else:
         return redirect('/login/institution')
