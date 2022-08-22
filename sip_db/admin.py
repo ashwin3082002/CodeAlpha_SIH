@@ -1,8 +1,9 @@
 from django.contrib import admin
-from .models import student_detail, institution_detail, degree, course
+from .models import student_detail, institution_detail, degree, course, docreq
 
 # register your models here
 admin.site.register(student_detail)
 admin.site.register(institution_detail)
 admin.site.register(degree)
 admin.site.register(course)
+admin.site.register(docreq)

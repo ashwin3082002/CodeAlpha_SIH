@@ -151,25 +151,38 @@ def student(request):
 def student_get_docu(request):
     if request.user.is_authenticated:
         uname=request.user.get_username()
+        # create user and degree instances
         user_details = student_detail.objects.filter(sid = uname).values()
         degree_details = degree.objects.filter(sid=uname).values()
-        print(degree_details)
+        
+        # searching insti where student is studying the degree
+        i_details=[]
+        for i in range(len(degree_details)):
+            temp = degree_details[i]
+            i_details.append(institution_detail.objects.get(id= temp['iid_id']))
         
         if request.method=='POST':
             
             doc_type = request.POST.get('document-type')
+            i_id = request.POST.get('institution')
             reason = request.POST.get('reason')
 
+            # creating instances
+            stu = student_detail.objects.get(sid=uname)
+            ins = institution_detail.objects.get(id=i_id)
             doc_db = docreq(
-                sid=uname,
-                i_id=i_id,
+                sid=stu,
+                i_id=ins,
                 doc_type=doc_type,
+                reason=reason,
+                status='Pending',
             )
+            doc_db.save()
 
             messages.success(request, 'Successfully requested.')
             return render(request, 'dashboards\dashboard_student_document.html', {'s': user_details[0]})
             
-        return render(request, 'dashboards\dashboard_student_document.html', {'s': user_details[0], 'd': degree_details})
+        return render(request, 'dashboards\dashboard_student_document.html', {'s': user_details[0], 'd': i_details})
     else:
         return redirect('/login/student')
 

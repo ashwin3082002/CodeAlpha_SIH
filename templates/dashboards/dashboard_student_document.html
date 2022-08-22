@@ -6,6 +6,15 @@
 
 
 {% block main %}
+
+{% if messages %}
+	<div class="messages_d">
+		{% for message in messages %}
+			<p {% if message.tags %}class="{{message.tags}}"{% endif %}>{{message}}</p>
+		{% endfor %}
+	</div>
+{% endif %}
+
 <div class = "dashboard_spacing">
     <div class="dashboard-wrapper">
 
@@ -64,7 +73,7 @@
 
 
                     <div class="details">
-                        <form action="/dashboard/admin/edit" method="POST">
+                        <form action="/dashboard/student/getdocument" method="POST">
                             {% csrf_token %}
                             
                             <label for="document-type">DOCUMENT TYPE:</label>
@@ -81,7 +90,8 @@
                             <br>
                             <select name="institution" id="type" >
                                 {% for i in d %}
-                                <option value="{{i.institution_detail.name}}">{{i.institution_detail.name}}</option>
+                                {% comment %} print insti id in value and insti name in field box {% endcomment %}
+                                <option value="{{i.id}}">{{i.name}}</option>
                                 {% endfor %}
                             </select>
                             <br>
