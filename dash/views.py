@@ -55,19 +55,26 @@ def admin(request):
             else:
                 messages.error(request, "Something Went Wrong! Try Again After Some Time")
                 return redirect('/dashboard/admin')
+
         # getting username from login
         uname=request.user.get_username()
+
         # getting other user details in a obj 'user'
         user = User.objects.get(username=uname)
-
         user_email = user.email
         name = user.get_full_name()
-        return render(request, 'dashboards\d_admin\dashboard_admin.html',{'username':uname, 'name':name, 'email':user_email})
+        return render(request, 'dashboards\d_admin\dashboard_admin.html', {'username':uname, 'name':name, 'email':user_email})
     else:
         return redirect('/login/admin')
 
 def admin_search(request):
     if request.user.is_authenticated:
+        # getting username from login & getting other user details in a obj 'user'
+        uname=request.user.get_username()
+        user = User.objects.get(username=uname)
+        user_email = user.email
+        name = user.get_full_name()
+
         if request.method == "POST":
             if 'search' in request.POST:
                 i_id = request.POST.get('institution-id')
@@ -76,25 +83,34 @@ def admin_search(request):
                 d_details = degree.objects.filter(iid=i_id).values()
 
                 if search_details:
-                    return render(request, 'dashboards\d_admin\dashboard_admin_search.html', {'i': search_details[0],'student_count': len(d_details)})
+                    return render(request, 'dashboards\d_admin\dashboard_admin_search.html',
+                        {'i': search_details[0],'student_count': len(d_details), 'username':uname, 'name':name, 'email':user_email}
+                    )
                 else:
                     messages.error(request, "Institution not found.")
                     return redirect('/dashboard/admin/search')
-        else:
-            return render(request, 'dashboards\d_admin\dashboard_admin_search.html')
+        
+        return render(request, 'dashboards\d_admin\dashboard_admin_search.html', {'username':uname, 'name':name, 'email':user_email})
     else:
         return redirect('/login/admin')
     
 def admin_edit(request):
     if request.user.is_authenticated:
-        if request.method == "POST":
+        # getting username from login & getting other user details in a obj 'user'
+        uname=request.user.get_username()
+        user = User.objects.get(username=uname)
+        user_email = user.email
+        name = user.get_full_name()
 
+        if request.method == "POST":
             # search insti
             if 'search' in request.POST:
                 i_id = request.POST.get('institution-id')
                 search_details = institution_detail.objects.filter(id = i_id).values()
                 if search_details:
-                    return render(request, 'dashboards\d_admin\dashboard_admin_edit.html', {'i': search_details[0]})
+                    return render(request, 'dashboards\d_admin\dashboard_admin_edit.html',
+                        {'i': search_details[0], 'username':uname, 'name':name, 'email':user_email}
+                    )
                 else:
                     messages.error(request, "Institution not found.")
                     return redirect('/dashboard/admin/edit')
@@ -131,9 +147,60 @@ def admin_edit(request):
                     messages.error(request, "Institution not found.")
                     return redirect('/dashboard/admin/edit')
 
-        return render(request, 'dashboards\d_admin\dashboard_admin_edit.html')
+        return render(request, 'dashboards\d_admin\dashboard_admin_edit.html', {'username':uname, 'name':name, 'email':user_email})
     else:
         return redirect('/login/admin')
+
+
+def create_api(request):
+    # getting username from login & getting other user details in a obj 'user'
+    uname=request.user.get_username()
+    user = User.objects.get(username=uname)
+    user_email = user.email
+    name = user.get_full_name()
+
+    if request.method == "POST":
+        org_name = request.POST.get('organization-name')
+        email = request.POST.get('organization-email')
+        api_key = func.api_key_gen()
+        perm = request.POST.get('type')
+        db_instance = api_details(
+                org_name = org_name,
+                api_key = api_key,
+                email = email,
+                permissions = perm
+            )
+        db_instance.save()
+        apiid = api_details.objects.filter(email=email).values()
+        apiid = apiid[0]['api_id']
+        if func.api_mail_creation(email,org_name,api_key, apiid):
+            messages.success(request,"API Key Generated Successfully")
+        else:
+            messages.success(request,"Something Went Wrong Try Again")
+            
+    return render(request, "dashboards\d_admin\create-api.html", {'username':uname, 'name':name, 'email':user_email})
+    
+def revok_api(request):
+    # getting username from login & getting other user details in a obj 'user'
+    uname=request.user.get_username()
+    user = User.objects.get(username=uname)
+    user_email = user.email
+    name = user.get_full_name()
+
+    if request.method == "POST":
+        apiid = request.POST.get('apiid')
+        try:
+            a = api_details.objects.filter(api_id=apiid).values()
+            email = a[0]['email']
+            api_details.objects.filter(api_id=apiid).delete()
+            func.api_mail_revok(email,apiid)
+            messages.success(request, "API Access Revoked")
+        except api_details.DoesNotExist:
+            messages.success(request, "API ID Not Found")
+        
+        
+    return render(request, "dashboards\d_admin\evoke-api.html", {'username':uname, 'name':name, 'email':user_email})
+
 
 # INSTITUTION VIEWS
 
@@ -478,47 +545,3 @@ def student_get_docu(request):
     else:
         return redirect('/login/student')
 
-def create_api(request):
-    uname=request.user.get_username()
-    user = User.objects.get(username=uname)
-    user_email = user.email
-    nam=user.get_full_name()
-    if request.method == "POST":
-        org_name = request.POST.get('organization-name')
-        email = request.POST.get('organization-email')
-        api_key = func.api_key_gen()
-        perm = request.POST.get('type')
-        db_instance = api_details(
-                org_name = org_name,
-                api_key = api_key,
-                email = email,
-                permissions = perm
-            )
-        db_instance.save()
-        apiid = api_details.objects.filter(email=email).values()
-        apiid = apiid[0]['api_id']
-        if func.api_mail_creation(email,org_name,api_key, apiid):
-            messages.success(request,"API Key Generated Successfully")
-        else:
-            messages.success(request,"Something Went Wrong Try Again")
-            
-    return render(request, "dashboards\d_admin\create-api.html",{'username':uname, 'name':nam, 'email':user_email})
-    
-def revok_api(request):
-    uname=request.user.get_username()
-    user = User.objects.get(username=uname)
-    user_email = user.email
-    nam=user.get_full_name()
-    if request.method == "POST":
-        apiid = request.POST.get('apiid')
-        try:
-            a = api_details.objects.filter(api_id=apiid).values()
-            email = a[0]['email']
-            api_details.objects.filter(api_id=apiid).delete()
-            func.api_mail_revok(email,apiid)
-            messages.success(request, "API Access Revoked")
-        except api_details.DoesNotExist:
-            messages.success(request, "API ID Not Found")
-        
-        
-    return render(request, "dashboards\d_admin\evoke-api.html",{'username':uname, 'name':nam, 'email':user_email})
