@@ -42,7 +42,7 @@ class degree(models.Model):
     sid = models.ForeignKey(student_detail, on_delete=models.CASCADE, db_column='sid')
     iid = models.ForeignKey(institution_detail, on_delete=models.CASCADE, db_column='iid')
     name = models.CharField(max_length=100)
-    status = models.CharField(max_length=10) # pursuing, drop , completed
+    status = models.CharField(max_length=10) # Pursuing, Drop , Completed
     discipline = models.CharField(max_length=20)
     year_join = models.CharField(max_length=10)
     year_leave = models.CharField(max_length=10, blank=True, null=True)
