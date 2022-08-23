@@ -260,32 +260,33 @@ def institution(request):
         user = User.objects.get(username=uname)
         user_email = user.email
         nam=user.get_full_name()
-        return render(request, 'dashboards\institution\dashboard_institution.html',{'username':uname, 'name':nam, 'email':user_email})
+        # students enrolled
+        no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+        return render(request, 'dashboards\institution\dashboard_institution.html',{'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
     else:
         return redirect('/login/institution')
 
 def institution_search(request):
     if request.user.is_authenticated:
+        uname=request.user.get_username()
+        user = User.objects.get(username=uname)
+        user_email = user.email
+        nam=user.get_full_name()
+        # students enrolled
+        no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+
         if request.method == "POST":
             
-            uname=request.user.get_username()
-            user = User.objects.get(username=uname)
-            user_email = user.email
-            nam=user.get_full_name()
             s_id = request.POST.get('stu_id')
             search_details = student_detail.objects.filter(sid = s_id).values()
             
             if search_details:
-                return render(request, 'dashboards\institution\dashboard_institution_search.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email})
+                return render(request, 'dashboards\institution\dashboard_institution_search.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
             else:
                 messages.error(request, "Student not found.")
                 return redirect('/dashboard/institution/search')
         else:
-            uname=request.user.get_username()
-            user = User.objects.get(username=uname)
-            user_email = user.email
-            nam=user.get_full_name()
-            return render(request, 'dashboards\institution\dashboard_institution_search.html',{'username':uname, 'name':nam, 'email':user_email})
+            return render(request, 'dashboards\institution\dashboard_institution_search.html',{'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
     else:
         return redirect('/login/institution')
 
@@ -296,6 +297,8 @@ def institution_edit(request):
         user = User.objects.get(username=uname)
         user_email = user.email
         nam=user.get_full_name()
+        # students enrolled
+        no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
 
         if request.method == "POST":
             # search student
@@ -303,7 +306,8 @@ def institution_edit(request):
                 s_id = request.POST.get('s-id')
                 search_details = student_detail.objects.filter(sid = s_id).values()
                 if search_details:
-                    return render(request, 'dashboards\institution\dashboard_institution_edit.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email})
+
+                    return render(request, 'dashboards\institution\dashboard_institution_edit.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
                 else:
                     messages.error(request, "Student not found.")
                     return redirect('/dashboard/institution/edit')
@@ -354,7 +358,7 @@ def institution_edit(request):
                     return redirect('/dashboard/institution/edit')
 
         
-        return render(request, 'dashboards\institution\dashboard_institution_edit.html', {'username':uname, 'name':nam, 'email':user_email})
+        return render(request, 'dashboards\institution\dashboard_institution_edit.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
     else:
         return redirect('/login/institution')
 
@@ -394,7 +398,9 @@ def institution_enroll_student(request):
             user = User.objects.get(username=uname)
             user_email = user.email
             nam=user.get_full_name()
-            return render(request, 'dashboards\institution\dashboard_institution_enroll_student.html', {'username':uname, 'name':nam, 'email':user_email})
+            # students enrolled
+            no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+            return render(request, 'dashboards\institution\dashboard_institution_enroll_student.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
     else:
         return redirect('/login/institution')
 
@@ -418,20 +424,22 @@ def institution_removestudent(request):
             user = User.objects.get(username=uname)
             user_email = user.email
             nam=user.get_full_name()
-            return render(request, 'dashboards\institution\dashboard_institution_remove_student.html', {'username':uname, 'name':nam, 'email':user_email})
+            # students enrolled
+            no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+            return render(request, 'dashboards\institution\dashboard_institution_remove_student.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
     else:
         return redirect('/login/institution')
 
 def institution_addcourse(request):
     if request.user.is_authenticated:
+        # get stu id and insti id
+        uname=request.user.get_username()
+        user = User.objects.get(username=uname)
+        user_email = user.email
+        nam=user.get_full_name()
+        # students enrolled
+        no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
         if request.method == 'POST':
-            
-            # get stu id and insti id
-            uname=request.user.get_username()
-            user = User.objects.get(username=uname)
-            user_email = user.email
-            nam=user.get_full_name()
-            
             s_id = request.POST.get('search-student')
 
             if 'search' in request.POST:
@@ -448,7 +456,7 @@ def institution_addcourse(request):
                 degree_details = degree.objects.get(sid=s_details, iid=i_details, status='Pursuing')
                 if degree_details:
                     return render(request, 'dashboards\institution\dashboard_institution_add_course.html',
-                        {'username':uname, 'name':nam, 'email':user_email, 'disabled':'disabled', 's':s_details, 'd':degree_details}
+                        {'username':uname, 'name':nam, 'email':user_email, 'disabled':'disabled', 's':s_details, 'd':degree_details, 'student_count': no_of_stu}
                     )
                 else:
                     messages.error(request, 'Student not enrolled in your institution.')
@@ -487,11 +495,7 @@ def institution_addcourse(request):
                 messages.success(request, 'Successfully created course in degree')
                 return redirect('/dashboard/institution/addcourse')
         else:
-            uname=request.user.get_username()
-            user = User.objects.get(username=uname)
-            user_email = user.email
-            nam=user.get_full_name()
-            return render(request, 'dashboards\institution\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email})
+            return render(request, 'dashboards\institution\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
     else:
         return redirect('/login/institution')
 
