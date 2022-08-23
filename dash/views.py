@@ -412,26 +412,24 @@ def institution_removestudent(request):
         nam=user.get_full_name()
         # students enrolled
         no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+
         if request.method == "POST":
             s_id = request.POST.get('student-id')
             fmark = request.POST.get('final-mark')
             leave_year = request.POST.get('year')
             leave_type = request.POST.get('type')
 
-            uname=request.user.get_username()
             try:
                 degree_details = degree.objects.get(sid= s_id, iid=uname, status='Pursuing')
             except:
                 messages.error(request, 'Student not found.')
                 return redirect('/dashboard/institution/remove')
-            print(degree_details)
+
             degree_details.grade = fmark
             degree_details.year_leave = leave_year
             degree_details.status = leave_type
             
             degree_details.save()
-            print(degree_details)
-            
 
             messages.success(request, 'Successfully removed student from institution.')
             return redirect('/dashboard/institution/remove')
