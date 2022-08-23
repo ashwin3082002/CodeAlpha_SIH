@@ -1,6 +1,8 @@
+from ast import AsyncFunctionDef
 import email
 from email import message
 from email.headerregistry import Address
+from signal import SIG_DFL
 from urllib import request
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -500,8 +502,17 @@ def student(request):
         uname=request.user.get_username()
         user_details = student_detail.objects.filter(sid = uname).values()
         
+        degree_details = degree.objects.filter(sid=uname).values()
+        
+        i_details=[]
+        for d in degree_details:
+            i_id = d['iid_id']
+            ins = institution_detail.objects.get(id=i_id)
+            i_details.append(ins)
+
+
         if user_details:
-            return render(request, 'dashboards\student\dashboard_student.html', {'s': user_details[0]})
+            return render(request, 'dashboards\student\dashboard_student.html', {'s': user_details[0], 'i':i_details})
         else:
             return render(request, 'dashboards\student\dashboard_student.html')
     else:

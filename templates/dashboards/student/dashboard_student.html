@@ -115,25 +115,17 @@
                         
                         <div>
 
-                            <p class="label">INSTITUTION NAME:</p>
+                            <p class="label">INSTITUTIONS:</p>
                             <p>
-                                {%for institution in institutions%}
-                                -{{institution.name}}
+                                {%for institution in i%}
+                                {{institution.name}} 
+                                (ID: {{institution.id}})
                                 {% endfor %}
                             </p>
 
                         </div>
 
-                        <div>
-
-                            <p class="label">INSTITUTION ID:</p> 
-                            <p>
-                                {%for institution in institutions%}
-                                -{{institution.id}}
-                                {% endfor %}
-                            </p>
-
-                        </div>
+                        
 
                     </div>
 
