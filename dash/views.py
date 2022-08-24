@@ -191,14 +191,20 @@ def revok_api(request):
 
     if request.method == "POST":
         apiid = request.POST.get('apiid')
-        try:
-            a = api_details.objects.filter(api_id=apiid).values()
+        
+        a = api_details.objects.filter(api_id = apiid).values()
+        print(a)
+        if a:
+            print('goin into a')
             email = a[0]['email']
             api_details.objects.filter(api_id=apiid).delete()
             func.api_mail_revok(email,apiid)
             messages.success(request, "API Access Revoked")
-        except api_details.DoesNotExist:
-            messages.success(request, "API ID Not Found")
+            
+        else:
+            messages.error(request, "API ID Not Found")
+            return redirect('/dashboard/admin/revokapi')
+    
         
         
     return render(request, "dashboards\d_admin\evoke-api.html", {'username':uname, 'name':name, 'email':user_email})
