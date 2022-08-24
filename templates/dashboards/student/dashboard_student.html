@@ -118,8 +118,15 @@
                             <p class="label">INSTITUTIONS:</p>
                             <p>
                                 {%for institution in i%}
-                                {{institution.name}} 
-                                (ID: {{institution.id}})
+                                    {{institution.name}} 
+                                    (ID: {{institution.id}})
+                                    {% for degree in d %}
+                                        {% if degree.iid_id == institution.id %}
+                                        <br>&emsp;
+                                        -{{degree.name}}
+                                        
+                                        {% endif %}
+                                    {% endfor %}
                                 {% endfor %}
                             </p>
 

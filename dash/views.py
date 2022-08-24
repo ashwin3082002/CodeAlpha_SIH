@@ -532,7 +532,7 @@ def student(request):
 
 
         if user_details:
-            return render(request, 'dashboards\student\dashboard_student.html', {'s': user_details[0], 'i':i_details})
+            return render(request, 'dashboards\student\dashboard_student.html', {'s': user_details[0], 'i':i_details, 'd':degree_details})
         else:
             return render(request, 'dashboards\student\dashboard_student.html')
     else:
@@ -550,8 +550,10 @@ def student_get_docu(request):
         for i in range(len(degree_details)):
             temp = degree_details[i]
             i_details.append(institution_detail.objects.get(id= temp['iid_id']))
+
+        # display table of requests
         
-        if request.method=='POST':
+        if request.method == 'POST':
             
             doc_type = request.POST.get('document-type')
             i_id = request.POST.get('institution')
@@ -571,8 +573,8 @@ def student_get_docu(request):
 
             messages.success(request, 'Successfully requested.')
             return render(request, 'dashboards\student\dashboard_student_document.html', {'s': user_details[0]})
-            
-        return render(request, 'dashboards\student\dashboard_student_document.html', {'s': user_details[0], 'd': i_details})
+        else:    
+            return render(request, 'dashboards\student\dashboard_student_document.html', {'s': user_details[0], 'd': i_details})
     else:
         return redirect('/login/student')
 
