@@ -17,6 +17,7 @@ urlpatterns = [
     path('institution/enroll', views.institution_enroll_student),
     path('institution/remove', views.institution_removestudent),
     path('institution/addcourse', views.institution_addcourse),
+    path('institution/addcourse/bulk', views.institution_addcourse_bulk),
     # student
     path('student', views.student),
     path('student/getdocument', views.student_get_docu),

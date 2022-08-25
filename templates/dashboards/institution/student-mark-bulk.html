@@ -1,0 +1,142 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Institution
+{% endblock title %}
+
+
+{% block main %}
+
+{% if messages %}
+	<div class="messages_d">
+		{% for message in messages %}
+			<p {% if message.tags %}class="{{message.tags}}"{% endif %}>{{message}}</p>
+		{% endfor %}
+	</div>
+{% endif %}
+
+<div class="dashboard_spacing"> 
+    <div class="dashboard-wrapper">
+
+        <p>INSTITUTION DASHBOARD</p>
+
+        <div class="dashboard">
+
+            <div class="dashboard-head">
+
+                <div class="dashboard-head-top">
+                    
+
+
+                </div>
+
+                <div class="dashboard-head-bottom">
+
+                    
+
+                </div>
+
+            </div>
+
+            <div class="profile-pic">
+
+                <img src="">
+
+            </div>
+
+            <div class="dashboard-nav">
+
+                <p class="dashboard-name">{{name}}</p>
+                <p class="dashboard-id">CURRENT NO OF STUDENTS: {{student_count}}</p>
+
+                <div class="dashboard-link">
+                    <ul>
+                        <li><a href="/dashboard/institution">Profile</a></li>
+                        <li><a href="#">Create Student</a></li>
+                        <li><a href="/dashboard/institution/search">Search Student</a></li>
+                        <li><a href="/dashboard/institution/edit">Edit Student</a></li>
+                        <li><a href="/dashboard/institution/enroll">Add Student</a></li>
+                        <li><a href="/dashboard/institution/remove">Remove Student</a></li>
+                        <li><a href="/dashboard/institution/addcourse">Add Course</a></li>
+                        <li><a class="logout" href="/signout">Logout</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="dashboard-body" id="dashboard-body">
+
+                <div class="profile" id="profile" >
+
+                    <h1>PROFILE</h1>
+
+                    <div class="details">
+
+                        <div>
+
+                            <p class="label">NAME:</p> <p>{{name}}</p>
+
+                        </div>
+
+                        <div>
+
+                            <p class="label">ID:</p> <P>{{username}}</p>
+
+                        </div>
+
+                        <div>
+
+                            <p class="label">EMAIL:</p> <p>{{email}}</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                        <div class="create-profile" id="create-profile">
+
+                            <h1>STUDENT MARKS</h1>
+
+                                </div>
+
+                                <div class="profile-form-container">
+
+                                    <div class="profile-form">
+
+                                        
+                                        <form action="/dashboard/institution/addcourse/bulk" enctype="multipart/form-data" method="post">
+                                                {% csrf_token %}
+                                            <label for="file">UPLOAD FILE:</label>
+                    
+                                            <br>
+
+                                            <input type="file" name="myfile">
+    
+                                            <br>
+                                            <br>
+
+                                            <input value="UPLOAD" type="submit">
+
+                                            <br>
+                                            <br>
+
+                                            <label for="download">Dowload the format of the file to upload   <span> </span> <a href="" download>HERE<a></label>
+                    
+                                        </form>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                    </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+{%endblock main%}

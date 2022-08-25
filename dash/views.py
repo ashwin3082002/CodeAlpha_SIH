@@ -1,14 +1,11 @@
-from ast import AsyncFunctionDef
-import email
-from email import message
-from email.headerregistry import Address
-from signal import SIG_DFL
-from urllib import request
+from ast import Delete
+from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from sip_db.models import api_details, institution_detail, student_detail, degree, course, docreq
 from util import func
 from django.contrib import messages
+import pandas as pd
 
 # ADMIN VIEWS
 def admin(request):
@@ -514,6 +511,31 @@ def institution_addcourse(request):
     else:
         return redirect('/login/institution')
 
+def institution_addcourse_bulk(request):
+    uname=request.user.get_username()
+    user = User.objects.get(username=uname)
+    user_email = user.email
+    nam=user.get_full_name()
+    # students enrolled
+    no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+    if request.method == "POST" and request.FILES['myfile'] :
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(f"{uname+'_bulkaddstu'}.csv", myfile)
+        messages.success(request,f"File Uploaded")
+        filepath = fs.path(filename)
+        df = pd.read_csv(f"{filepath}")
+        for i in range(len(df)) : 
+            sid = df.iloc[i, 0] 
+            did = df.iloc[i, 1]
+            course_name =  df.iloc[i, 2]
+            total_marks = df.iloc[i, 3]
+            obtained_marks = df.iloc[i, 4]
+            credit = df.iloc[i, 5]
+            sem = df.iloc[i, 6]
+            #insert data into bd
+        fs.delete(filename)
+    return render(request, "dashboards\institution\student-mark-bulk.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
 
 # STUDENT VIEWS
 
