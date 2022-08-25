@@ -1,3 +1,4 @@
+from distutils.command import upload
 from turtle import ondrag
 from django.db import models
 
@@ -18,6 +19,7 @@ class student_detail(models.Model):
     city = models.CharField(max_length=30, default='')
     state = models.CharField(max_length=20, default='')
     pincode = models.CharField(max_length=6, default='')
+    profile_pic = models.ImageField(null = True, blank = True , upload_to = 'profilepic/')
     
     
     
@@ -88,7 +90,9 @@ class api_details(models.Model):
 class account_detail(models.Model):
     acc_id = models.AutoField(primary_key=True)
     sid = models.ForeignKey(student_detail, on_delete=models.CASCADE)
+    holder_name = models.CharField(max_length=50)
     acc_number = models.CharField(max_length=20)
     bank_name = models.CharField(max_length=50)
     branch_name = models.CharField(max_length=100)
     ifsc = models.CharField(max_length=50)
+    
