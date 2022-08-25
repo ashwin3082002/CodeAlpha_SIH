@@ -51,8 +51,8 @@
 
                 <div class="dashboard-link">
                     <ul>
-                        <li><a href="/dashboard/institution" onclick="profile()">Profile</a></li>
-                        <li><a href="/dashboard/institution" onclick="createprofile()">Create Student</a></li>
+                        <li><a href="#" onclick="profile()">Profile</a></li>
+                        <li><a href="#" onclick="createprofile()">Create Student</a></li>
                         <li><a href="/dashboard/institution/search">Search Student</a></li>
                         <li><a href="/dashboard/institution/edit">Edit Student</a></li>
                         <li><a href="/dashboard/institution/enroll">Enroll Student</a></li>
@@ -65,42 +65,31 @@
 
             <div class="dashboard-body" id="dashboard-body">
 
-                <div class="profile" id="profile" style="display: none;" >
+                <div class="profile" id="profile" style="display: show;" >
 
                     <h1>PROFILE</h1>
-
                     <div class="details">
-
                         <div>
-
                             <p class="label">NAME:</p> <p>{{name}}</p>
-
                         </div>
-
                         <div>
-
                             <p class="label">ID:</p> <P>{{username}}</p>
-
                         </div>
-
                         <div>
-
                             <p class="label">EMAIL:</p> <p>{{email}}</p>
-
                         </div>
-
                     </div>
-
                 </div>
 
                 <div class="create-profile" id="create-profile" style="display: none;">
+                    <h1>CREATE STUDENT PROFILE</h1>
 
-                    <h1>CREATE PROFILE</h1>
+                    <div style="padding-left: 0px;">
+                        <button onMouseOver="this.style.color='#000000'" onMouseOut="this.style.color='#565a61'"style="cursor:pointer; padding: 8px; border-radius: 10px; border:none; font-size: 1.1rem; background-color: #ffdd00; color: #565a61;"> <a href="/dashboard/institution/create/bulk" style="text-decoration: None; color:#565a61;"> UPLOAD IN BULK</a></button>     
+                    </div>
 
                     <div class="profile-form-container">
-
                         <div class="profile-form">
-
                             <form action="/dashboard/institution" method="post">
                                 {% csrf_token %}
                                 
