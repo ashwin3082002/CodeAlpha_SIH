@@ -316,6 +316,7 @@ footer span a{
 
 
 .profile-form-container{
+	padding-top: 10px;
 	min-width:100vw;
 	padding: 10px;
 	background-color: #ffffff;
