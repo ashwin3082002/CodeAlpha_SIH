@@ -427,27 +427,28 @@ def institution_enroll_bulk(request):
         for i in range(len(df)) : 
 
             sid = df.iloc[i, 0] 
-            degree_name = df.iloc[i, 1]
+            d_name = df.iloc[i, 1]
             discipline =  df.iloc[i, 2]
-            joining_year = df.iloc[i, 3]
+            join_year = df.iloc[i, 3]
             try:    
-                s_details = student_detail.objects.get(id=sid)
+                stu = student_detail.objects.get(sid=sid)
+                ins = institution_detail.objects.get(id=uname)
             except:
-                messages.error(f'Degree ID: {sid} not valid')
+                messages.error(f'Student ID: {sid} not valid')
                 return redirect('/dashboard/institution/enroll/bulk')
             #insert data into db
             db_degree = degree(
-                sid =s_details,
-                name = course_name,
-                total_marks = t_marks,
-                obtained_marks = o_marks,
-                credits = credit,
-                semester = sem,
+                sid = stu,
+                iid = ins,
+                name = d_name,
+                status = 'Pursuing',
+                discipline = discipline,
+                year_join = join_year,
             )
-            db_course.save()
+            db_degree.save()
 
         fs.delete(filename)
-    return render(request, "dashboards\institution\dash_bulk_addcourse.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
+    return render(request, "dashboards\institution\dash_bulk_enrollstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
 
 def institution_removestudent(request):
     if request.user.is_authenticated:
