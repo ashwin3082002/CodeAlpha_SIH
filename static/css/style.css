@@ -1348,3 +1348,22 @@ footer span a{
 	font-size: 1.3rem;
 	font-family: 'Source Sans Pro', Helvetica, Arial, Lucida, sans-serif;
 }
+
+/* table */
+
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 80%;
+	float: left;
+  }
+  
+  td, th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+	background-color: #dddddd;
+  }
