@@ -549,10 +549,8 @@ def institution_addcourse_bulk(request):
             )
             db_course.save()
 
-
-
         fs.delete(filename)
-    return render(request, "dashboards\institution\student-mark-bulk.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
+    return render(request, "dashboards\institution\dash_bulk_addcourse.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
 
 # STUDENT VIEWS
 
