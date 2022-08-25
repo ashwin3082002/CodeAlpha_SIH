@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Institution
+{% endblock title %}
+
+
+{% block main %}
+
+{% if messages %}
+	<div class="messages_d">
+		{% for message in messages %}
+			<p {% if message.tags %}class="{{message.tags}}"{% endif %}>{{message}}</p>
+		{% endfor %}
+	</div>
+{% endif %}
+
+<div class="dashboard_spacing">    
+    <div class="dashboard-wrapper">
+
+        <p>ADMIN DASHBOARD</p>
+
+        <div class="dashboard">
+            <div class="dashboard-head">
+                <div class="dashboard-head-top">
+                </div>
+                <div class="dashboard-head-bottom">
+                </div>
+            </div>
+
+            <div class="profile-pic">
+                <img src="">
+            </div>
+
+            <div class="dashboard-nav">
+
+                <p class="dashboard-name">{{name}}</p>
+
+                <div class="dashboard-link">
+                    <ul>
+                        <li><a href='#' onclick="profile()">Profile</a></li>
+                        <li><a href='#' onclick="createprofile()">Create Profile</a></li>
+                        <li><a href="/dashboard/admin/search">Search profile</a></li>
+                        <li><a href="/dashboard/admin/edit">Edit profile</a></li>
+                        <li><a href="/dashboard/admin/createapi">Create API Key</a></li>
+                        <li><a href="/dashboard/admin/revokapi">Revoke API Key</a></li>
+                        <li><a class="logout" href="/signout">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="dashboard-body" id="dashboard-body">
+
+                <div class="create-profile" id="create-profile">
+
+                    <h1>CREATE INSTITUTION - BULK</h1>
+
+                </div>
+
+                <div class="profile-form-container">
+
+                    <div class="profile-form">
+
+                        <form action="/dashboard/admin/bulk" enctype="multipart/form-data" method="post">
+                            
+                            {% csrf_token %}
+                            
+                            <label for="file">UPLOAD FILE:</label>
+                            <br>
+                            <input type="file" name="myfile">
+                            <br>
+                            <br>
+                            <input value="UPLOAD" type="submit">
+                            <br>
+                            <br>
+                            <label for="download">Upload the file in <a href="" download>this format<a></label>.
+    
+                        </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock main%}

@@ -6,6 +6,7 @@ from . import views
 urlpatterns = [
     # admin
     path('admin',views.admin),
+    path('admin/bulk', views.admin_bulk),
     path('admin/search', views.admin_search),
     path('admin/edit', views.admin_edit),
     path('admin/createapi',views.create_api),

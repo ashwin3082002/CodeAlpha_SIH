@@ -43,7 +43,6 @@
                         <li><a href='#' onclick="createprofile()">Create Profile</a></li>
                         <li><a href="/dashboard/admin/search">Search profile</a></li>
                         <li><a href="/dashboard/admin/edit">Edit profile</a></li>
-                                               
                         <li><a href="/dashboard/admin/createapi">Create API Key</a></li>
                         <li><a href="/dashboard/admin/revokapi">Revoke API Key</a></li>
                         <li><a class="logout" href="/signout">Logout</a></li>
@@ -54,6 +53,7 @@
             <div class="dashboard-body" id="dashboard-body">
                 <div class="profile" id="profile"  style="display: show;">
                     <h1>PROFILE</h1>
+                    
                     <div class="details">
                         <div>
                             <p class="label">NAME:</p> <p>{{name}}</p>
@@ -68,7 +68,12 @@
                 </div>
 
                 <div class="create-profile" id="create-profile" style="display: none;">
-                    <h1>CREATE PROFILE</h1>
+                    <h1>CREATE INSTITUTION PROFILE</h1>
+                    
+                    {% comment %} Bulk {% endcomment %}
+                    <div style="padding-left: 0px;">
+                        <button onMouseOver="this.style.color='#000000'" onMouseOut="this.style.color='#565a61'"style="cursor:pointer; padding: 8px; border-radius: 10px; border:none; font-size: 1.1rem; background-color: #ffdd00; color: #565a61;"> <a href="/dashboard/admin/bulk" style="text-decoration: None; color:#565a61;"> UPLOAD IN BULK</a></button>     
+                    </div>
 
                     <div class="profile-form-container">
                         <div class="profile-form">
@@ -131,14 +136,6 @@
         
                             </form>
                         </div>
-                    </div>
-                </div>
-
-                <div class="edit-profile" id="edit-profile" style="display: none;">
-
-                    <h1>EDIT PROFILE</h1>
-
-                    <div class="details">
                     </div>
                 </div>
             </div>

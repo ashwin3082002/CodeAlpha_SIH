@@ -65,6 +65,72 @@ def admin(request):
     else:
         return redirect('/login/admin')
 
+def admin_bulk(request):
+    if request.user.is_authenticated:
+        if request.method == "POST" and request.FILES['myfile'] :
+            
+            myfile = request.FILES['myfile']
+            fs = FileSystemStorage()
+            filename = fs.save(f"{uname+'_bulkaddstu'}.csv", myfile)
+            messages.success(request,f"File Uploaded")
+            filepath = fs.path(filename)
+            df = pd.read_csv(f"{filepath}")
+
+            for i in range(len(df)) : 
+                i_name = df.iloc[i, 0] 
+                i_type = df.iloc[i, 1]
+                i_email =  df.iloc[i, 2]
+                i_contact = df.iloc[i, 3]
+                i_state = df.iloc[i, 4]
+                i_city = df.iloc[i, 5]
+                i_pincode = df.iloc[i, 6]
+
+                
+                #generate insti id and pass
+                i_id = func.insti_id_gen()
+                password = User.objects.make_random_password()
+
+                # to send id and pass as email
+                if func.insti_creation(i_email,i_id,password):
+                    #database instance
+                    db_insti = institution_detail(
+                        id= i_id,
+                        name=i_name,
+                        type_insti=i_type,
+                        email=i_email,
+                        contact = i_contact,
+                        state = i_state,
+                        city = i_city,
+                        pincode = i_pincode,
+                    )
+                    db_insti.save()
+
+                    #create new user and grant staff status
+                    User.objects.create_user(
+                        first_name = i_name,
+                        username = i_id, 
+                        email = i_email,
+                        password = password,
+                        is_staff = True
+                    )
+                else:
+                    messages.error(request, "Something Went Wrong! Try Again After Some Time")
+                    return redirect('/dashboard/admin/bulk')
+            fs.delete(filename)
+            messages.success(request, "Successfully created institution profiles.")
+            return redirect('/dashbord/admin/bulk')
+
+        # getting username from login
+        uname=request.user.get_username()
+
+        # getting other user details in a obj 'user'
+        user = User.objects.get(username=uname)
+        user_email = user.email
+        name = user.get_full_name()
+        return render(request, 'dashboards\d_admin\dash_bulk_create.html', {'username':uname, 'name':name, 'email':user_email})
+    else:
+        return redirect('/login/admin')
+
 def admin_search(request):
     if request.user.is_authenticated:
         # getting username from login & getting other user details in a obj 'user'
@@ -91,7 +157,7 @@ def admin_search(request):
         return render(request, 'dashboards\d_admin\dashboard_admin_search.html', {'username':uname, 'name':name, 'email':user_email})
     else:
         return redirect('/login/admin')
-    
+
 def admin_edit(request):
     if request.user.is_authenticated:
         # getting username from login & getting other user details in a obj 'user'
@@ -176,7 +242,7 @@ def create_api(request):
             messages.success(request,"Something Went Wrong Try Again")
             
     return render(request, "dashboards\d_admin\create-api.html", {'username':uname, 'name':name, 'email':user_email})
-    
+
 def revok_api(request):
     # getting username from login & getting other user details in a obj 'user'
     uname=request.user.get_username()
@@ -332,7 +398,12 @@ def institution_createbulk(request):
                 )
             else:
                 messages.error(request, f'Cannot create {s_name}\'s profile.')
+                return redirect('/dashboard/institution/create/bulk')
+
         fs.delete(filename)
+        messages.success(request, 'The student profiles have been created successfully')
+        return redirect('/dashboard/institution/create/bulk')
+
     return render(request, "dashboards\institution\dash_bulk_createstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
 
 def institution_search(request):
@@ -525,6 +596,8 @@ def institution_enroll_bulk(request):
             db_degree.save()
 
         fs.delete(filename)
+        messages.success(request, 'The students have been enrolled successfully')
+        return redirect('/dashboard/institution/enroll/bulk')
     return render(request, "dashboards\institution\dash_bulk_enrollstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
 
 def institution_removestudent(request):
@@ -605,6 +678,8 @@ def institution_removestudent_bulk(request):
                 degree_details.save()
 
             fs.delete(filename)
+            messages.success(request, 'The student profiles have successfully')
+            return redirect('/dashboard/institution/create/bulk')
         return render(request, "dashboards\institution\dash_bulk_enrollstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
 
 def institution_addcourse(request):
