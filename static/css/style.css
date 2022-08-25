@@ -1334,3 +1334,16 @@ footer span a{
 .srcbtn button:hover{
 	scale:1.1;
 }
+/* new changes -- mithun */
+
+.features .feature h3{
+	background-color: #ffdd00;
+	border-radius: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	box-shadow:0 0 5px black;
+}
+.features .feature p{
+	font-size: 1.3rem;
+	font-family: 'Source Sans Pro', Helvetica, Arial, Lucida, sans-serif;
+}
