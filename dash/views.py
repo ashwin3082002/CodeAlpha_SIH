@@ -47,6 +47,11 @@ def admin(request):
                     is_staff = True
                 )
                 #new_user.is_staff = True
+                # upload pic
+                if request.FILES['profilepic']:
+                    pic = request.FILES['profilepic']
+                    db_insti.profile_pic = pic
+                    db_insti.save()
 
                 messages.success(request, "Successfully created institution profile.")
                 return redirect('/dashboard/admin')
@@ -320,7 +325,7 @@ def institution(request):
                     email = email,
                     password= password,
                 )
-                
+
                 # upload pic
                 if request.FILES['profilepic']:
                     pic = request.FILES['profilepic']
@@ -497,10 +502,17 @@ def institution_edit(request):
                     s.city= s_city
                     s.state= s_state
                     s.pincode= s_pincode
-
+                    
                     # saving updates to database
                     s.save()
-                    messages.success(request, "Successfully updated")
+
+                    # upload pic
+                    if request.FILES['profilepic']:
+                        print('going into if')
+                        pic = request.FILES['profilepic']
+                        s.profile_pic = pic
+                        s.save()
+                    messages.success(request, "Successfully updated.")
                     return redirect('/dashboard/institution/edit')
                 else:
                     messages.error(request, "Student not found.")
