@@ -149,7 +149,6 @@ def admin_edit(request):
     else:
         return redirect('/login/admin')
 
-
 def create_api(request):
     # getting username from login & getting other user details in a obj 'user'
     uname=request.user.get_username()
@@ -205,7 +204,6 @@ def revok_api(request):
 
 
 # INSTITUTION VIEWS
-
 
 def institution(request):
     if request.user.is_authenticated:
