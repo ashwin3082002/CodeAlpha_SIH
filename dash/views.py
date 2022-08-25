@@ -426,11 +426,11 @@ def institution_enroll_bulk(request):
         df = pd.read_csv(f"{filepath}")
         for i in range(len(df)) : 
 
-            sid = df.iloc[i, 0] 
+            sid = df.iloc[i, 0]
             d_name = df.iloc[i, 1]
             discipline =  df.iloc[i, 2]
             join_year = df.iloc[i, 3]
-            try:    
+            try:
                 stu = student_detail.objects.get(sid=sid)
                 ins = institution_detail.objects.get(id=uname)
             except:
@@ -484,6 +484,44 @@ def institution_removestudent(request):
             return render(request, 'dashboards\institution\dashboard_institution_remove_student.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
     else:
         return redirect('/login/institution')
+
+def institution_removestudent_bulk(request):
+        uname=request.user.get_username()
+        user = User.objects.get(username=uname)
+        user_email = user.email
+        nam=user.get_full_name()
+
+        # students enrolled
+        no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+
+        if request.method == "POST" and request.FILES['myfile'] :
+            myfile = request.FILES['myfile']
+            fs = FileSystemStorage()
+            filename = fs.save(f"{uname+'_bulkaddstu'}.csv", myfile)
+            messages.success(request,f"File Uploaded")
+            filepath = fs.path(filename)
+            df = pd.read_csv(f"{filepath}")
+
+            for i in range(len(df)) : 
+                sid = df.iloc[i, 0]
+                fmark = df.iloc[i, 1]
+                leave_year =  df.iloc[i, 2]
+                leave_type = df.iloc[i, 3]
+
+                try:
+                    degree_details = degree.objects.get(sid= sid, iid=uname, status='Pursuing')
+                except:
+                    messages.error(request, 'Student not found.')
+                    return redirect('/dashboard/institution/remove/bulk')
+
+                #insert data into db
+                degree_details.grade = fmark
+                degree_details.year_leave = leave_year
+                degree_details.status = leave_type
+                degree_details.save()
+
+            fs.delete(filename)
+        return render(request, "dashboards\institution\dash_bulk_enrollstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
 
 def institution_addcourse(request):
     if request.user.is_authenticated:
