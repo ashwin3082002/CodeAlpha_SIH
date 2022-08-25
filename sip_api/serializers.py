@@ -1,6 +1,6 @@
 from dataclasses import fields
 from rest_framework import serializers
-from sip_db.models import api_details, student_detail
+from sip_db.models import api_details, degree, student_detail
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:

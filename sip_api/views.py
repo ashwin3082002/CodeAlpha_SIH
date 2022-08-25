@@ -1,6 +1,7 @@
+from unittest import result
 from sip_api.serializers import StudentSerializer, ApikeySerializer
 from rest_framework.views import APIView
-from sip_db.models import institution_detail, student_detail
+from sip_db.models import degree, institution_detail, student_detail
 from django.http import JsonResponse
 from sip_db.models import student_detail, api_details
 # Create your views here.
@@ -33,3 +34,57 @@ class student_status(APIView):
                     return JsonResponse({'status':'Permission Denied',"message":"You are not authorized to use this API"})
             else:
                 return JsonResponse({'status':'Permission Denied',"message":"You Don't Have permission to query this API"})
+
+class current_insti(APIView):
+    def get(self,request,*args,**kwargs):
+        sid = self.request.query_params.get("sid")
+        api_key = self.request.query_params.get("api_key")
+        if api_key == None:
+            return JsonResponse({'status':'Permission Denied',"message":"You are not authorized to use this API"})
+        else:
+            search_details = student_detail.objects.filter(sid = sid).values()
+            search_details_api = api_details.objects.filter(api_key=api_key).values()
+            perm = search_details_api[0]['permissions']
+            if perm == "institution":
+                serializer1 = ApikeySerializer(search_details_api, many = True)
+                d = degree.objects.filter(sid=sid, status = 'Pursuing').values()
+                if serializer1.data==[]:
+                    return JsonResponse({'status':'Permission Denied',"message":"You are not authorized to use this API"})
+                elif api_key == serializer1.data[0]['api_key']:
+                    if d:
+                        iid_dict={}
+                        for i in range(len(d)):
+                            iid = d[i]['iid_id']
+                            nam = institution_detail.objects.get(id = iid).name
+                            iid_dict[iid]=nam  
+                        result_dict = {"Status":"Success"}
+                        result_dict['data']=iid_dict
+                        return JsonResponse(result_dict)
+                    else:
+                        return JsonResponse({"Status":"Failed","Message":"SID Doesn't Exists"})
+            else:
+                return JsonResponse({'status':'Permission Denied',"message":"You Don't Have permission to query this API"})
+
+class stu_detail(APIView):
+    def get(self,request,*args,**kwargs):
+        sid = self.request.query_params.get("sid")
+        api_key = self.request.query_params.get("api_key")
+        if api_key == None:
+            return JsonResponse({'status':'Permission Denied',"message":"You are not authorized to use this API"})
+        else:
+            search_details = student_detail.objects.filter(sid = sid).values()
+            search_details_api = api_details.objects.filter(api_key=api_key).values()
+            perm = search_details_api[0]['permissions']
+            if perm == 'details':
+                serializer1 = ApikeySerializer(search_details_api, many = True)
+                if serializer1.data == []:
+                    return JsonResponse({'status':'Permission Denied',"message":"You are not authorized to use this API"})
+                elif api_key == serializer1.data[0]['api_key']:
+                    d = student_detail.objects.filter(sid=sid).values()
+                    if d:
+                        d=d[0]
+                        result_dict = {"Status":"Success"}
+                        result_dict['data'] = d
+                        return JsonResponse(result_dict)
+                    else:
+                        return JsonResponse({"Status":"Failed","Message":"SID Doesn't Exists"})
