@@ -14,18 +14,22 @@ class student_status(APIView):
         else:
             search_details = student_detail.objects.filter(sid = sid).values()
             search_details_api = api_details.objects.filter(api_key=api_key).values()
-            serializer = StudentSerializer(search_details, many=True)
-            serializer1 = ApikeySerializer(search_details_api, many = True)
-            if serializer1.data == []:
-                return JsonResponse({'status':'Permission Denied',"message":"You are not authorized to use this API"})
-            elif api_key == serializer1.data[0]['api_key']:
-                if serializer.data == []:
-                    return JsonResponse({'status':'failed','message':'user does not exist'})
+            perm = search_details_api[0]['permissions']
+            if perm == 'status': 
+                serializer = StudentSerializer(search_details, many=True)
+                serializer1 = ApikeySerializer(search_details_api, many = True)
+                if serializer1.data == []:
+                    return JsonResponse({'status':'Permission Denied',"message":"You are not authorized to use this API"})
+                elif api_key == serializer1.data[0]['api_key']:
+                    if serializer.data == []:
+                        return JsonResponse({'status':'failed','message':'user does not exist'})
+                    else:
+                        data = serializer.data[0]['active_status']
+                        if data == "True":
+                            return JsonResponse({'status':"success",'student_status' : "Active"}, safe=False)
+                        elif data == "False":
+                            return JsonResponse({'status':"success",'student_status' : "InActive"}, safe=False)
                 else:
-                    data = serializer.data[0]['active_status']
-                    if data == "True":
-                        return JsonResponse({'status':"success",'student_status' : "Active"}, safe=False)
-                    elif data == "False":
-                        return JsonResponse({'status':"success",'student_status' : "InActive"}, safe=False)
+                    return JsonResponse({'status':'Permission Denied',"message":"You are not authorized to use this API"})
             else:
-                return JsonResponse({'status':'Permission Denied',"message":"You are not authorized to use this API"})
+                return JsonResponse({'status':'Permission Denied',"message":"You Don't Have permission to query this API"})

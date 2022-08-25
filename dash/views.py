@@ -1,4 +1,3 @@
-from ast import Delete
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -190,9 +189,7 @@ def revok_api(request):
         apiid = request.POST.get('apiid')
         
         a = api_details.objects.filter(api_id = apiid).values()
-        print(a)
         if a:
-            print('goin into a')
             email = a[0]['email']
             api_details.objects.filter(api_id=apiid).delete()
             func.api_mail_revok(email,apiid)
@@ -673,7 +670,6 @@ def institution_addcourse(request):
                     semester = sem,
                 )
                 db_course.save()
-                print('success')
                 messages.success(request, 'Successfully created course in degree')
                 return redirect('/dashboard/institution/addcourse')
         else:
