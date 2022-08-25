@@ -1,5 +1,3 @@
 **/__pycache__
 *.pyc
 sip_db/migrations/
-dash/__pycache__
-media/__pycache__

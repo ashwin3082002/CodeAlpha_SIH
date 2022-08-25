@@ -809,13 +809,36 @@ def institution_docreq(request):
                     return render(request, 'dashboards\institution\dash_doc.html',
                         {'username':uname,
                          'name':nam,
-                         'email':user_email, 
+                         'email':user_email,
                          'student_count': no_of_stu,
                          'docrequest':doc,
                         }
                     )
-            
-        
+                else:
+                    messages.error(request, 'No records found.')
+                    return redirect('/dashboard/institution/docreq')
+
+            elif 'accept' in request.POST:
+                doc_id = request.POST.get('doc-id')
+                try:
+                    doc = docreq.objects.get(id=doc_id)
+                except:
+                    messages.error(request, 'Invalid Document ID.')
+                doc.status = 'Accepted'
+                doc.save()
+                # send mail
+
+            elif 'reject' in request.POST:
+                doc_id = request.POST.get('doc-id')
+                try:
+                    doc = docreq.objects.get(id=doc_id)
+                except:
+                    messages.error(request, 'Invalid Document ID.')
+                doc.status = 'Rejected'
+                doc.save()
+                # send mail
+
+
         return render(request, 'dashboards\institution\dash_doc.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
     else:
         return redirect('/login/institution')

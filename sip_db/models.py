@@ -27,7 +27,7 @@ class student_detail(models.Model):
 class institution_detail(models.Model):
     id = models.CharField(primary_key=True, max_length=10)
     name = models.CharField(max_length=50)
-    type_insti = models.CharField(max_length=50)
+    type_insti = models.CharField(max_length=50) 
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
     pincode = models.CharField(max_length=50)
@@ -84,3 +84,11 @@ class api_details(models.Model):
 
     def __str__(self):
         return self.org_name
+
+class account_detail(models.Model):
+    acc_id = models.AutoField(primary_key=True)
+    sid = models.ForeignKey(student_detail, on_delete=models.CASCADE)
+    acc_number = models.CharField(max_length=20)
+    bank_name = models.CharField(max_length=50)
+    branch_name = models.CharField(max_length=100)
+    ifsc = models.CharField(max_length=50)

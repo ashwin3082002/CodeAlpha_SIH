@@ -85,8 +85,7 @@
                                     <option value="options" hidden>SELECT OPTION</option>
                                     <option value="Pending">PENDING</option>
                                     <option value="Completed">COMPLETED</option>
-                                    
-                                  </select>
+                                </select>
 
                                 <br>
                                 <br>
@@ -101,34 +100,26 @@
 
                                 <form action="/dashboard/institution/getdocu" method="post">
                                     
-                                    <label>DOCUMENT ID:</label>
+                                    <label for="doc-id">DOCUMENT ID:</label>
 
-                                <br>
+                                    <br>
+                                    <input type="text" name="doc-id" >
+                                    <br>
+                                    <br>
 
-                                <input type="text" for="doc-id">
-
-                                <br>
-                                <br>
-
-                                    <input type="submit" value="ACCEPT">
+                                    <input type="submit" name="accept" value="ACCEPT">
 
                                     &nbsp;
                                     &nbsp;
 
-                                    <input type="submit" value="REJECT">
-
+                                    <input type="submit" name="reject" value="REJECT">
                                 </form>
-
                             </div>
-
                         </div>
 
                         <div class="profile-form-container" id="search-results-container" >
-
                             <div class="profile-form">
-
                                 <div class="search-result">
-
                                     <table>
                                         <tr>
                                           <th>DOCUMENT ID</th>
@@ -144,25 +135,14 @@
                                             <td>{{row.reason}}</td>
                                         </tr>
                                         {% endfor %}
-                                        
-                                      </table>
-
+                                    </table>
                                 </div>
-                                
-
                             </div>
                         </div>
-
-
                     </div>
-                        
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 </div>
 
