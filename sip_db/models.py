@@ -95,4 +95,3 @@ class account_detail(models.Model):
     bank_name = models.CharField(max_length=50)
     branch_name = models.CharField(max_length=100)
     ifsc = models.CharField(max_length=50)
-    

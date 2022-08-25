@@ -273,7 +273,7 @@ def revok_api(request):
 
 def institution(request):
     if request.user.is_authenticated:
-        if request.method == "POST":
+        if request.method == "POST" :
             s_name = request.POST.get('stu-name')
             dob = request.POST.get('dob')
             guardian = request.POST.get('guardian')
@@ -286,10 +286,12 @@ def institution(request):
             state = request.POST.get('state')
             pincode = request.POST.get('pincode')
             community = request.POST.get('community')
-            password = User.objects.make_random_password()
             
-            # generate insti id
+            
+            
+            # generate insti id and password
             i_id = func.stu_id_gen()
+            password = User.objects.make_random_password()
 
             if func.stu_creation(email,i_id,password):
                 db_student = student_detail(
@@ -318,6 +320,13 @@ def institution(request):
                     email = email,
                     password= password,
                 )
+                
+                # upload pic
+                if request.FILES['profilepic']:
+                    pic = request.FILES['profilepic']
+                    db_student.profile_pic = pic
+                    db_student.save()
+
                 messages.success(request, "Successfully created student profile.")
                 return redirect('/dashboard/institution')
         uname=request.user.get_username()
