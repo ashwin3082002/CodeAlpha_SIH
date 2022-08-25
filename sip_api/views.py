@@ -15,7 +15,10 @@ class student_status(APIView):
         else:
             search_details = student_detail.objects.filter(sid = sid).values()
             search_details_api = api_details.objects.filter(api_key=api_key).values()
-            perm = search_details_api[0]['permissions']
+            try:
+                perm = search_details_api[0]['permissions']
+            except:
+                return JsonResponse({'status':'Permission Denied',"message":"You are not authorized to use this API"})
             if perm == 'status': 
                 serializer = StudentSerializer(search_details, many=True)
                 serializer1 = ApikeySerializer(search_details_api, many = True)
@@ -42,9 +45,11 @@ class current_insti(APIView):
         if api_key == None:
             return JsonResponse({'status':'Permission Denied',"message":"You are not authorized to use this API"})
         else:
-            search_details = student_detail.objects.filter(sid = sid).values()
             search_details_api = api_details.objects.filter(api_key=api_key).values()
-            perm = search_details_api[0]['permissions']
+            try:
+                perm = search_details_api[0]['permissions']
+            except:
+                return JsonResponse({'status':'Permission Denied',"message":"You are not authorized to use this API"})
             if perm == "institution":
                 serializer1 = ApikeySerializer(search_details_api, many = True)
                 d = degree.objects.filter(sid=sid, status = 'Pursuing').values()
@@ -61,7 +66,7 @@ class current_insti(APIView):
                         result_dict['data']=iid_dict
                         return JsonResponse(result_dict)
                     else:
-                        return JsonResponse({"Status":"Failed","Message":"SID Doesn't Exists"})
+                        return JsonResponse({"Status":"Failed"})
             else:
                 return JsonResponse({'status':'Permission Denied',"message":"You Don't Have permission to query this API"})
 
@@ -74,7 +79,10 @@ class stu_detail(APIView):
         else:
             search_details = student_detail.objects.filter(sid = sid).values()
             search_details_api = api_details.objects.filter(api_key=api_key).values()
-            perm = search_details_api[0]['permissions']
+            try:
+                perm = search_details_api[0]['permissions']
+            except:
+                return JsonResponse({'status':'Permission Denied',"message":"You are not authorized to use this API"})
             if perm == 'details':
                 serializer1 = ApikeySerializer(search_details_api, many = True)
                 if serializer1.data == []:
@@ -88,3 +96,5 @@ class stu_detail(APIView):
                         return JsonResponse(result_dict)
                     else:
                         return JsonResponse({"Status":"Failed","Message":"SID Doesn't Exists"})
+            else:
+                return JsonResponse({'status':'Permission Denied',"message":"You Don't Have permission to query this API"})
