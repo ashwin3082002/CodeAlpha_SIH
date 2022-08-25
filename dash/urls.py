@@ -15,6 +15,7 @@ urlpatterns = [
     path('institution/search', views.institution_search),
     path('institution/edit', views.institution_edit),
     path('institution/enroll', views.institution_enroll_student),
+    path('institution/enroll/bulk', views.institution_enroll_bulk),
     path('institution/remove', views.institution_removestudent),
     path('institution/addcourse', views.institution_addcourse),
     path('institution/addcourse/bulk', views.institution_addcourse_bulk),

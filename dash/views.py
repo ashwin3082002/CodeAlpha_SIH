@@ -407,6 +407,48 @@ def institution_enroll_student(request):
     else:
         return redirect('/login/institution')
 
+def institution_enroll_bulk(request):
+    uname=request.user.get_username()
+    user = User.objects.get(username=uname)
+    user_email = user.email
+    nam=user.get_full_name()
+
+    # students enrolled
+    no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+
+
+    if request.method == "POST" and request.FILES['myfile'] :
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(f"{uname+'_bulkaddstu'}.csv", myfile)
+        messages.success(request,f"File Uploaded")
+        filepath = fs.path(filename)
+        df = pd.read_csv(f"{filepath}")
+        for i in range(len(df)) : 
+
+            sid = df.iloc[i, 0] 
+            degree_name = df.iloc[i, 1]
+            discipline =  df.iloc[i, 2]
+            joining_year = df.iloc[i, 3]
+            try:    
+                s_details = student_detail.objects.get(id=sid)
+            except:
+                messages.error(f'Degree ID: {sid} not valid')
+                return redirect('/dashboard/institution/enroll/bulk')
+            #insert data into db
+            db_degree = degree(
+                sid =s_details,
+                name = course_name,
+                total_marks = t_marks,
+                obtained_marks = o_marks,
+                credits = credit,
+                semester = sem,
+            )
+            db_course.save()
+
+        fs.delete(filename)
+    return render(request, "dashboards\institution\dash_bulk_addcourse.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
+
 def institution_removestudent(request):
     if request.user.is_authenticated:
         uname=request.user.get_username()
