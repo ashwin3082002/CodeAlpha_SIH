@@ -12,6 +12,7 @@ urlpatterns = [
     path('admin/revokapi',views.revok_api),
     # insti
     path('institution', views.institution),
+    path('institution/create/bulk', views.institution_createbulk),
     path('institution/search', views.institution_search),
     path('institution/edit', views.institution_edit),
     path('institution/enroll', views.institution_enroll_student),

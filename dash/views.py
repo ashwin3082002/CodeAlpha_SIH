@@ -266,6 +266,77 @@ def institution(request):
     else:
         return redirect('/login/institution')
 
+def institution_createbulk(request):
+    uname=request.user.get_username()
+    user = User.objects.get(username=uname)
+    user_email = user.email
+    nam=user.get_full_name()
+
+    # students enrolled
+    no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+
+
+    if request.method == "POST" and request.FILES['myfile'] :
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(f"{uname+'_bulkaddstu'}.csv", myfile)
+        messages.success(request,f"File Uploaded")
+        filepath = fs.path(filename)
+        df = pd.read_csv(f"{filepath}")
+        for i in range(len(df)) : 
+
+            s_name = df.iloc[i, 0]
+            dob = df.iloc[i, 1]
+            guardian =  df.iloc[i, 2]
+            aadhar = df.iloc[i, 3]
+            gender = df.iloc[i, 4]
+            email = df.iloc[i, 1]
+            contact =  df.iloc[i, 5]
+            address = df.iloc[i, 6]
+            city = df.iloc[i, 7]
+            state = df.iloc[i, 8]
+            pincode =  df.iloc[i, 9]
+            community = df.iloc[i, 10]
+
+            # generate password
+            password = User.objects.make_random_password()
+            
+            # generate insti id
+            i_id = func.stu_id_gen()
+
+            # profile creation
+            if func.stu_creation(email,i_id,password):
+                db_student = student_detail(
+                    sid = i_id,
+                    name = s_name,
+                    dob= dob,
+                    guardian_name = guardian,
+                    email= email,
+                    mobile=contact,
+                    aadhar=aadhar,
+                    gender=gender,
+                    active_status=False,
+                    community= community,
+                    address=address,
+                    city=city,
+                    state=state,
+                    pincode=pincode
+                )
+
+                db_student.save()
+
+                # create student user with no permissions
+                User.objects.create_user(
+                    first_name = s_name,
+                    username = i_id,
+                    email = email,
+                    password= password,
+                )
+            else:
+                messages.error(request, f'Cannot create {s_name}\'s profile.')
+        fs.delete(filename)
+    return render(request, "dashboards\institution\dash_bulk_createstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
+
 def institution_search(request):
     if request.user.is_authenticated:
         uname=request.user.get_username()
@@ -381,6 +452,11 @@ def institution_enroll_student(request):
                 messages.success(request, 'Student ID invalid.')
                 return redirect('/dashboard/institution/enroll')
 
+            # setting student profile to studying status
+            if stu.active_status != True:
+                stu.active_status = True
+                stu.save()
+
             db_degree = degree(
                 sid = stu,
                 iid = ins,
@@ -433,6 +509,12 @@ def institution_enroll_bulk(request):
             except:
                 messages.error(f'Student ID: {sid} not valid')
                 return redirect('/dashboard/institution/enroll/bulk')
+
+            # setting student profile to studying status
+            if stu.active_status != True:
+                stu.active_status = True
+                stu.save()
+
             #insert data into db
             db_degree = degree(
                 sid = stu,
@@ -453,6 +535,7 @@ def institution_removestudent(request):
         user = User.objects.get(username=uname)
         user_email = user.email
         nam=user.get_full_name()
+
         # students enrolled
         no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
 
@@ -473,6 +556,12 @@ def institution_removestudent(request):
             degree_details.status = leave_type
             
             degree_details.save()
+
+            d = degree.objects.filter(sid= s_id, status='Pursuing')
+
+            if len(d) == 0:
+                stu = student_detail.get(sid=s_id)
+                stu.active_status = False
 
             messages.success(request, 'Successfully removed student from institution.')
             return redirect('/dashboard/institution/remove')
