@@ -106,7 +106,9 @@
 
                                         
                                         <form action="/dashboard/institution/addcourse/bulk" enctype="multipart/form-data" method="post">
-                                                {% csrf_token %}
+                                            
+                                            {% csrf_token %}
+                                            
                                             <label for="file">UPLOAD FILE:</label>
                     
                                             <br>
@@ -121,7 +123,7 @@
                                             <br>
                                             <br>
 
-                                            <label for="download">Dowload the format of the file to upload   <span> </span> <a href="" download>HERE<a></label>
+                                            <label for="download">Download the format of the file to upload   <span> </span> <a href="" download>HERE<a></label>
                     
                                         </form>
 

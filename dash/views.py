@@ -465,10 +465,10 @@ def institution_addcourse(request):
                     messages.error(request, 'Student details invalid.')
                     return redirect('/dashboard/institution/addcourse')
                 
-                degree_details = degree.objects.get(sid=s_details, iid=i_details, status='Pursuing')
+                degree_details = degree.objects.filter(sid=s_details, iid=i_details, status='Pursuing').values()
                 if degree_details:
                     return render(request, 'dashboards\institution\dashboard_institution_add_course.html',
-                        {'username':uname, 'name':nam, 'email':user_email, 'disabled':'disabled', 's':s_details, 'd':degree_details, 'student_count': no_of_stu}
+                        {'username':uname, 'name':nam, 'email':user_email, 'disabled':'disabled', 's':s_details, 'd':degree_details[0], 'student_count': no_of_stu}
                     )
                 else:
                     messages.error(request, 'Student not enrolled in your institution.')
@@ -487,8 +487,8 @@ def institution_addcourse(request):
                 
                 # get details
                 course_name = request.POST.get('course-name')
-                t_name = request.POST.get('total-mark')
-                o_name = request.POST.get('total-mark')
+                t_marks = request.POST.get('total-mark')
+                o_marks = request.POST.get('total-mark')
                 credits = request.POST.get('credits')
                 sem = request.POST.get('semester')
 
@@ -497,8 +497,8 @@ def institution_addcourse(request):
                 db_course = course(
                     did =degree_details,
                     name = course_name,
-                    total_marks = t_name,
-                    obtained_marks = o_name,
+                    total_marks = t_marks,
+                    obtained_marks = o_marks,
                     credits = credits,
                     semester = sem,
                 )
@@ -529,11 +529,28 @@ def institution_addcourse_bulk(request):
             sid = df.iloc[i, 0] 
             did = df.iloc[i, 1]
             course_name =  df.iloc[i, 2]
-            total_marks = df.iloc[i, 3]
-            obtained_marks = df.iloc[i, 4]
+            t_marks = df.iloc[i, 3]
+            o_marks = df.iloc[i, 4]
             credit = df.iloc[i, 5]
             sem = df.iloc[i, 6]
-            #insert data into bd
+            try:    
+                d_details = degree.objects.get(id=did)
+            except:
+                messages.error(f'Degree ID: {did} not valid')
+                return redirect('/dashboard/institution/addcourse/bulk')
+            #insert data into db
+            db_course = course(
+                did =d_details,
+                name = course_name,
+                total_marks = t_marks,
+                obtained_marks = o_marks,
+                credits = credit,
+                semester = sem,
+            )
+            db_course.save()
+
+
+
         fs.delete(filename)
     return render(request, "dashboards\institution\student-mark-bulk.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
 
@@ -573,10 +590,10 @@ def student_get_docu(request):
             temp = degree_details[i]
             i_details.append(institution_detail.objects.get(id= temp['iid_id']))
 
-        # display table of requests
         
+
+
         if request.method == 'POST':
-            
             doc_type = request.POST.get('document-type')
             i_id = request.POST.get('institution')
             reason = request.POST.get('reason')
