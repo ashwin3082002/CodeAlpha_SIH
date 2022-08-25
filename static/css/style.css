@@ -72,7 +72,8 @@ header nav ul li{
 header nav ul li a{
 	text-decoration:none;
 	color:#565a61;
-	padding:21px;
+	padding:12px;
+	border-radius: 10px;
 	font-size:1.50rem;
 	transition:0.4s;
 	font-family: 'Source Sans Pro', Helvetica, Arial, Lucida, sans-serif;

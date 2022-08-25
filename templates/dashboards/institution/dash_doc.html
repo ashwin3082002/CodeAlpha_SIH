@@ -1,0 +1,167 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Institution
+{% endblock title %}
+
+
+{% block main %}
+
+{% if messages %}
+	<div class="messages_d">
+		{% for message in messages %}
+			<p {% if message.tags %}class="{{message.tags}}"{% endif %}>{{message}}</p>
+		{% endfor %}
+	</div>
+{% endif %}
+
+<div class="dashboard_spacing"> 
+    <div class="dashboard-wrapper">
+
+        <p>INSTITUTION DASHBOARD</p>
+
+        <div class="dashboard">
+
+            <div class="dashboard-head">
+
+                <div class="dashboard-head-top">
+                    
+
+
+                </div>
+
+                <div class="dashboard-head-bottom">
+
+                    
+
+                </div>
+
+            </div>
+
+            <div class="profile-pic">
+
+                <img src="">
+
+            </div>
+
+            <div class="dashboard-nav">
+
+                <p class="dashboard-name">{{name}}</p>
+                <p class="dashboard-id">CURRENT NO OF STUDENTS: {{student_count}}</p>
+
+                <div class="dashboard-link">
+                    <ul>
+                        <li><a href="#" onclick="profile()">Profile</a></li>
+                        <li><a href="#" onclick="createprofile()">Create Student</a></li>
+                        <li><a href="/dashboard/institution/search">Search Student</a></li>
+                        <li><a href="/dashboard/institution/edit">Edit Student</a></li>
+                        <li><a href="/dashboard/institution/enroll">Enroll Student</a></li>
+                        <li><a href="/dashboard/institution/remove">Remove Student</a></li>
+                        <li><a href="/dashboard/institution/addcourse">Add Course</a></li>
+                        <li><a href="/dashboard/institution/docreq">Document Request</a></li>
+                        <li><a class="logout" href="/signout">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="dashboard-body" id="dashboard-body">
+                <div class="search-profile" id="search-profile">
+
+                    <h1>DOCUMENT REQUEST</h1>
+
+                    <div class="search-profile-container">
+
+                        <div class="profile-form-container">
+
+                            <div class="profile-form">
+
+                                <form action="" method="post">
+                                    
+                                    <label>DOCUMENT STATUS:</label>
+
+                                <br>
+
+                                <select name="type" id="type" required>
+                                    <option value="options" hidden>SELECT OPTION</option>
+                                    <option value="Pending">PENDING</option>
+                                    <option value="Completed">COMPLETED</option>
+                                    
+                                  </select>
+
+                                <br>
+                                <br>
+
+                                    <input type="submit" value="SEARCH">
+
+                                </form>
+
+                            </div>
+
+                            <div class="profile-form">
+
+                                <form action="/dashboard/institution/getdocu" method="post">
+                                    
+                                    <label>DOCUMENT ID:</label>
+
+                                <br>
+
+                                <input type="text" for="doc-id">
+
+                                <br>
+                                <br>
+
+                                    <input type="submit" value="ACCEPT">
+
+                                    &nbsp;
+                                    &nbsp;
+
+                                    <input type="submit" value="REJECT">
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                        <div class="profile-form-container" id="search-results-container" >
+
+                            <div class="profile-form">
+
+                                <div class="search-result">
+
+                                    <table>
+                                        <tr>
+                                          <th>DOCUMENT ID</th>
+                                          <th>STUDENT ID:</th>
+                                          <th>DOCUMENT TYPE:</th>
+                                          <th>REASON:</th>
+                                        </tr>
+                                        <tr>
+                                          <td>{{id}}</td>
+                                          <td>{{id}}</td>
+                                          <td>{{id}}</td>
+                                          <td>{{id}}</td>
+                                        </tr>
+                                      </table>
+
+                                </div>
+                                
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                        
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock main %}
+

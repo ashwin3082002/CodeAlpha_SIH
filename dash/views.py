@@ -791,6 +791,25 @@ def institution_addcourse_bulk(request):
         fs.delete(filename)
     return render(request, "dashboards\institution\dash_bulk_addcourse.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
 
+def institution_docreq(request):
+    if request.user.is_authenticated:
+        uname=request.user.get_username()
+        user = User.objects.get(username=uname)
+        user_email = user.email
+        nam=user.get_full_name()
+        # students enrolled
+        no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+        
+        if request.method == "POST":
+            
+            pass
+
+        
+        return render(request, 'dashboards\institution\dash_doc.html',{'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
+    else:
+        return redirect('/login/institution')
+
+
 # STUDENT VIEWS
 
 def student(request):
