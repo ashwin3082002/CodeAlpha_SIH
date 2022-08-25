@@ -51,8 +51,8 @@
 
                 <div class="dashboard-link">
                     <ul>
-                        <li><a href="/dashboard/institution">Profile</a></li>
-                        <li><a href="#">Create Student</a></li>
+                        <li><a href="/dashboard/institution" onclick="profile()">Profile</a></li>
+                        <li><a href="#" onclick="createprofile()">Create Student</a></li>
                         <li><a href="/dashboard/institution/search">Search Student</a></li>
                         <li><a href="/dashboard/institution/edit">Edit Student</a></li>
                         <li><a href="/dashboard/institution/enroll">Enroll Student</a></li>
@@ -66,7 +66,7 @@
 
             <div class="dashboard-body" id="dashboard-body">
 
-                <div class="profile" id="profile" >
+                <div class="profile" id="profile" style="display: None;" >
 
                     <h1>PROFILE</h1>
 
@@ -94,7 +94,7 @@
 
                 </div>
 
-                <div class="create-profile" id="create-profile">
+                <div class="create-profile" id="create-profile" style="display: None;">
 
                     <h1>CREATE PROFILE</h1>
 
