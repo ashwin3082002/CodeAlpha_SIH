@@ -536,7 +536,7 @@ def institution_addcourse_bulk(request):
             try:    
                 d_details = degree.objects.get(id=did)
             except:
-                messages.error('Degree ID not valid')
+                messages.error(f'Degree ID: {did} not valid')
                 return redirect('/dashboard/institution/addcourse/bulk')
             #insert data into db
             db_course = course(
