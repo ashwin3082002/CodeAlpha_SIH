@@ -800,11 +800,11 @@ def student(request):
         
         degree_details = degree.objects.filter(sid=uname).values()
         
-        i_details=[]
+        i_details=set()
         for d in degree_details:
             i_id = d['iid_id']
             ins = institution_detail.objects.get(id=i_id)
-            i_details.append(ins)
+            i_details.add(ins)
 
 
         if user_details:
