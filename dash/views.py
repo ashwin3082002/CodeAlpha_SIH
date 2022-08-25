@@ -551,10 +551,10 @@ def student_get_docu(request):
             temp = degree_details[i]
             i_details.append(institution_detail.objects.get(id= temp['iid_id']))
 
-        # display table of requests
         
+
+
         if request.method == 'POST':
-            
             doc_type = request.POST.get('document-type')
             i_id = request.POST.get('institution')
             reason = request.POST.get('reason')
