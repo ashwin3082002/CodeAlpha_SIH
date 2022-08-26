@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+ {% extends "layout.html" %}
 
 {% block title %}
     Student
@@ -70,14 +70,14 @@
 
                             <div class="profile-form">
 
-                                <form action="" method="post">
+                                <form action="/dashboard/student/courses" method="post">
                                     
-                                    <label>DEGREE NAME:</label><label>{{d.name}}</label>
+                                    <label>DEGREE NAME:</label><label>{{d_name}}</label>
 
                                     <br>
                                     <br>
 
-                                    <label>INSTITUTE NAME:</label><label>{{i.name}}</label>
+                                    <label>INSTITUTE NAME:</label><label>{{i_name}}</label>
 
                                 </form>
 
@@ -98,32 +98,21 @@
                                           <th>CREDITS</th>
                                         </tr>
                                         <tr>
-                                          <td>{{row.sem}}</td>
+                                          <td>{{row.semester}}</td>
                                           <td>{{row.name}}</td>
-                                          <td>{{row.obmarks}}</td>
-                                          <td>{{row.totalmarks}}</td>
+                                          <td>{{row.obtained_marks}}</td>
+                                          <td>{{row.total_marks}}</td>
                                           <td>{{row.credits}}</td>
                                         </tr>
                                       </table>
-
+                                    </div>
                                 </div>
-                                
-
                             </div>
                         </div>
-
-
                     </div>
-                        
-
                 </div>
-
             </div>
-
         </div>
-
-        </div>
-
     </div>
 </div>
 {% endblock main %}
