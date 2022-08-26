@@ -973,4 +973,4 @@ def bankaccount(request):
     return render(request, 'dashboards\student\ccount_bank.html',{'s': user_details[0],'var':'disabled'})
 
 def profiledownload(request):
-    return HttpResponse("Hello")
+    return render(request,'dashboards\student\student_report.html')
