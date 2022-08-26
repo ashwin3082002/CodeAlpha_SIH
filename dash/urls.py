@@ -11,6 +11,7 @@ urlpatterns = [
     path('admin/edit', views.admin_edit),
     path('admin/createapi',views.create_api),
     path('admin/revokapi',views.revok_api),
+    path('admin/reports',views.reports),
     # insti
     path('institution', views.institution),
     path('institution/create/bulk', views.institution_createbulk),

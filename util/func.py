@@ -1,6 +1,3 @@
-from django.shortcuts import HttpResponse
-from urllib import response
-from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives, EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
@@ -10,29 +7,19 @@ import json
 # added by Laavesh
 import re
 
-#from weasyprint import HTML
-
-
-
-
 #send bonafide
 def bonafide_mail(emailto, sname, pname, dname,cname):
-    subject = "Bonafide | Student Information Portal"
-    to = emailto
-    html_content = render_to_string('mail\onafide.html',{'student_name':sname,'parent_name':pname,'degree_name': dname,'college_name':cname})
-    response = HttpResponse(content_type = 'application/pdf')
-    response['Content-Disposition'] = 'filename=out.pdf'
-    pdf = HTML(string=html_content, base_url="").write_pdf()
+    subject = 'Bonafide Approved | Student Information Portal'
+    html_content = render_to_string('mail\onafide.html',{'student_name':sname,'parent_name':pname,'degree_name':dname, 'college_name':cname})
     text_content = strip_tags(html_content)
-    email = EmailMessage(
-        subject,    
-        body=pdf,
-        from_email = settings.EMAIL_HOST_USER,
-        to = [to]
-    )
-    email.attach('out.pdf',pdf,"application/pdf")
-    email.content_subtype = "pdf"
-    email.encoding = 'us-ascii'
+    to = emailto
+    email = EmailMultiAlternatives(
+        subject,
+        text_content,
+        settings.EMAIL_HOST_USER,
+        [to]
+        )
+    email.attach_alternative(html_content,"text/html")
     email.send()
     return True
 
