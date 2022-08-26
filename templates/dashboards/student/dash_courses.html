@@ -72,12 +72,12 @@
 
                                 <form action="/dashboard/student/courses" method="post">
                                     
-                                    <label>DEGREE NAME:</label><label>{{d_name}}</label>
+                                    <label>Degree Name: </label><label>{{d.name}}</label>
 
                                     <br>
                                     <br>
 
-                                    <label>INSTITUTE NAME:</label><label>{{i_name}}</label>
+                                    <label>Institute Name: </label><label>{{i.name}}</label>
 
                                 </form>
 
@@ -97,13 +97,16 @@
                                           <th>TOTAL MARKS</th>
                                           <th>CREDITS</th>
                                         </tr>
+                                        {% for row in c %}
                                         <tr>
-                                          <td>{{row.semester}}</td>
-                                          <td>{{row.name}}</td>
-                                          <td>{{row.obtained_marks}}</td>
-                                          <td>{{row.total_marks}}</td>
-                                          <td>{{row.credits}}</td>
+                                            <td>{{row.semester}}</td>
+                                            <td>{{row.name}}</td>
+                                            <td>{{row.obtained_marks}}</td>
+                                            <td>{{row.total_marks}}</td>
+                                            <td>{{row.credits}}</td>
                                         </tr>
+                                        {% endfor %}
+                                        
                                       </table>
                                     </div>
                                 </div>

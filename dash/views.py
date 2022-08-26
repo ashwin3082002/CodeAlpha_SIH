@@ -792,7 +792,7 @@ def institution_addcourse(request):
                 # get student and institution instances
                 s_details = student_detail.objects.get(sid = s_id)  
                 i_details = institution_detail.objects.get(id = uname)
-                degree_details = degree.objects.get(sid=s_details, iid=i_details)
+                degree_details = degree.objects.get(sid=s_details, iid=i_details, status = 'Pursuing')
                 if degree_details:
                     pass
                 else:
@@ -1109,10 +1109,20 @@ def profiledownload(request):
         return redirect('/login/student')
 
 def student_courses(request):
-    uname=request.user.get_username()
-    user_details = student_detail.objects.filter(sid = uname).values()
+    try:
+        uname=request.user.get_username()
+        user_details = student_detail.objects.get(sid = uname)
+
+        deg= degree.objects.filter(sid = uname).values()
+        d = deg[0]
+        insti = institution_detail.objects.get(id = d['iid_id'])
+        courses = course.objects.filter(did = d['id']).values()
+    except:
+        messages.error(request, 'Something went wrong! Try Again.')
+        return redirect('dashboard/student/courses')
+    
 
     if request.user.is_authenticated:
-        return render(request,'dashboards\student\dash_courses.html',{'s':user_details[0]})
+        return render(request,'dashboards\student\dash_courses.html',{'s':user_details, 'c':courses, 'd':d, 'i':insti})
     else:
         return redirect('/login/student')
