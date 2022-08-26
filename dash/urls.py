@@ -27,4 +27,6 @@ urlpatterns = [
     # student
     path('student', views.student),
     path('student/getdocument', views.student_get_docu),
+    path('student/bankaccount',views.bankaccount),
+    path('student/profiledownload',views.profiledownload),
 ]

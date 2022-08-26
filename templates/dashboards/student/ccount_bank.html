@@ -1,0 +1,127 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Student
+{% endblock title %}
+
+
+{% block main %}
+
+{% if messages %}
+	<div class="messages_d">
+		{% for message in messages %}
+			<p {% if message.tags %}class="{{message.tags}}"{% endif %}>{{message}}</p>
+		{% endfor %}
+	</div>
+{% endif %}
+
+<div class = "dashboard_spacing">
+    <div class="dashboard-wrapper">
+
+        <p>STUDENT DASHBOARD</p>
+
+        <div class="dashboard">
+
+            <div class="dashboard-head">
+
+                <div class="dashboard-head-top">
+                    
+
+
+                </div>
+
+                <div class="dashboard-head-bottom">
+
+                    
+
+                </div>
+
+            </div>
+
+            <div class="profile-pic">
+
+                <img src="">
+
+            </div>
+
+            <div class="dashboard-nav">
+
+                <p class="dashboard-name">{{s.name}}</p>
+
+                <p class="dashboard-status">STATUS:  <span style="color: green;">{{s.active_status}}</span></p>
+
+                <div class="dashboard-link">
+                    <ul>
+                        <li><a href="/dashboard/student">Profile</a></li>
+                        <li><a href="#">Edit Profile</a></li>
+                        <li><a href="/dashboard/student/getdocument">Get Documents</a></li>
+                        <li><a class="logout" href="/signout">Logout</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="dashboard-body" id="dashboard-body">
+
+                <div class="create-profile" id="create-profile">
+
+                    <h1>Bank Account Details</h1>
+
+                        <div class="profile-form-container">
+
+                            <div class="profile-form">
+
+
+                    <div class="details">
+                        <form action="/dashboard/student/bankaccount" method="POST">
+                            {% csrf_token %}
+                            
+                            <label for="document-type">Bank Name:</label>
+                            <br>
+                            <input type="text" name="bank_name" value="{{acc.bank_name}}" {{var1}}>
+                            <br>
+                            <br>
+
+                            <label for="Branch">Branch:</label>
+                            <br>
+                            <input type="text" name="branch" value="{{acc.branch}}" {{var1}}>
+                            <br>
+                            <br>
+                            <label  for="account_no">Account Number:</label>
+                            <br>
+                            <input type="text" name="acc_num" value="{{acc.acc_num}}" {{var1}}>
+                            <br>
+                            <br>
+                            <label  for="name">Account Holder Name:</label>
+                            <br>
+                            <input type="text" name="name" value="{{acc.name}}" {{var1}}>
+                            <br>
+                            <br>
+                            <label  for="ifsc">IFSC:</label>
+                            <br>
+                            <input type="text" name="ifsc" value="{{acc.ifsc}}" {{var1}}>
+                            <br>
+                            <br>
+                            <input type="submit" name="otp" value="Send OTP">
+                            <br><br>
+
+                            <label for="otp_check">ENTER OTP:</label>
+                            <br>
+                            <input type="text" name="otp_check" {{var}}>
+                            <br><br>
+                            <input type="submit" name="submit" value="Submit" {{var}}>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+        </div>
+    </div>
+</div>
+{% endblock main %}
+
