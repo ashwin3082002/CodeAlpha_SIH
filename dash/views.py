@@ -441,7 +441,10 @@ def institution_search(request):
         nam=user.get_full_name()
         # students enrolled
         no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
-
+        try:
+            ins_pp = institution_detail.objects.get(id=uname).profile_pic
+        except:
+            return redirect('/login/institution')
         if request.method == "POST":
             
             s_id = request.POST.get('stu_id')
@@ -453,10 +456,7 @@ def institution_search(request):
                 messages.error(request, "Student not found.")
                 return redirect('/dashboard/institution/search')
         else:
-            try:
-                ins_pp = institution_detail.objects.get(id=uname).profile_pic
-            except:
-                return redirect('/login/institution')
+            
             return render(request, 'dashboards\institution\dashboard_institution_search.html',{'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
     else:
         return redirect('/login/institution')
@@ -471,6 +471,10 @@ def institution_edit(request):
         # students enrolled
         no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
 
+        try:
+            ins_pp = institution_detail.objects.get(id=uname).profile_pic
+        except:
+            return redirect('/login/institution')
         if request.method == "POST":
             # search student
             if 'search' in request.POST:
@@ -534,10 +538,7 @@ def institution_edit(request):
                 else:
                     messages.error(request, "Student not found.")
                     return redirect('/dashboard/institution/edit')
-        try:
-            ins_pp = institution_detail.objects.get(id=uname).profile_pic
-        except:
-            return redirect('/login/institution')
+        
         
         return render(request, 'dashboards\institution\dashboard_institution_edit.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
     else:
@@ -605,6 +606,10 @@ def institution_enroll_bulk(request):
     # students enrolled
     no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
 
+    try:
+        ins_pp = institution_detail.objects.get(id=uname).profile_pic
+    except:
+        return redirect('/login/institution')
 
     if request.method == "POST" and request.FILES['myfile'] :
         myfile = request.FILES['myfile']
@@ -645,10 +650,7 @@ def institution_enroll_bulk(request):
         fs.delete(filename)
         messages.success(request, 'The students have been enrolled successfully')
         
-        try:
-            ins_pp = institution_detail.objects.get(id=uname).profile_pic
-        except:
-            return redirect('/login/institution')
+        
         
         return redirect('/dashboard/institution/enroll/bulk')
     return render(request, "dashboards\institution\dash_bulk_enrollstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
@@ -662,6 +664,11 @@ def institution_removestudent(request):
 
         # students enrolled
         no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+
+        try:
+            ins_pp = institution_detail.objects.get(id=uname).profile_pic
+        except:
+            return redirect('/login/institution')
 
         if request.method == "POST":
             s_id = request.POST.get('student-id')
@@ -690,10 +697,7 @@ def institution_removestudent(request):
             messages.success(request, 'Successfully removed student from institution.')
             return redirect('/dashboard/institution/remove')
         else:          
-            try:
-                ins_pp = institution_detail.objects.get(id=uname).profile_pic
-            except:
-                return redirect('/login/institution')
+            
             return render(request, 'dashboards\institution\dashboard_institution_remove_student.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
     else:
         return redirect('/login/institution')
@@ -707,6 +711,10 @@ def institution_removestudent_bulk(request):
         # students enrolled
         no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
 
+        try:
+            ins_pp = institution_detail.objects.get(id=uname).profile_pic
+        except:
+            return redirect('/login/institution')
         if request.method == "POST" and request.FILES['myfile'] :
             myfile = request.FILES['myfile']
             fs = FileSystemStorage()
@@ -736,10 +744,6 @@ def institution_removestudent_bulk(request):
             fs.delete(filename)
             messages.success(request, 'The student profiles have successfully')
             
-            try:
-                ins_pp = institution_detail.objects.get(id=uname).profile_pic
-            except:
-                return redirect('/login/institution')
             
             return redirect('/dashboard/institution/create/bulk')
         return render(request, "dashboards\institution\dash_bulk_enrollstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
@@ -826,6 +830,12 @@ def institution_addcourse_bulk(request):
     nam=user.get_full_name()
     # students enrolled
     no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+
+    try:
+        ins_pp = institution_detail.objects.get(id=uname).profile_pic
+    except:
+        return redirect('/login/institution')
+
     if request.method == "POST" and request.FILES['myfile'] :
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
@@ -858,10 +868,7 @@ def institution_addcourse_bulk(request):
             db_course.save()
 
         fs.delete(filename)
-        try:
-            ins_pp = institution_detail.objects.get(id=uname).profile_pic
-        except:
-            return redirect('/login/institution')
+        
     
     return render(request, "dashboards\institution\dash_bulk_addcourse.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
 
@@ -875,6 +882,11 @@ def institution_docreq(request):
         # students enrolled
         no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
 
+        try:
+            ins_pp = institution_detail.objects.get(id=uname).profile_pic
+        except:
+            return redirect('/login/institution')
+            
         if request.method == "POST":
             if 'search' in request.POST:
                 status = request.POST.get('status')
@@ -913,10 +925,7 @@ def institution_docreq(request):
                 doc.save()
                 # send mail
 
-        try:
-            ins_pp = institution_detail.objects.get(id=uname).profile_pic
-        except:
-            return redirect('/login/institution')
+        
         return render(request, 'dashboards\institution\dash_doc.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
     else:
         return redirect('/login/institution')
