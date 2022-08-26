@@ -886,7 +886,7 @@ def institution_docreq(request):
             ins_pp = institution_detail.objects.get(id=uname).profile_pic
         except:
             return redirect('/login/institution')
-            
+
         if request.method == "POST":
             if 'search' in request.POST:
                 status = request.POST.get('status')
@@ -1067,4 +1067,13 @@ def bankaccount(request):
     return render(request, 'dashboards\student\ccount_bank.html',{'s': user_details[0],'var':'disabled'})
 
 def profiledownload(request):
-    return render(request,'dashboards\student\student_report.html')
+    if request.user.is_authenticated:
+        uname=request.user.get_username()
+
+        s_detail = student_detail.objects.get(sid=uname)
+
+
+        return render(request,'dashboards\student\student_report.html',{'s':s_detail})
+            
+    else:
+        return redirect('/login/student')
