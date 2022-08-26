@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Student
+{% endblock title %}
+
+
+{% block main %}
+{% if messages %}
+	<div class="messages_d">
+		{% for message in messages %}
+			<p {% if message.tags %}class="{{message.tags}}"{% endif %}>{{message}}</p>
+		{% endfor %}
+	</div>
+{% endif %}
+<div class = "dashboard_spacing">
+    <div class="dashboard-wrapper">
+
+        <p>STUDENT DASHBOARD</p>
+
+        <div class="dashboard">
+
+            <div class="dashboard-head">
+
+                <div class="dashboard-head-top">
+                    
+
+
+                </div>
+
+                <div class="dashboard-head-bottom">
+
+                    
+
+                </div>
+
+            </div>
+
+            <div class="profile-pic">
+                
+                <img src="/media/{{ s.profile_pic }}">
+
+            </div>
+            
+            <div class="dashboard-nav">
+                <p class="dashboard-name">{{s.name}}</p>
+
+                <p class="dashboard-status">STATUS:  <span style="color: green;">{{s.active_status}}</span></p>
+
+                <div class="dashboard-link">
+                    <ul>
+                        <li><a href="/dashboard/student">Profile</a></li>
+                        <li><a href="/dashboard/student/getdocument">Get Documents</a></li>
+                        <li><a href="/dashboard/student/profiledownload" target="_blank" >Download Profile</a></li>
+                        <li><a href="/dashboard/student/courses">Courses</a></li>
+                        <li><a class="logout" href="/signout">Logout</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="dashboard-body" id="dashboard-body">
+                <div class="search-profile" id="search-profile">
+
+                    <h1>STUDENT DEGREE</h1>
+
+                    <div class="search-profile-container">
+
+                        <div class="profile-form-container">
+
+                            <div class="profile-form">
+
+                                <form action="" method="post">
+                                    
+                                    <label>DEGREE NAME:</label><label>{{d.name}}</label>
+
+                                    <br>
+                                    <br>
+
+                                    <label>INSTITUTE NAME:</label><label>{{i.name}}</label>
+
+                                </form>
+
+                            </div>
+
+                        <div class="profile-form-container" id="search-results-container" >
+
+                            <div class="profile-form">
+
+                                <div class="search-result">
+
+                                    <table>
+                                        <tr>
+                                          <th>SEMESTER</th>
+                                          <th>COURSE NAME</th>
+                                          <th>OBTAINED MARKS</th>
+                                          <th>TOTAL MARKS</th>
+                                          <th>CREDITS</th>
+                                        </tr>
+                                        <tr>
+                                          <td>{{row.sem}}</td>
+                                          <td>{{row.name}}</td>
+                                          <td>{{row.obmarks}}</td>
+                                          <td>{{row.totalmarks}}</td>
+                                          <td>{{row.credits}}</td>
+                                        </tr>
+                                      </table>
+
+                                </div>
+                                
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                        
+
+                </div>
+
+            </div>
+
+        </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock main %}
+

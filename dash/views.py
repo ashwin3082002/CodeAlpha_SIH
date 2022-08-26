@@ -1099,3 +1099,12 @@ def profiledownload(request):
             
     else:
         return redirect('/login/student')
+
+def student_courses(request):
+    uname=request.user.get_username()
+    user_details = student_detail.objects.filter(sid = uname).values()
+    
+    if request.user.is_authenticated:
+        return render(request,'dashboards\student\dash_courses.html',{'s':user_details[0]})
+    else:
+        return redirect('/login/student')
