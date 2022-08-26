@@ -753,6 +753,10 @@ def institution_addcourse(request):
         nam=user.get_full_name()
         # students enrolled
         no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+        try:
+            ins_pp = institution_detail.objects.get(id=uname).profile_pic
+        except:
+            return redirect('/login/institution')
         if request.method == 'POST':
             s_id = request.POST.get('search-student')
 
@@ -807,10 +811,7 @@ def institution_addcourse(request):
                 db_course.save()
                 messages.success(request, 'Successfully created course in degree')
                 
-                try:
-                    ins_pp = institution_detail.objects.get(id=uname).profile_pic
-                except:
-                    return redirect('/login/institution')
+                
                 
                 return redirect('/dashboard/institution/addcourse')
         else:
