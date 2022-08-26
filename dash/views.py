@@ -8,96 +8,25 @@ import pandas as pd
 
 # ADMIN VIEWS
 def admin(request):
-    if request.user.is_authenticated:
-        if request.method == "POST":
-            i_name = request.POST.get('ins-name')
-            i_type = request.POST.get('type')
-            i_email = request.POST.get('email')
-            i_contact = request.POST.get('contact')
-            i_state = request.POST.get('state')
-            i_city = request.POST.get('city')
-            i_pincode = request.POST.get('pincode')
-            password = User.objects.make_random_password()
-
-            #generate insti id
-            i_id = func.insti_id_gen()
-
-            # must add contact later
-            # to send id and pass as email
-            if func.insti_creation(i_email,i_id,password):
-                # database instance
-                db_insti = institution_detail(
-                    id= i_id,
-                    name=i_name,
-                    type_insti=i_type,
-                    email=i_email,
-                    contact = i_contact,
-                    state = i_state,
-                    city = i_city,
-                    pincode = i_pincode,
-                )
-                db_insti.save()
-
-                # create new user and grant staff status
-                User.objects.create_user(
-                    first_name = i_name,
-                    username = i_id, 
-                    email = i_email,
-                    password = password,
-                    is_staff = True
-                )
-                #new_user.is_staff = True
-                # upload pic
-                if request.FILES['profilepic']:
-                    pic = request.FILES['profilepic']
-                    db_insti.profile_pic = pic
-                    db_insti.save()
-
-                messages.success(request, "Successfully created institution profile.")
-                return redirect('/dashboard/admin')
-            else:
-                messages.error(request, "Something Went Wrong! Try Again After Some Time")
-                return redirect('/dashboard/admin')
-
-        # getting username from login
-        uname=request.user.get_username()
-
-        # getting other user details in a obj 'user'
-        user = User.objects.get(username=uname)
-        user_email = user.email
-        name = user.get_full_name()
-        return render(request, 'dashboards\d_admin\dashboard_admin.html', {'username':uname, 'name':name, 'email':user_email})
-    else:
-        return redirect('/login/admin')
-
-def admin_bulk(request):
-    if request.user.is_authenticated:
-        if request.method == "POST" and request.FILES['myfile'] :
-            
-            myfile = request.FILES['myfile']
-            fs = FileSystemStorage()
-            filename = fs.save(f"{uname+'_bulkaddstu'}.csv", myfile)
-            messages.success(request,f"File Uploaded")
-            filepath = fs.path(filename)
-            df = pd.read_csv(f"{filepath}")
-
-            for i in range(len(df)) : 
-                i_name = df.iloc[i, 0] 
-                i_type = df.iloc[i, 1]
-                i_email =  df.iloc[i, 2]
-                i_contact = df.iloc[i, 3]
-                i_state = df.iloc[i, 4]
-                i_city = df.iloc[i, 5]
-                i_pincode = df.iloc[i, 6]
-
-                
-                #generate insti id and pass
-                i_id = func.insti_id_gen()
+    try:
+        if request.user.is_authenticated:
+            if request.method == "POST":
+                i_name = request.POST.get('ins-name')
+                i_type = request.POST.get('type')
+                i_email = request.POST.get('email')
+                i_contact = request.POST.get('contact')
+                i_state = request.POST.get('state')
+                i_city = request.POST.get('city')
+                i_pincode = request.POST.get('pincode')
                 password = User.objects.make_random_password()
 
+                #generate insti id
+                i_id = func.insti_id_gen()
+
+                # must add contact later
                 # to send id and pass as email
                 if func.insti_creation(i_email,i_id,password):
-                    #database instance
+                    # database instance
                     db_insti = institution_detail(
                         id= i_id,
                         name=i_name,
@@ -110,7 +39,7 @@ def admin_bulk(request):
                     )
                     db_insti.save()
 
-                    #create new user and grant staff status
+                    # create new user and grant staff status
                     User.objects.create_user(
                         first_name = i_name,
                         username = i_id, 
@@ -118,171 +47,271 @@ def admin_bulk(request):
                         password = password,
                         is_staff = True
                     )
-                else:
-                    messages.error(request, "Something Went Wrong! Try Again After Some Time")
-                    return redirect('/dashboard/admin/bulk')
-            fs.delete(filename)
-            messages.success(request, "Successfully created institution profiles.")
-            return redirect('/dashbord/admin/bulk')
-
-        # getting username from login
-        uname=request.user.get_username()
-
-        # getting other user details in a obj 'user'
-        user = User.objects.get(username=uname)
-        user_email = user.email
-        name = user.get_full_name()
-        return render(request, 'dashboards\d_admin\dash_bulk_create.html', {'username':uname, 'name':name, 'email':user_email})
-    else:
-        return redirect('/login/admin')
-
-def admin_search(request):
-    if request.user.is_authenticated:
-        # getting username from login & getting other user details in a obj 'user'
-        uname=request.user.get_username()
-        user = User.objects.get(username=uname)
-        user_email = user.email
-        name = user.get_full_name()
-
-        if request.method == "POST":
-            if 'search' in request.POST:
-                i_id = request.POST.get('institution-id')
-                search_details = institution_detail.objects.filter(id = i_id).values()
-                # no of students enrolled
-                d_details = degree.objects.filter(iid=i_id).values()
-
-                if search_details:
-                    return render(request, 'dashboards\d_admin\dashboard_admin_search.html',
-                        {'i': search_details[0],'student_count': len(d_details), 'username':uname, 'name':name, 'email':user_email}
-                    )
-                else:
-                    messages.error(request, "Institution not found.")
-                    return redirect('/dashboard/admin/search')
-        
-        return render(request, 'dashboards\d_admin\dashboard_admin_search.html', {'username':uname, 'name':name, 'email':user_email})
-    else:
-        return redirect('/login/admin')
-
-def admin_edit(request):
-    if request.user.is_authenticated:
-        # getting username from login & getting other user details in a obj 'user'
-        uname=request.user.get_username()
-        user = User.objects.get(username=uname)
-        user_email = user.email
-        name = user.get_full_name()
-
-        if request.method == "POST":
-            # search insti
-            if 'search' in request.POST:
-                i_id = request.POST.get('institution-id')
-                search_details = institution_detail.objects.filter(id = i_id).values()
-                if search_details:
-                    return render(request, 'dashboards\d_admin\dashboard_admin_edit.html',
-                        {'i': search_details[0], 'username':uname, 'name':name, 'email':user_email}
-                    )
-                else:
-                    messages.error(request, "Institution not found.")
-                    return redirect('/dashboard/admin/edit')
-
-
-            # change insti details
-            if 'edit' in request.POST:
-                i_id = request.POST.get('institution-id')
-                i_name = request.POST.get('ins-name')
-                i_type = request.POST.get('type')
-                i_email = request.POST.get('email')
-                i_contact = request.POST.get('contact')
-                i_state = request.POST.get('state')
-                i_city = request.POST.get('city')
-                i_pincode = request.POST.get('pincode')
-
-                # updating details
-                i = institution_detail.objects.get(id = i_id)
-                if i:
-                    i.id= i_id
-                    i.name=i_name
-                    i.type_insti=i_type
-                    i.email=i_email
-                    i.contact = i_contact
-                    i.state = i_state
-                    i.city = i_city
-                    i.pincode = i_pincode
+                    #new_user.is_staff = True
                     # upload pic
                     if request.FILES['profilepic']:
                         pic = request.FILES['profilepic']
-                        i.profile_pic = pic
-                    # saving updates to database
-                    i.save()
-                    messages.success(request, "Successfully updated.")
-                    return redirect('/dashboard/admin/edit')
-                else:
-                    messages.error(request, "Institution not found.")
-                    return redirect('/dashboard/admin/edit')
+                        db_insti.profile_pic = pic
+                        db_insti.save()
 
-        return render(request, 'dashboards\d_admin\dashboard_admin_edit.html', {'username':uname, 'name':name, 'email':user_email})
-    else:
-        return redirect('/login/admin')
+                    messages.success(request, "Successfully created institution profile.")
+                    return redirect('/dashboard/admin')
+                else:
+                    messages.error(request, "Something Went Wrong! Try Again After Some Time")
+                    return redirect('/dashboard/admin')
+
+            # getting username from login
+            uname=request.user.get_username()
+
+            # getting other user details in a obj 'user'
+            user = User.objects.get(username=uname)
+            user_email = user.email
+            name = user.get_full_name()
+            return render(request, 'dashboards\d_admin\dashboard_admin.html', {'username':uname, 'name':name, 'email':user_email})
+        else:
+            return redirect('/login/admin')
+    except:
+        messages.error(request,"Something Went Wrong!! Try Again")
+        redirect("/")
+
+def admin_bulk(request):
+    try:
+        if request.user.is_authenticated:
+            if request.method == "POST" and request.FILES['myfile'] :
+                
+                myfile = request.FILES['myfile']
+                fs = FileSystemStorage()
+                filename = fs.save(f"{uname+'_bulkaddstu'}.csv", myfile)
+                messages.success(request,f"File Uploaded")
+                filepath = fs.path(filename)
+                df = pd.read_csv(f"{filepath}")
+
+                for i in range(len(df)) : 
+                    i_name = df.iloc[i, 0] 
+                    i_type = df.iloc[i, 1]
+                    i_email =  df.iloc[i, 2]
+                    i_contact = df.iloc[i, 3]
+                    i_state = df.iloc[i, 4]
+                    i_city = df.iloc[i, 5]
+                    i_pincode = df.iloc[i, 6]
+
+                    
+                    #generate insti id and pass
+                    i_id = func.insti_id_gen()
+                    password = User.objects.make_random_password()
+
+                    # to send id and pass as email
+                    if func.insti_creation(i_email,i_id,password):
+                        #database instance
+                        db_insti = institution_detail(
+                            id= i_id,
+                            name=i_name,
+                            type_insti=i_type,
+                            email=i_email,
+                            contact = i_contact,
+                            state = i_state,
+                            city = i_city,
+                            pincode = i_pincode,
+                        )
+                        db_insti.save()
+
+                        #create new user and grant staff status
+                        User.objects.create_user(
+                            first_name = i_name,
+                            username = i_id, 
+                            email = i_email,
+                            password = password,
+                            is_staff = True
+                        )
+                    else:
+                        messages.error(request, "Something Went Wrong! Try Again After Some Time")
+                        return redirect('/dashboard/admin/bulk')
+                fs.delete(filename)
+                messages.success(request, "Successfully created institution profiles.")
+                return redirect('/dashbord/admin/bulk')
+
+            # getting username from login
+            uname=request.user.get_username()
+
+            # getting other user details in a obj 'user'
+            user = User.objects.get(username=uname)
+            user_email = user.email
+            name = user.get_full_name()
+            return render(request, 'dashboards\d_admin\dash_bulk_create.html', {'username':uname, 'name':name, 'email':user_email})
+        else:
+            return redirect('/login/admin')
+    except:
+        messages.error(request,"Something Went Wrong!! Try Again")
+        redirect("/")
+
+def admin_search(request):
+    try:
+        if request.user.is_authenticated:
+            # getting username from login & getting other user details in a obj 'user'
+            uname=request.user.get_username()
+            user = User.objects.get(username=uname)
+            user_email = user.email
+            name = user.get_full_name()
+
+            if request.method == "POST":
+                if 'search' in request.POST:
+                    i_id = request.POST.get('institution-id')
+                    search_details = institution_detail.objects.filter(id = i_id).values()
+                    # no of students enrolled
+                    d_details = degree.objects.filter(iid=i_id).values()
+
+                    if search_details:
+                        return render(request, 'dashboards\d_admin\dashboard_admin_search.html',
+                            {'i': search_details[0],'student_count': len(d_details), 'username':uname, 'name':name, 'email':user_email}
+                        )
+                    else:
+                        messages.error(request, "Institution not found.")
+                        return redirect('/dashboard/admin/search')
+            
+            return render(request, 'dashboards\d_admin\dashboard_admin_search.html', {'username':uname, 'name':name, 'email':user_email})
+        else:
+            return redirect('/login/admin')
+    except:
+        messages.error(request,"Something Went Wrong!! Try Again")
+        redirect("/")
+
+def admin_edit(request):
+    try:
+        if request.user.is_authenticated:
+            # getting username from login & getting other user details in a obj 'user'
+            uname=request.user.get_username()
+            user = User.objects.get(username=uname)
+            user_email = user.email
+            name = user.get_full_name()
+
+            if request.method == "POST":
+                # search insti
+                if 'search' in request.POST:
+                    i_id = request.POST.get('institution-id')
+                    search_details = institution_detail.objects.filter(id = i_id).values()
+                    if search_details:
+                        return render(request, 'dashboards\d_admin\dashboard_admin_edit.html',
+                            {'i': search_details[0], 'username':uname, 'name':name, 'email':user_email}
+                        )
+                    else:
+                        messages.error(request, "Institution not found.")
+                        return redirect('/dashboard/admin/edit')
+
+
+                # change insti details
+                if 'edit' in request.POST:
+                    i_id = request.POST.get('institution-id')
+                    i_name = request.POST.get('ins-name')
+                    i_type = request.POST.get('type')
+                    i_email = request.POST.get('email')
+                    i_contact = request.POST.get('contact')
+                    i_state = request.POST.get('state')
+                    i_city = request.POST.get('city')
+                    i_pincode = request.POST.get('pincode')
+
+                    # updating details
+                    i = institution_detail.objects.get(id = i_id)
+                    if i:
+                        i.id= i_id
+                        i.name=i_name
+                        i.type_insti=i_type
+                        i.email=i_email
+                        i.contact = i_contact
+                        i.state = i_state
+                        i.city = i_city
+                        i.pincode = i_pincode
+                        # upload pic
+                        if request.FILES['profilepic']:
+                            pic = request.FILES['profilepic']
+                            i.profile_pic = pic
+                        # saving updates to database
+                        i.save()
+                        messages.success(request, "Successfully updated.")
+                        return redirect('/dashboard/admin/edit')
+                    else:
+                        messages.error(request, "Institution not found.")
+                        return redirect('/dashboard/admin/edit')
+
+            return render(request, 'dashboards\d_admin\dashboard_admin_edit.html', {'username':uname, 'name':name, 'email':user_email})
+        else:
+            return redirect('/login/admin')
+    except:
+        messages.error(request,"Something Went Wrong!! Try Again")
+        redirect("/")
 
 def create_api(request):
-    # getting username from login & getting other user details in a obj 'user'
-    uname=request.user.get_username()
-    user = User.objects.get(username=uname)
-    user_email = user.email
-    name = user.get_full_name()
+    try:
+        # getting username from login & getting other user details in a obj 'user'
+        uname=request.user.get_username()
+        user = User.objects.get(username=uname)
+        user_email = user.email
+        name = user.get_full_name()
 
-    if request.method == "POST":
-        org_name = request.POST.get('organization-name')
-        email = request.POST.get('organization-email')
-        api_key = func.api_key_gen()
-        perm = request.POST.get('type')
-        db_instance = api_details(
-                org_name = org_name,
-                api_key = api_key,
-                email = email,
-                permissions = perm
-            )
-        db_instance.save()
-        apiid = api_details.objects.filter(email=email).values()
-        apiid = apiid[0]['api_id']
-        if func.api_mail_creation(email,org_name,api_key, apiid):
-            messages.success(request,"API Key Generated Successfully")
-        else:
-            messages.success(request,"Something Went Wrong Try Again")
-            
-    return render(request, "dashboards\d_admin\create-api.html", {'username':uname, 'name':name, 'email':user_email})
+        if request.method == "POST":
+            org_name = request.POST.get('organization-name')
+            email = request.POST.get('organization-email')
+            api_key = func.api_key_gen()
+            perm = request.POST.get('type')
+            db_instance = api_details(
+                    org_name = org_name,
+                    api_key = api_key,
+                    email = email,
+                    permissions = perm
+                )
+            db_instance.save()
+            apiid = api_details.objects.filter(email=email).values()
+            apiid = apiid[0]['api_id']
+            if func.api_mail_creation(email,org_name,api_key, apiid):
+                messages.success(request,"API Key Generated Successfully")
+            else:
+                messages.success(request,"Something Went Wrong Try Again")
+                
+        return render(request, "dashboards\d_admin\create-api.html", {'username':uname, 'name':name, 'email':user_email})
+    except:
+        messages.error(request,"Something Went Wrong!! Try Again")
+        redirect("/")
 
 def revok_api(request):
-    # getting username from login & getting other user details in a obj 'user'
-    uname=request.user.get_username()
-    user = User.objects.get(username=uname)
-    user_email = user.email
-    name = user.get_full_name()
+    try:
+        # getting username from login & getting other user details in a obj 'user'
+        uname=request.user.get_username()
+        user = User.objects.get(username=uname)
+        user_email = user.email
+        name = user.get_full_name()
 
-    if request.method == "POST":
-        apiid = request.POST.get('apiid')
-        
-        a = api_details.objects.filter(api_id = apiid).values()
-        if a:
-            email = a[0]['email']
-            api_details.objects.filter(api_id=apiid).delete()
-            func.api_mail_revok(email,apiid)
-            messages.success(request, "API Access Revoked")
+        if request.method == "POST":
+            apiid = request.POST.get('apiid')
             
-        else:
-            messages.error(request, "API ID Not Found")
-            return redirect('/dashboard/admin/revokapi')
-    
+            a = api_details.objects.filter(api_id = apiid).values()
+            if a:
+                email = a[0]['email']
+                api_details.objects.filter(api_id=apiid).delete()
+                func.api_mail_revok(email,apiid)
+                messages.success(request, "API Access Revoked")
+                
+            else:
+                messages.error(request, "API ID Not Found")
+                return redirect('/dashboard/admin/revokapi')
         
-        
-    return render(request, "dashboards\d_admin\evoke-api.html", {'username':uname, 'name':name, 'email':user_email})
+            
+            
+        return render(request, "dashboards\d_admin\evoke-api.html", {'username':uname, 'name':name, 'email':user_email})
+    except:
+        messages.error(request,"Something Went Wrong!! Try Again")
+        redirect("/")
 
 def reports(request):
-    # getting username from login & getting other user details in a obj 'user'
-    uname=request.user.get_username()
-    user = User.objects.get(username=uname)
-    user_email = user.email
-    name = user.get_full_name()
-    return render(request,"dashboards\d_admin\eports_admin.html", {'username':uname, 'name':name, 'email':user_email})
+    try:
+        # getting username from login & getting other user details in a obj 'user'
+        uname=request.user.get_username()
+        user = User.objects.get(username=uname)
+        user_email = user.email
+        name = user.get_full_name()
+        return render(request,"dashboards\d_admin\eports_admin.html", {'username':uname, 'name':name, 'email':user_email})
+    except:
+        messages.error(request,"Something Went Wrong!! Try Again")
+        redirect("/")
+
 # INSTITUTION VIEWS
 
 def institution(request):
