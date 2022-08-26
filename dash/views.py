@@ -315,387 +315,349 @@ def reports(request):
 # INSTITUTION VIEWS
 
 def institution(request):
-    if request.user.is_authenticated:
-        if request.method == "POST" :
-            s_name = request.POST.get('stu-name')
-            dob = request.POST.get('dob')
-            guardian = request.POST.get('guardian')
-            aadhar = request.POST.get('aadhar')
-            gender = request.POST.get('gender')
-            email = request.POST.get('email')
-            contact = request.POST.get('contact')
-            address = request.POST.get('address')
-            city = request.POST.get('city')
-            state = request.POST.get('state')
-            pincode = request.POST.get('pincode')
-            community = request.POST.get('community')
-            
-            
-            
-            # generate insti id and password
-            i_id = func.stu_id_gen()
-            password = User.objects.make_random_password()
-
-            if func.stu_creation(email,i_id,password):
-                db_student = student_detail(
-                    sid = i_id,
-                    name = s_name,
-                    dob= dob,
-                    guardian_name = guardian,
-                    email= email,
-                    mobile=contact,
-                    aadhar=aadhar,
-                    gender=gender,
-                    active_status=False,
-                    community= community,
-                    address=address,
-                    city=city,
-                    state=state,
-                    pincode=pincode
-                )
-
-                db_student.save()
-
-                # create student user with no permissions
-                User.objects.create_user(
-                    first_name = s_name,
-                    username = i_id,
-                    email = email,
-                    password= password,
-                )
-
-                # upload pic
-                try:
-                    if request.FILES['profilepic']:
-                        pic = request.FILES['profilepic']
-                        db_student.profile_pic = pic
-                        db_student.save()
-                except:
-                    pass
-
-                messages.success(request, "Successfully created student profile.")
-                return redirect('/dashboard/institution')
-        uname=request.user.get_username()
-        user = User.objects.get(username=uname)
-        user_email = user.email
-        nam=user.get_full_name()
-
-        # profile pic
-        try:
-            ins_pp = institution_detail.objects.get(id=uname).profile_pic
-        except:
-            return redirect('/login/institution')
-        # students enrolled
-        no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
-        return render(request, 'dashboards\institution\dashboard_institution.html',{'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
-    else:
-        return redirect('/login/institution')
-
-def institution_createbulk(request):
-    uname=request.user.get_username()
-    user = User.objects.get(username=uname)
-    user_email = user.email
-    nam=user.get_full_name()
-
-    # students enrolled
-    no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
-
-
-    if request.method == "POST" and request.FILES['myfile'] :
-        myfile = request.FILES['myfile']
-        fs = FileSystemStorage()
-        filename = fs.save(f"{uname+'_bulkaddstu'}.csv", myfile)
-        messages.success(request,f"File Uploaded")
-        filepath = fs.path(filename)
-        df = pd.read_csv(f"{filepath}")
-        for i in range(len(df)) : 
-
-            s_name = df.iloc[i, 0]
-            dob = df.iloc[i, 1]
-            guardian =  df.iloc[i, 2]
-            aadhar = df.iloc[i, 3]
-            gender = df.iloc[i, 4]
-            email = df.iloc[i, 5]
-            contact =  df.iloc[i, 6]
-            address = df.iloc[i, 7]
-            city = df.iloc[i, 8]
-            state = df.iloc[i, 9]
-            pincode =  df.iloc[i, 10]
-            # generate password
-            password = User.objects.make_random_password()
-            
-            # generate insti id
-            i_id = func.stu_id_gen()
-
-            # profile creation
-            if True:
-                db_student = student_detail(
-                    sid = i_id,
-                    name = s_name,
-                    dob= dob,
-                    guardian_name = guardian,
-                    email= email,
-                    mobile=contact,
-                    aadhar=aadhar,
-                    gender=gender,
-                    active_status=False,
-                    community= "General",
-                    address=address,
-                    city=city,
-                    state=state,
-                    pincode=pincode
-                )
-
-                db_student.save()
-
-                # create student user with no permissions
-                User.objects.create_user(
-                    first_name = s_name,
-                    username = i_id,
-                    email = email,
-                    password= password,
-                )
-                
-            else:
-                messages.error(request, f'Cannot create {s_name}\'s profile.')
-                return redirect('/dashboard/institution/create/bulk')
-
-        fs.delete(filename)
-        messages.success(request, 'The student profiles have been created successfully')
-        return redirect('/dashboard/institution/create/bulk')
     try:
-        ins_pp = institution_detail.objects.get(id=uname).profile_pic
-    except:
-        return redirect('/login/institution')
-    return render(request, "dashboards\institution\dash_bulk_createstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
+        if request.user.is_authenticated:
+            if request.method == "POST" :
+                s_name = request.POST.get('stu-name')
+                dob = request.POST.get('dob')
+                guardian = request.POST.get('guardian')
+                aadhar = request.POST.get('aadhar')
+                gender = request.POST.get('gender')
+                email = request.POST.get('email')
+                contact = request.POST.get('contact')
+                address = request.POST.get('address')
+                city = request.POST.get('city')
+                state = request.POST.get('state')
+                pincode = request.POST.get('pincode')
+                community = request.POST.get('community')
+                
+                
+                
+                # generate insti id and password
+                i_id = func.stu_id_gen()
+                password = User.objects.make_random_password()
 
-def institution_search(request):
-    if request.user.is_authenticated:
-        uname=request.user.get_username()
-        user = User.objects.get(username=uname)
-        user_email = user.email
-        nam=user.get_full_name()
-        # students enrolled
-        no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
-        try:
-            ins_pp = institution_detail.objects.get(id=uname).profile_pic
-        except:
-            return redirect('/login/institution')
-        if request.method == "POST":
-            
-            s_id = request.POST.get('stu_id')
-            search_details = student_detail.objects.filter(sid = s_id).values()
-            
-            if search_details:
-                return render(request, 'dashboards\institution\dashboard_institution_search.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
-            else:
-                messages.error(request, "Student not found.")
-                return redirect('/dashboard/institution/search')
-        else:
-            
-            return render(request, 'dashboards\institution\dashboard_institution_search.html',{'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
-    else:
-        return redirect('/login/institution')
+                if func.stu_creation(email,i_id,password):
+                    db_student = student_detail(
+                        sid = i_id,
+                        name = s_name,
+                        dob= dob,
+                        guardian_name = guardian,
+                        email= email,
+                        mobile=contact,
+                        aadhar=aadhar,
+                        gender=gender,
+                        active_status=False,
+                        community= community,
+                        address=address,
+                        city=city,
+                        state=state,
+                        pincode=pincode
+                    )
 
-def institution_edit(request):
-    if request.user.is_authenticated:
-        
-        uname=request.user.get_username()
-        user = User.objects.get(username=uname)
-        user_email = user.email
-        nam=user.get_full_name()
-        # students enrolled
-        no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+                    db_student.save()
 
-        try:
-            ins_pp = institution_detail.objects.get(id=uname).profile_pic
-        except:
-            return redirect('/login/institution')
-        if request.method == "POST":
-            # search student
-            if 'search' in request.POST:
-                s_id = request.POST.get('s-id')
-                search_details = student_detail.objects.filter(sid = s_id).values()
-                if search_details:
-
-                    return render(request, 'dashboards\institution\dashboard_institution_edit.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
-                else:
-                    messages.error(request, "Student not found.")
-                    return redirect('/dashboard/institution/edit')
-
-
-            # change student details
-            if 'edit' in request.POST:
-                s_id = request.POST.get('s-id')
-                s_name = request.POST.get('s-name')
-                s_dob = request.POST.get('dob')
-                s_guardian = request.POST.get('pgname')
-                s_email = request.POST.get('email')
-                s_mobile = request.POST.get('contact')
-                s_aadhar = request.POST.get('aadhar')
-                s_gender = request.POST.get('gender')
-                s_status = request.POST.get('active_status')
-                s_community = request.POST.get('community')
-                s_address = request.POST.get('address')
-                s_city = request.POST.get('city')
-                s_state = request.POST.get('state')
-                s_pincode = request.POST.get('pincode')
-
-                #hardcode active status
-                s_status = True
-                # updating details
-                s = student_detail.objects.get(sid = s_id)
-                if s:
-                    s.name = s_name
-                    s.dob= s_dob
-                    s.guardian_name = s_guardian
-                    s.email= s_email
-                    s.mobile= s_mobile
-                    s.aadhar= s_aadhar
-                    s.gender= s_gender
-                    s.active_status= s_status
-                    s.community= s_community
-                    s.address= s_address
-                    s.city= s_city
-                    s.state= s_state
-                    s.pincode= s_pincode
-                    
-                    # saving updates to database
-                    s.save()
+                    # create student user with no permissions
+                    User.objects.create_user(
+                        first_name = s_name,
+                        username = i_id,
+                        email = email,
+                        password= password,
+                    )
 
                     # upload pic
-                    if request.FILES['profilepic']:
-                        pic = request.FILES['profilepic']
-                        s.profile_pic = pic
-                        s.save()
-                    messages.success(request, "Successfully updated.")
-                    return redirect('/dashboard/institution/edit')
-                else:
-                    messages.error(request, "Student not found.")
-                    return redirect('/dashboard/institution/edit')
-        
-        
-        return render(request, 'dashboards\institution\dashboard_institution_edit.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
-    else:
-        return redirect('/login/institution')
+                    try:
+                        if request.FILES['profilepic']:
+                            pic = request.FILES['profilepic']
+                            db_student.profile_pic = pic
+                            db_student.save()
+                    except:
+                        pass
 
-def institution_enroll_student(request):
-    if request.user.is_authenticated:
-        if request.method == "POST":
-            s_id = request.POST.get('student-id')
-            d_name = request.POST.get('degree-name')
-            discipline = request.POST.get('discipline')
-            join_year = request.POST.get('joining-year')
-
+                    messages.success(request, "Successfully created student profile.")
+                    return redirect('/dashboard/institution')
             uname=request.user.get_username()
-            
+            user = User.objects.get(username=uname)
+            user_email = user.email
+            nam=user.get_full_name()
 
-            # get instances
+            # profile pic
             try:
-                stu = student_detail.objects.get(sid = s_id)
-                ins = institution_detail.objects.get(id = uname)
+                ins_pp = institution_detail.objects.get(id=uname).profile_pic
             except:
-                messages.success(request, 'Student ID invalid.')
-                return redirect('/dashboard/institution/enroll')
-
-            # setting student profile to studying status
-            if stu.active_status != True:
-                stu.active_status = True
-                stu.save()
-
-            db_degree = degree(
-                sid = stu,
-                iid = ins,
-                name = d_name,
-                status = 'Pursuing',
-                discipline = discipline,
-                year_join = join_year,
-            )
-            db_degree.save()
-
-            messages.success(request, 'Successfully enrolled student to institution and degree.')
-            return redirect('/dashboard/institution/enroll')
+                return redirect('/login/institution')
+            # students enrolled
+            no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+            return render(request, 'dashboards\institution\dashboard_institution.html',{'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
         else:
+            return redirect('/login/institution')
+    except:
+        messages.error(request, 'Something went wrong! Try again.')
+        redirect('/')
 
+def institution_createbulk(request):
+    try:
+        uname=request.user.get_username()
+        user = User.objects.get(username=uname)
+        user_email = user.email
+        nam=user.get_full_name()
+
+        # students enrolled
+        no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+
+
+        if request.method == "POST" and request.FILES['myfile'] :
+            myfile = request.FILES['myfile']
+            fs = FileSystemStorage()
+            filename = fs.save(f"{uname+'_bulkaddstu'}.csv", myfile)
+            messages.success(request,f"File Uploaded")
+            filepath = fs.path(filename)
+            df = pd.read_csv(f"{filepath}")
+            for i in range(len(df)) : 
+
+                s_name = df.iloc[i, 0]
+                dob = df.iloc[i, 1]
+                guardian =  df.iloc[i, 2]
+                aadhar = df.iloc[i, 3]
+                gender = df.iloc[i, 4]
+                email = df.iloc[i, 5]
+                contact =  df.iloc[i, 6]
+                address = df.iloc[i, 7]
+                city = df.iloc[i, 8]
+                state = df.iloc[i, 9]
+                pincode =  df.iloc[i, 10]
+                # generate password
+                password = User.objects.make_random_password()
+                
+                # generate insti id
+                i_id = func.stu_id_gen()
+
+                # profile creation
+                if True:
+                    db_student = student_detail(
+                        sid = i_id,
+                        name = s_name,
+                        dob= dob,
+                        guardian_name = guardian,
+                        email= email,
+                        mobile=contact,
+                        aadhar=aadhar,
+                        gender=gender,
+                        active_status=False,
+                        community= "General",
+                        address=address,
+                        city=city,
+                        state=state,
+                        pincode=pincode
+                    )
+
+                    db_student.save()
+
+                    # create student user with no permissions
+                    User.objects.create_user(
+                        first_name = s_name,
+                        username = i_id,
+                        email = email,
+                        password= password,
+                    )
+                    
+                else:
+                    messages.error(request, f'Cannot create {s_name}\'s profile.')
+                    return redirect('/dashboard/institution/create/bulk')
+
+            fs.delete(filename)
+            messages.success(request, 'The student profiles have been created successfully')
+            return redirect('/dashboard/institution/create/bulk')
+        try:
+            ins_pp = institution_detail.objects.get(id=uname).profile_pic
+        except:
+            return redirect('/login/institution')
+        return render(request, "dashboards\institution\dash_bulk_createstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
+    except:
+        messages.error(request, 'Something went wrong! Try again.')
+        redirect('/')
+
+def institution_search(request):
+    try:
+        if request.user.is_authenticated:
             uname=request.user.get_username()
             user = User.objects.get(username=uname)
             user_email = user.email
             nam=user.get_full_name()
             # students enrolled
             no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
-            
-            deg = degree.objects.filter(iid=uname).values
-            
+            try:
+                ins_pp = institution_detail.objects.get(id=uname).profile_pic
+            except:
+                return redirect('/login/institution')
+            if request.method == "POST":
+                
+                s_id = request.POST.get('stu_id')
+                search_details = student_detail.objects.filter(sid = s_id).values()
+                
+                if search_details:
+                    return render(request, 'dashboards\institution\dashboard_institution_search.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
+                else:
+                    messages.error(request, "Student not found.")
+                    return redirect('/dashboard/institution/search')
+            else:
+                
+                return render(request, 'dashboards\institution\dashboard_institution_search.html',{'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
+        else:
+            return redirect('/login/institution')
+    except:
+        messages.error(request, 'Something went wrong! Try again.')
+        redirect('/')
 
+def institution_edit(request):
+    try:
+        if request.user.is_authenticated:
+            
+            uname=request.user.get_username()
+            user = User.objects.get(username=uname)
+            user_email = user.email
+            nam=user.get_full_name()
+            # students enrolled
+            no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
 
             try:
                 ins_pp = institution_detail.objects.get(id=uname).profile_pic
             except:
                 return redirect('/login/institution')
-            return render(request, 'dashboards\institution\dashboard_institution_enroll_student.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp, 'deg':deg})
-    else:
-        return redirect('/login/institution')
+            if request.method == "POST":
+                # search student
+                if 'search' in request.POST:
+                    s_id = request.POST.get('s-id')
+                    search_details = student_detail.objects.filter(sid = s_id).values()
+                    if search_details:
+
+                        return render(request, 'dashboards\institution\dashboard_institution_edit.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
+                    else:
+                        messages.error(request, "Student not found.")
+                        return redirect('/dashboard/institution/edit')
+
+
+                # change student details
+                if 'edit' in request.POST:
+                    s_id = request.POST.get('s-id')
+                    s_name = request.POST.get('s-name')
+                    s_dob = request.POST.get('dob')
+                    s_guardian = request.POST.get('pgname')
+                    s_email = request.POST.get('email')
+                    s_mobile = request.POST.get('contact')
+                    s_aadhar = request.POST.get('aadhar')
+                    s_gender = request.POST.get('gender')
+                    s_status = request.POST.get('active_status')
+                    s_community = request.POST.get('community')
+                    s_address = request.POST.get('address')
+                    s_city = request.POST.get('city')
+                    s_state = request.POST.get('state')
+                    s_pincode = request.POST.get('pincode')
+
+                    #hardcode active status
+                    s_status = True
+                    # updating details
+                    s = student_detail.objects.get(sid = s_id)
+                    if s:
+                        s.name = s_name
+                        s.dob= s_dob
+                        s.guardian_name = s_guardian
+                        s.email= s_email
+                        s.mobile= s_mobile
+                        s.aadhar= s_aadhar
+                        s.gender= s_gender
+                        s.active_status= s_status
+                        s.community= s_community
+                        s.address= s_address
+                        s.city= s_city
+                        s.state= s_state
+                        s.pincode= s_pincode
+                        
+                        # saving updates to database
+                        s.save()
+
+                        # upload pic
+                        if request.FILES['profilepic']:
+                            pic = request.FILES['profilepic']
+                            s.profile_pic = pic
+                            s.save()
+                        messages.success(request, "Successfully updated.")
+                        return redirect('/dashboard/institution/edit')
+                    else:
+                        messages.error(request, "Student not found.")
+                        return redirect('/dashboard/institution/edit')
+            
+            
+            return render(request, 'dashboards\institution\dashboard_institution_edit.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
+        else:
+            return redirect('/login/institution')
+    except:
+        messages.error(request, 'Something went wrong! Try again.')
+        redirect('/')
+
+def institution_enroll_student(request):
+    try:
+        if request.user.is_authenticated:
+            if request.method == "POST":
+                s_id = request.POST.get('student-id')
+                d_name = request.POST.get('degree-name')
+                discipline = request.POST.get('discipline')
+                join_year = request.POST.get('joining-year')
+
+                uname=request.user.get_username()
+                
+
+                # get instances
+                try:
+                    stu = student_detail.objects.get(sid = s_id)
+                    ins = institution_detail.objects.get(id = uname)
+                except:
+                    messages.success(request, 'Student ID invalid.')
+                    return redirect('/dashboard/institution/enroll')
+
+                # setting student profile to studying status
+                if stu.active_status != True:
+                    stu.active_status = True
+                    stu.save()
+
+                db_degree = degree(
+                    sid = stu,
+                    iid = ins,
+                    name = d_name,
+                    status = 'Pursuing',
+                    discipline = discipline,
+                    year_join = join_year,
+                )
+                db_degree.save()
+
+                messages.success(request, 'Successfully enrolled student to institution and degree.')
+                return redirect('/dashboard/institution/enroll')
+            else:
+
+                uname=request.user.get_username()
+                user = User.objects.get(username=uname)
+                user_email = user.email
+                nam=user.get_full_name()
+                # students enrolled
+                no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+                
+                deg = degree.objects.filter(iid=uname).values
+                
+
+
+                try:
+                    ins_pp = institution_detail.objects.get(id=uname).profile_pic
+                except:
+                    return redirect('/login/institution')
+                return render(request, 'dashboards\institution\dashboard_institution_enroll_student.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp, 'deg':deg})
+        else:
+            return redirect('/login/institution')
+    except:
+        messages.error(request, 'Something went wrong! Try again.')
+        redirect('/')
 
 def institution_enroll_bulk(request):
-    uname=request.user.get_username()
-    user = User.objects.get(username=uname)
-    user_email = user.email
-    nam=user.get_full_name()
-
-    # students enrolled
-    no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
-
     try:
-        ins_pp = institution_detail.objects.get(id=uname).profile_pic
-    except:
-        return redirect('/login/institution')
-
-    if request.method == "POST" and request.FILES['myfile'] :
-        myfile = request.FILES['myfile']
-        fs = FileSystemStorage()
-        filename = fs.save(f"{uname+'_bulkaddstu'}.csv", myfile)
-        messages.success(request,f"File Uploaded")
-        filepath = fs.path(filename)
-        df = pd.read_csv(f"{filepath}")
-        for i in range(len(df)) : 
-
-            sid = df.iloc[i, 0]
-            d_name = df.iloc[i, 1]
-            discipline =  df.iloc[i, 2]
-            join_year = df.iloc[i, 3]
-            try:
-                stu = student_detail.objects.get(sid=sid)
-                ins = institution_detail.objects.get(id=uname)
-            except:
-                messages.error(request,f'Student ID: {sid} not valid')
-                return redirect('/dashboard/institution/enroll/bulk')
-
-            # setting student profile to studying status
-            if stu.active_status != True:
-                stu.active_status = True
-                stu.save()
-
-            #insert data into db
-            db_degree = degree(
-                sid = stu,
-                iid = ins,
-                name = d_name,
-                status = 'Pursuing',
-                discipline = discipline,
-                year_join = join_year,
-            )
-            db_degree.save()
-
-        fs.delete(filename)
-        messages.success(request, 'The students have been enrolled successfully')
-        
-        
-        
-        return redirect('/dashboard/institution/enroll/bulk')
-    return render(request, "dashboards\institution\dash_bulk_enrollstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
-
-def institution_removestudent(request):
-    if request.user.is_authenticated:
         uname=request.user.get_username()
         user = User.objects.get(username=uname)
         user_email = user.email
@@ -709,40 +671,108 @@ def institution_removestudent(request):
         except:
             return redirect('/login/institution')
 
-        if request.method == "POST":
-            s_id = request.POST.get('student-id')
-            fmark = request.POST.get('final-mark')
-            leave_year = request.POST.get('year')
-            leave_type = request.POST.get('type')
+        if request.method == "POST" and request.FILES['myfile'] :
+            myfile = request.FILES['myfile']
+            fs = FileSystemStorage()
+            filename = fs.save(f"{uname+'_bulkaddstu'}.csv", myfile)
+            messages.success(request,f"File Uploaded")
+            filepath = fs.path(filename)
+            df = pd.read_csv(f"{filepath}")
+            for i in range(len(df)) : 
+
+                sid = df.iloc[i, 0]
+                d_name = df.iloc[i, 1]
+                discipline =  df.iloc[i, 2]
+                join_year = df.iloc[i, 3]
+                try:
+                    stu = student_detail.objects.get(sid=sid)
+                    ins = institution_detail.objects.get(id=uname)
+                except:
+                    messages.error(request,f'Student ID: {sid} not valid')
+                    return redirect('/dashboard/institution/enroll/bulk')
+
+                # setting student profile to studying status
+                if stu.active_status != True:
+                    stu.active_status = True
+                    stu.save()
+
+                #insert data into db
+                db_degree = degree(
+                    sid = stu,
+                    iid = ins,
+                    name = d_name,
+                    status = 'Pursuing',
+                    discipline = discipline,
+                    year_join = join_year,
+                )
+                db_degree.save()
+
+            fs.delete(filename)
+            messages.success(request, 'The students have been enrolled successfully')
+            
+            
+            
+            return redirect('/dashboard/institution/enroll/bulk')
+        return render(request, "dashboards\institution\dash_bulk_enrollstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
+    except:
+        messages.error(request, 'Something went wrong! Try again.')
+        redirect('/')
+
+
+def institution_removestudent(request):
+    try:
+        if request.user.is_authenticated:
+            uname=request.user.get_username()
+            user = User.objects.get(username=uname)
+            user_email = user.email
+            nam=user.get_full_name()
+
+            # students enrolled
+            no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
 
             try:
-                degree_details = degree.objects.get(sid= s_id, iid=uname, status='Pursuing')
+                ins_pp = institution_detail.objects.get(id=uname).profile_pic
             except:
-                messages.error(request, 'Student not found.')
+                return redirect('/login/institution')
+
+            if request.method == "POST":
+                s_id = request.POST.get('student-id')
+                fmark = request.POST.get('final-mark')
+                leave_year = request.POST.get('year')
+                leave_type = request.POST.get('type')
+
+                try:
+                    degree_details = degree.objects.get(sid= s_id, iid=uname, status='Pursuing')
+                except:
+                    messages.error(request, 'Student not found.')
+                    return redirect('/dashboard/institution/remove')
+
+                degree_details.grade = fmark
+                degree_details.year_leave = leave_year
+                degree_details.status = leave_type
+                
+                degree_details.save()
+
+                d = degree.objects.filter(sid= s_id, status='Pursuing').values()
+
+                if len(d) == 0:
+                    stu = student_detail.objects.get(sid=s_id)
+                    stu.active_status = False
+                    stu.save()
+
+                messages.success(request, 'Successfully removed student from institution.')
                 return redirect('/dashboard/institution/remove')
-
-            degree_details.grade = fmark
-            degree_details.year_leave = leave_year
-            degree_details.status = leave_type
-            
-            degree_details.save()
-
-            d = degree.objects.filter(sid= s_id, status='Pursuing').values()
-
-            if len(d) == 0:
-                stu = student_detail.objects.get(sid=s_id)
-                stu.active_status = False
-                stu.save()
-
-            messages.success(request, 'Successfully removed student from institution.')
-            return redirect('/dashboard/institution/remove')
-        else:          
-            
-            return render(request, 'dashboards\institution\dashboard_institution_remove_student.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
-    else:
-        return redirect('/login/institution')
+            else:          
+                
+                return render(request, 'dashboards\institution\dashboard_institution_remove_student.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
+        else:
+            return redirect('/login/institution')
+    except:
+        messages.error(request, 'Something went wrong! Try again.')
+        redirect('/')
 
 def institution_removestudent_bulk(request):
+    try:
         uname=request.user.get_username()
         user = User.objects.get(username=uname)
         user_email = user.email
@@ -787,6 +817,9 @@ def institution_removestudent_bulk(request):
             
             return redirect('/dashboard/institution/create/bulk')
         return render(request, "dashboards\institution\dash_bulk_enrollstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
+    except:
+        messages.error(request, 'Something went wrong! Try again.')
+        redirect('/')
 
 def institution_addcourse(request):
     if request.user.is_authenticated:
