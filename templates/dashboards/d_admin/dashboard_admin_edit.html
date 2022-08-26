@@ -74,7 +74,7 @@
                         <div class="profile-form-container">
 
                             <div class="profile-form">
-                                <form action="/dashboard/admin/edit" method="POST">
+                                <form action="/dashboard/admin/edit" method="POST" enctype="multipart/form-data">
 
                                     {% csrf_token %}
                                     
@@ -161,24 +161,24 @@
                                     <br>
 
                                     <label for="pincode">PINCODE:</label>
-            
                                     <br>
-            
                                     <input type="text" id="pincode" name="pincode" value="{{i.pincode}}"  >
+                                    <br>
+                                    <br>
 
+                                    <label for= "profilepic">Profile Picture:</label>
+                                    <br>
+                                    <input type="file" id="profilepic" name="profilepic">
                                     <br>
                                     <br>
 
                                     <input type="submit" value="SUBMIT" name="edit">
             
                                 </form>
-
-
                             </div>
-
                         </div>
                     </div>
-            </div>
+                </div>
 
                         <div class="profile-form-container">
 
