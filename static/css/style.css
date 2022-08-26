@@ -520,14 +520,12 @@ footer span a{
 	border-radius: 50%;
 	position: relative;
 	bottom: 180px;
-	left: 20px;
-	float: left;
 	background-color: #565a61;
 	overflow: hidden;
 }
 .profile-pic img{
-	height: 175px;
-	width: 175px;
+	height: 150px;
+	width: 150px;
 }
 .dashboard-nav{
 	width: 100%;

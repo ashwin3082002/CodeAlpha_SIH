@@ -40,7 +40,7 @@
 
             <div class="profile-pic">
 
-                <img src="">
+                <img src="/media/{{ pp }}">
 
             </div>
 
@@ -91,62 +91,45 @@
 
                     <div class="profile-form-container">
                         <div class="profile-form">
-                            <form action="/dashboard/institution" method="post">
+                            <form action="/dashboard/institution" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 
                                 <label for="ins-name">STUDENT NAME:</label>
-        
                                 <br>
-        
                                 <input type="text" id="stu-name" name="stu-name" required>
-        
                                 <br>
                                 <br>
 
                                 <label for="ins-name">DOB:</label>
-        
                                 <br>
-        
                                 <input type="text" id="dob" name="dob" required>
-        
                                 <br>
                                 <br>
 
                                 <label for="ins-name">FATHER/MOTHER/GUARDIAN NAME:</label>
-        
                                 <br>
-        
                                 <input type="text" id="guadian" name="guardian" required>
-        
                                 <br>
                                 <br>
 
                                 <label for="adhaar">ADHAAR NO:</label>
-        
                                 <br>
-        
                                 <input type="text" id="aadhar" name="aadhar" required>
-        
                                 <br>
                                 <br>
 
                                 <label>GENDER:</label>
-
                                 <br>
-
                                 <select name="gender" id="gender" required>
                                     <option value="options">SELECT OPTION</option>
                                     <option value="Male">MALE</option>
                                     <option value="Female">FEMALE</option>
                                 </select>
-
                                 <br>
                                 <br>
 
                                 <label>COMMUNITY:</label>
-
                                 <br>
-
                                 <select name="community" id="community" required>
                                     <option value="options">SELECT OPTION</option>
                                     <option value="General">GENERAL</option>
@@ -154,78 +137,60 @@
                                     <option value="SC">SC</option>
                                     <option value="ST">ST</option>
                                 </select>
-
                                 <br>
                                 <br>
         
                                 <label for="email">EMAIL:</label>
-        
                                 <br>
-        
                                 <input type="email" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"required>
-        
                                 <br>
                                 <br>
 
                                 <label for="contact">CONTACT NO:</label>
-        
                                 <br>
-        
                                 <input type="text" id="contact" name="contact" required>
-
                                 <br>
                                 <br>
 
                                 <label for="address">ADDRESS:</label>
-
                                 <br>
-
                                 <textarea id="address" name="address" required></textarea>
-
                                 <br>
                                 <br>
 
                                 <label for="city">CITY:</label>
-        
                                 <br>
-        
                                 <input type="text" id="city" name="city" required>
-
                                 <br>
                                 <br>
 
                                 <label for="state">STATE:</label>
-        
                                 <br>
-        
                                 <input type="text" id="state" name="state" required>
-
                                 <br>
                                 <br>
 
                                 <label for="pincode">PINCODE:</label>
-        
                                 <br>
-        
                                 <input type="text" id="pincode" name="pincode" required>
+                                <br>
+                                <br>
 
+                                <label for= "profilepic">Profile Picture:</label>
+                                <br>
+                                <input type="file" id="profilepic" name="profilepic">
                                 <br>
                                 <br>
-        
+
                                 <input type="submit" value="SUBMIT">
-        
+                                
                             </form>
         
                         </div>
-        
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 </div>
 

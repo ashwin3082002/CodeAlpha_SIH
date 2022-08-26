@@ -41,7 +41,7 @@
 
             <div class="profile-pic">
 
-                <img src="">
+                <img src="/media/{{ pp }}">
 
             </div>
 
@@ -75,7 +75,7 @@
                         <div class="profile-form-container">
 
                             <div class="profile-form">
-                                <form action="/dashboard/institution/edit" method="POST">
+                                <form action="/dashboard/institution/edit" method="POST" enctype="multipart/form-data">
 
                                     {% csrf_token %}
                                     
@@ -212,6 +212,12 @@
             
                                     <input type="text" id="pincode" name="pincode" value="{{s.pincode}}"  >
 
+                                    <br>
+                                    <br>
+
+                                    <label for= "profilepic">Profile Picture:</label>
+                                    <br>
+                                    <input type="file" id="profilepic" name="profilepic">
                                     <br>
                                     <br>
 

@@ -25,7 +25,7 @@ def admin(request):
             # must add contact later
             # to send id and pass as email
             if func.insti_creation(i_email,i_id,password):
-                #database instance
+                # database instance
                 db_insti = institution_detail(
                     id= i_id,
                     name=i_name,
@@ -38,7 +38,7 @@ def admin(request):
                 )
                 db_insti.save()
 
-                #create new user and grant staff status
+                # create new user and grant staff status
                 User.objects.create_user(
                     first_name = i_name,
                     username = i_id, 
@@ -47,6 +47,11 @@ def admin(request):
                     is_staff = True
                 )
                 #new_user.is_staff = True
+                # upload pic
+                if request.FILES['profilepic']:
+                    pic = request.FILES['profilepic']
+                    db_insti.profile_pic = pic
+                    db_insti.save()
 
                 messages.success(request, "Successfully created institution profile.")
                 return redirect('/dashboard/admin')
@@ -202,10 +207,13 @@ def admin_edit(request):
                     i.state = i_state
                     i.city = i_city
                     i.pincode = i_pincode
-
+                    # upload pic
+                    if request.FILES['profilepic']:
+                        pic = request.FILES['profilepic']
+                        i.profile_pic = pic
                     # saving updates to database
                     i.save()
-                    messages.success(request, "Successfully updated")
+                    messages.success(request, "Successfully updated.")
                     return redirect('/dashboard/admin/edit')
                 else:
                     messages.error(request, "Institution not found.")
@@ -273,7 +281,7 @@ def revok_api(request):
 
 def institution(request):
     if request.user.is_authenticated:
-        if request.method == "POST":
+        if request.method == "POST" :
             s_name = request.POST.get('stu-name')
             dob = request.POST.get('dob')
             guardian = request.POST.get('guardian')
@@ -286,10 +294,12 @@ def institution(request):
             state = request.POST.get('state')
             pincode = request.POST.get('pincode')
             community = request.POST.get('community')
-            password = User.objects.make_random_password()
             
-            # generate insti id
+            
+            
+            # generate insti id and password
             i_id = func.stu_id_gen()
+            password = User.objects.make_random_password()
 
             if func.stu_creation(email,i_id,password):
                 db_student = student_detail(
@@ -318,15 +328,28 @@ def institution(request):
                     email = email,
                     password= password,
                 )
+
+                # upload pic
+                if request.FILES['profilepic']:
+                    pic = request.FILES['profilepic']
+                    db_student.profile_pic = pic
+                    db_student.save()
+
                 messages.success(request, "Successfully created student profile.")
                 return redirect('/dashboard/institution')
         uname=request.user.get_username()
         user = User.objects.get(username=uname)
         user_email = user.email
         nam=user.get_full_name()
+
+        # profile pic
+        try:
+            ins_pp = institution_detail.objects.get(id=uname).profile_pic
+        except:
+            return redirect('/login/institution')
         # students enrolled
         no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
-        return render(request, 'dashboards\institution\dashboard_institution.html',{'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
+        return render(request, 'dashboards\institution\dashboard_institution.html',{'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
     else:
         return redirect('/login/institution')
 
@@ -396,6 +419,7 @@ def institution_createbulk(request):
                     email = email,
                     password= password,
                 )
+                
             else:
                 messages.error(request, f'Cannot create {s_name}\'s profile.')
                 return redirect('/dashboard/institution/create/bulk')
@@ -403,8 +427,11 @@ def institution_createbulk(request):
         fs.delete(filename)
         messages.success(request, 'The student profiles have been created successfully')
         return redirect('/dashboard/institution/create/bulk')
-
-    return render(request, "dashboards\institution\dash_bulk_createstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
+    try:
+        ins_pp = institution_detail.objects.get(id=uname).profile_pic
+    except:
+        return redirect('/login/institution')
+    return render(request, "dashboards\institution\dash_bulk_createstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
 
 def institution_search(request):
     if request.user.is_authenticated:
@@ -421,12 +448,16 @@ def institution_search(request):
             search_details = student_detail.objects.filter(sid = s_id).values()
             
             if search_details:
-                return render(request, 'dashboards\institution\dashboard_institution_search.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
+                return render(request, 'dashboards\institution\dashboard_institution_search.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
             else:
                 messages.error(request, "Student not found.")
                 return redirect('/dashboard/institution/search')
         else:
-            return render(request, 'dashboards\institution\dashboard_institution_search.html',{'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
+            try:
+                ins_pp = institution_detail.objects.get(id=uname).profile_pic
+            except:
+                return redirect('/login/institution')
+            return render(request, 'dashboards\institution\dashboard_institution_search.html',{'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
     else:
         return redirect('/login/institution')
 
@@ -447,7 +478,7 @@ def institution_edit(request):
                 search_details = student_detail.objects.filter(sid = s_id).values()
                 if search_details:
 
-                    return render(request, 'dashboards\institution\dashboard_institution_edit.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
+                    return render(request, 'dashboards\institution\dashboard_institution_edit.html', {'s': search_details[0], 'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
                 else:
                     messages.error(request, "Student not found.")
                     return redirect('/dashboard/institution/edit')
@@ -488,17 +519,27 @@ def institution_edit(request):
                     s.city= s_city
                     s.state= s_state
                     s.pincode= s_pincode
-
+                    
                     # saving updates to database
                     s.save()
-                    messages.success(request, "Successfully updated")
+
+                    # upload pic
+                    if request.FILES['profilepic']:
+                        print('going into if')
+                        pic = request.FILES['profilepic']
+                        s.profile_pic = pic
+                        s.save()
+                    messages.success(request, "Successfully updated.")
                     return redirect('/dashboard/institution/edit')
                 else:
                     messages.error(request, "Student not found.")
                     return redirect('/dashboard/institution/edit')
-
+        try:
+            ins_pp = institution_detail.objects.get(id=uname).profile_pic
+        except:
+            return redirect('/login/institution')
         
-        return render(request, 'dashboards\institution\dashboard_institution_edit.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
+        return render(request, 'dashboards\institution\dashboard_institution_edit.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
     else:
         return redirect('/login/institution')
 
@@ -539,13 +580,19 @@ def institution_enroll_student(request):
             messages.success(request, 'Successfully enrolled student to institution and degree.')
             return redirect('/dashboard/institution/enroll')
         else:
+
             uname=request.user.get_username()
             user = User.objects.get(username=uname)
             user_email = user.email
             nam=user.get_full_name()
             # students enrolled
             no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
-            return render(request, 'dashboards\institution\dashboard_institution_enroll_student.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
+            
+            try:
+                ins_pp = institution_detail.objects.get(id=uname).profile_pic
+            except:
+                return redirect('/login/institution')
+            return render(request, 'dashboards\institution\dashboard_institution_enroll_student.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
     else:
         return redirect('/login/institution')
 
@@ -597,8 +644,14 @@ def institution_enroll_bulk(request):
 
         fs.delete(filename)
         messages.success(request, 'The students have been enrolled successfully')
+        
+        try:
+            ins_pp = institution_detail.objects.get(id=uname).profile_pic
+        except:
+            return redirect('/login/institution')
+        
         return redirect('/dashboard/institution/enroll/bulk')
-    return render(request, "dashboards\institution\dash_bulk_enrollstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
+    return render(request, "dashboards\institution\dash_bulk_enrollstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
 
 def institution_removestudent(request):
     if request.user.is_authenticated:
@@ -637,8 +690,11 @@ def institution_removestudent(request):
             messages.success(request, 'Successfully removed student from institution.')
             return redirect('/dashboard/institution/remove')
         else:          
-            
-            return render(request, 'dashboards\institution\dashboard_institution_remove_student.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
+            try:
+                ins_pp = institution_detail.objects.get(id=uname).profile_pic
+            except:
+                return redirect('/login/institution')
+            return render(request, 'dashboards\institution\dashboard_institution_remove_student.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
     else:
         return redirect('/login/institution')
 
@@ -679,8 +735,14 @@ def institution_removestudent_bulk(request):
 
             fs.delete(filename)
             messages.success(request, 'The student profiles have successfully')
+            
+            try:
+                ins_pp = institution_detail.objects.get(id=uname).profile_pic
+            except:
+                return redirect('/login/institution')
+            
             return redirect('/dashboard/institution/create/bulk')
-        return render(request, "dashboards\institution\dash_bulk_enrollstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
+        return render(request, "dashboards\institution\dash_bulk_enrollstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
 
 def institution_addcourse(request):
     if request.user.is_authenticated:
@@ -691,6 +753,10 @@ def institution_addcourse(request):
         nam=user.get_full_name()
         # students enrolled
         no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+        try:
+            ins_pp = institution_detail.objects.get(id=uname).profile_pic
+        except:
+            return redirect('/login/institution')
         if request.method == 'POST':
             s_id = request.POST.get('search-student')
 
@@ -708,7 +774,7 @@ def institution_addcourse(request):
                 degree_details = degree.objects.filter(sid=s_details, iid=i_details, status='Pursuing').values()
                 if degree_details:
                     return render(request, 'dashboards\institution\dashboard_institution_add_course.html',
-                        {'username':uname, 'name':nam, 'email':user_email, 'disabled':'disabled', 's':s_details, 'd':degree_details[0], 'student_count': no_of_stu}
+                        {'username':uname, 'name':nam, 'email':user_email, 'disabled':'disabled', 's':s_details, 'd':degree_details[0], 'student_count':no_of_stu, 'pp':ins_pp,}
                     )
                 else:
                     messages.error(request, 'Student not enrolled in your institution.')
@@ -744,9 +810,12 @@ def institution_addcourse(request):
                 )
                 db_course.save()
                 messages.success(request, 'Successfully created course in degree')
+                
+                
+                
                 return redirect('/dashboard/institution/addcourse')
         else:
-            return render(request, 'dashboards\institution\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
+            return render(request, 'dashboards\institution\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
     else:
         return redirect('/login/institution')
 
@@ -789,7 +858,12 @@ def institution_addcourse_bulk(request):
             db_course.save()
 
         fs.delete(filename)
-    return render(request, "dashboards\institution\dash_bulk_addcourse.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
+        try:
+            ins_pp = institution_detail.objects.get(id=uname).profile_pic
+        except:
+            return redirect('/login/institution')
+    
+    return render(request, "dashboards\institution\dash_bulk_addcourse.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
 
 def institution_docreq(request):
     if request.user.is_authenticated:
@@ -810,7 +884,8 @@ def institution_docreq(request):
                         {'username':uname,
                          'name':nam,
                          'email':user_email,
-                         'student_count': no_of_stu,
+                         'student_count':no_of_stu,
+                         'pp':ins_pp,
                          'docrequest':doc,
                         }
                     )
@@ -838,8 +913,11 @@ def institution_docreq(request):
                 doc.save()
                 # send mail
 
-
-        return render(request, 'dashboards\institution\dash_doc.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count': no_of_stu})
+        try:
+            ins_pp = institution_detail.objects.get(id=uname).profile_pic
+        except:
+            return redirect('/login/institution')
+        return render(request, 'dashboards\institution\dash_doc.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
     else:
         return redirect('/login/institution')
 
@@ -858,19 +936,26 @@ def student(request):
             i_id = d['iid_id']
             ins = institution_detail.objects.get(id=i_id)
             i_details.add(ins)
-
+        
         bank_details = account_detail.objects.filter(sid = uname).values()
         
         if bank_details:
             bool_bank = True
+            return render(request, 'dashboards\student\dashboard_student.html', {
+                's': user_details[0],
+                'i':i_details,
+                'd':degree_details,
+                'bank':bank_details[0],
+                'bank_dis':bool_bank
+            })
         else:
             bool_bank = False
-
-
-        if user_details:
-            return render(request, 'dashboards\student\dashboard_student.html', {'s': user_details[0], 'i':i_details, 'd':degree_details,'bank':bank_details[0],'bank_dis':bool_bank})
-        else:
-            return render(request, 'dashboards\student\dashboard_student.html')
+            return render(request, 'dashboards\student\dashboard_student.html', {
+                's': user_details[0],
+                'i':i_details,
+                'd':degree_details,
+                'bank_dis':bool_bank
+            })
     else:
         return redirect('/login/student')
 

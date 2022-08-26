@@ -67,7 +67,7 @@
                     </div>
                 </div>
 
-                <div class="create-profile" id="create-profile" style="display: none;">
+                <div class="create-profile" id="create-profile" enctype="multipart/form-data" style="display: none;">
                     <h1>CREATE INSTITUTION PROFILE</h1>
                     
                     {% comment %} Bulk {% endcomment %}
@@ -132,6 +132,12 @@
                                 <br>
                                 <br>
         
+                                <label for= "profilepic">Profile Picture:</label>
+                                <br>
+                                <input type="file" id="profilepic" name="profilepic">
+                                <br>
+                                <br>
+
                                 <input type="submit" value="SUBMIT">
         
                             </form>

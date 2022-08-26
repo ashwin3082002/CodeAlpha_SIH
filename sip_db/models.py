@@ -19,7 +19,7 @@ class student_detail(models.Model):
     city = models.CharField(max_length=30, default='')
     state = models.CharField(max_length=20, default='')
     pincode = models.CharField(max_length=6, default='')
-    profile_pic = models.ImageField(null = True, blank = True , upload_to = 'profilepic/')
+    profile_pic = models.ImageField(null = True, blank = True , upload_to = 'profilepic/student')
     
     
     
@@ -35,6 +35,7 @@ class institution_detail(models.Model):
     pincode = models.CharField(max_length=50)
     email = models.EmailField(max_length=50)
     contact = models.CharField(max_length=14, null=True, blank=True)
+    profile_pic = models.ImageField(null = True, blank = True , upload_to = 'profilepic/institutuion/')
 
     def __str__(self):
         return self.name
@@ -95,4 +96,3 @@ class account_detail(models.Model):
     bank_name = models.CharField(max_length=50)
     branch_name = models.CharField(max_length=100)
     ifsc = models.CharField(max_length=50)
-    
