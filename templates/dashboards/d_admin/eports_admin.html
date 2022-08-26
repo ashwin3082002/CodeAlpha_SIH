@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Admin
+{% endblock title %}
+
+
+{% block main %}
+
+{% if messages %}
+<div class="messages_d">
+    {% for message in messages %}
+    <p {% if message.tags %}class="{{message.tags}}" {% endif %}>{{message}}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
+
+<div class="dashboard_spacing">
+    <div class="dashboard-wrapper">
+
+        <p>ADMIN DASHBOARD</p>
+
+        <div class="dashboard">
+            <div class="dashboard-head">
+                <div class="dashboard-head-top">
+                </div>
+                <div class="dashboard-head-bottom">
+                </div>
+            </div>
+
+            <div class="profile-pic">
+                <img src="">
+            </div>
+
+            <div class="dashboard-nav">
+
+                <p class="dashboard-name">{{name}}</p>
+
+                <div class="dashboard-link">
+                    <ul>
+                        <li><a href='#' onclick="profile()">Profile</a></li>
+                        <li><a href='#' onclick="createprofile()">Create Profile</a></li>
+                        <li><a href="/dashboard/admin/search">Search profile</a></li>
+                        <li><a href="/dashboard/admin/edit">Edit profile</a></li>
+                        <li><a href="/dashboard/admin/createapi">Create API Key</a></li>
+                        <li><a href="/dashboard/admin/revokapi">Revoke API Key</a></li>
+                        <li><a href="/dashboard/admin/reports">Reports</a></li>
+                        <li><a class="logout" href="/signout">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="dashboard-body" id="dashboard-body">
+                <div class="profile" id="profile" style="display: show;">
+                    <h1><u>Reports</u></h1>
+                    <br>
+                    <br>
+                    <div style="display: flex;">
+                        <div>
+                            <h2>1. Gender Comparision</h2>
+                            <br>
+                            <img style="width: 600px;" src="/static/img/report1.png" alt="">
+                        </div>
+                        <br>
+                        <br>
+                        <div>
+                            <h2>2. Average Age by State and DOB</h2>
+                            <br>
+                            <img style="width: 600px;" src="/static/img/report2.png" alt="">
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div style="display: flex;">
+                        <div>
+                            <h2>3. Gender Comparision</h2>
+                            <br>
+                            <img style="width: 600px;" src="/static/img/report3.png" alt="">
+                        </div>
+                        <br>
+                        <br>
+                        <div>
+                            <h2>4. Students Strenght WRT City</h2>
+                            <br>
+                            <img style="width: 600px;" src="/static/img/report4.png" alt="">
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div style="display: flex;">
+                        <div>
+                            <h2>5. Enrollment of Female Students in Assam</h2>
+                            <br>
+                            <img style="width: 600px;" src="/static/img/report5.png" alt="">
+                        </div>
+                        <br>
+                        <br>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+{% endblock main %}

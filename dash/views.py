@@ -276,7 +276,13 @@ def revok_api(request):
         
     return render(request, "dashboards\d_admin\evoke-api.html", {'username':uname, 'name':name, 'email':user_email})
 
-
+def reports(request):
+    # getting username from login & getting other user details in a obj 'user'
+    uname=request.user.get_username()
+    user = User.objects.get(username=uname)
+    user_email = user.email
+    name = user.get_full_name()
+    return render(request,"dashboards\d_admin\eports_admin.html", {'username':uname, 'name':name, 'email':user_email})
 # INSTITUTION VIEWS
 
 def institution(request):
