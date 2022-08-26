@@ -922,6 +922,8 @@ def institution_docreq(request):
                 deg_details = degree.objects.filter(sid = doc.sid, iid = doc.i_id, status='Pursuing').values()
                 deg = deg_details[0]['id']
                 # send mail
+                if doc.doc_type:
+                    pass
                 func.bonafide_mail(stu.email, stu.name, stu.guardian_name, deg)
 
             elif 'reject' in request.POST:

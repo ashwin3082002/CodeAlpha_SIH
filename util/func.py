@@ -7,6 +7,8 @@ import random
 import json
 # added by Laavesh
 import re
+import pdfkit
+
 
 #send bonafide
 def bonafide_mail(emailto, sname, pname, dname):
@@ -39,6 +41,7 @@ def api_mail_creation(emailto, orgname, api_key, apiid):
     email.attach_alternative(html_content,"text/html")
     email.send()
     return True
+    
 #api revoke mail
 def api_mail_revok(emailto, apiid):
     subject = 'API ACCESS REVOKED | Student Information Portal'
