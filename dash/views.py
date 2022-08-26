@@ -377,14 +377,12 @@ def institution_createbulk(request):
             guardian =  df.iloc[i, 2]
             aadhar = df.iloc[i, 3]
             gender = df.iloc[i, 4]
-            email = df.iloc[i, 1]
-            contact =  df.iloc[i, 5]
-            address = df.iloc[i, 6]
-            city = df.iloc[i, 7]
-            state = df.iloc[i, 8]
-            pincode =  df.iloc[i, 9]
-            community = df.iloc[i, 10]
-
+            email = df.iloc[i, 5]
+            contact =  df.iloc[i, 6]
+            address = df.iloc[i, 7]
+            city = df.iloc[i, 8]
+            state = df.iloc[i, 9]
+            pincode =  df.iloc[i, 10]
             # generate password
             password = User.objects.make_random_password()
             
@@ -392,7 +390,7 @@ def institution_createbulk(request):
             i_id = func.stu_id_gen()
 
             # profile creation
-            if func.stu_creation(email,i_id,password):
+            if True:
                 db_student = student_detail(
                     sid = i_id,
                     name = s_name,
@@ -403,7 +401,7 @@ def institution_createbulk(request):
                     aadhar=aadhar,
                     gender=gender,
                     active_status=False,
-                    community= community,
+                    community= "General",
                     address=address,
                     city=city,
                     state=state,
@@ -928,13 +926,10 @@ def institution_docreq(request):
                     doc = docreq.objects.get(id=doc_id)
                 except:
                     messages.error(request, 'Invalid Document ID.')
-                doc.status = 'Accepted'
-                doc.save()
-                
                 stu= student_detail.objects.get(sid = doc.sid_id)
                 deg_details = degree.objects.filter(sid = doc.sid, iid = doc.i_id, status='Pursuing').values()
                 ins_details = institution_detail.objects.get(id=doc.i_id_id)
-                deg = deg_details[0]
+                deg = deg_details[0]['name']
                 # send mail
                 if doc.doc_type == 'bonafide':
                     func.bonafide_mail(stu.email, stu.name, stu.guardian_name, deg, ins_details.name)
@@ -942,6 +937,10 @@ def institution_docreq(request):
                     print("noc")
                 else:
                     print("exception")
+                doc.status = 'Accepted'
+                doc.save()
+                
+                
 
             elif 'reject' in request.POST:
                 doc_id = request.POST.get('doc-id')
