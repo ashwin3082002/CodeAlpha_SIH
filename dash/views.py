@@ -1140,3 +1140,13 @@ def student_courses(request):
         return render(request,'dashboards\student\dash_courses.html',{'s':user_details, 'c':courses, 'd':d, 'i':insti})
     else:
         return redirect('/login/student')
+
+def scholarship(request):
+    uname=request.user.get_username()
+    user_details = student_detail.objects.get(sid = uname)
+    
+
+    if request.user.is_authenticated:
+        return render(request,'dashboards\student\scholarship.html',{'s':user_details})
+    else:
+        return redirect('/login/student')

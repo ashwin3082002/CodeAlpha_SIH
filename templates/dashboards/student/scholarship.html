@@ -1,0 +1,158 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Student
+{% endblock title %}
+
+
+{% block main %}
+{% if messages %}
+	<div class="messages_d">
+		{% for message in messages %}
+			<p {% if message.tags %}class="{{message.tags}}"{% endif %}>{{message}}</p>
+		{% endfor %}
+	</div>
+{% endif %}
+<div class = "dashboard_spacing">
+    <div class="dashboard-wrapper">
+
+        <p>STUDENT DASHBOARD</p>
+
+        <div class="dashboard">
+
+            <div class="dashboard-head">
+
+                <div class="dashboard-head-top">
+                    
+
+
+                </div>
+
+                <div class="dashboard-head-bottom">
+
+                    
+
+                </div>
+
+            </div>
+
+            <div class="profile-pic">
+                
+                <img src="/media/{{ s.profile_pic }}">
+
+            </div>
+            
+            <div class="dashboard-nav">
+                <p class="dashboard-name">{{s.name}}</p>
+
+                <p class="dashboard-status">STATUS:  <span style="color: green;">{{s.active_status}}</span></p>
+
+                <div class="dashboard-link">
+                    <ul>
+                        <li><a href="/dashboard/student">Profile</a></li>
+                        <li><a href="/dashboard/student/getdocument">Get Documents</a></li>
+                        <li><a href="/dashboard/student/profiledownload" target="_blank" >Download Profile</a></li>
+                        <li><a href="/dashboard/student/courses">Courses</a></li>
+                        <li><a href="/dashboard/student/scholarship">Scholarships</a></li>
+                        <li><a class="logout" href="/signout">Logout</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="dashboard-body" id="dashboard-body">
+
+                <div class="create-profile" id="create-profile">
+
+                    <h1>SCHOLARSHIP</h1>
+
+                    <div class="profile-form-container">
+
+                        <div class="profile-form">
+
+                            <div>
+
+                                <h3 style="font-size: 1.5rem;">Pre Matric Scholarships Scheme for Minorities</h3>
+                                <br>
+                                <p style="font-size: 1.2rem; float:left;">Register by: 30-09-2022</p>
+                                <br>
+                                <br>
+
+                                
+                                <input type="button" style="padding:8px; background-color: #ffdd00; border: none; border-radius: 10px; " value="VIEW" onclick="window.open('https://scholarships.gov.in/public/schemeGuidelines/MoMA_Pre_Matric_2018-20.pdf')" />
+                                
+                                <br>
+                                <br>
+
+                            </div>
+
+                            
+        
+                        </div>
+        
+                    </div>
+
+                    <br>
+
+                    <div class="profile-form-container">
+
+                        <div class="profile-form">
+
+                            <div>
+
+                                <h3 style="font-size: 1.5rem;">Merit Cum Means Scholarship For Professional and Technical Courses CS</h3>
+                                <br>
+                                <p style="font-size: 1.2rem; float:left;">Register by: 31-10-2022</p>
+                                <br>
+                                <br>
+
+                               
+                                <input type="button" value="VIEW" style="padding:8px; background-color: #ffdd00; border: none; border-radius: 10px; "  onclick="window.open('https://scholarships.gov.in/public/schemeGuidelines/MoMA_MCM_2018-20.pdf')" />
+
+                                <br>
+                                <br>
+
+                            </div>
+
+                            
+        
+                        </div>
+        
+                    </div>
+
+                    <br>
+
+                    <div class="profile-form-container">
+
+                        <div class="profile-form">
+
+                            <div>
+
+                                <h3 style="font-size: 1.5rem;">BEGUM HAZRAT MAHAL NATIONAL SCHOLARSHIP</h3>
+                                <br>
+                                <p style="font-size: 1.2rem; float:left;">Register by: 30-09-2022</p>
+                                <br>
+                                <br>
+
+        
+                                <input type="button" value="VIEW"  style="padding:8px; background-color: #ffdd00; border: none; border-radius: 10px; "  onclick="window.open('http://scholarships.gov.in/public/schemeGuidelines/1053_G.pdf')" />
+                                
+                                <br>
+                                <br>
+
+                            </div>
+
+                        </div>
+        
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock main %}
+
