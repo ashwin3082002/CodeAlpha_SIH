@@ -942,7 +942,7 @@ def institution_docreq(request):
                 if doc.doc_type == 'bonafide':
                     func.bonafide_mail(stu.email, stu.name, stu.guardian_name, deg, ins_details.name)
                 elif doc.doc_type == 'noc':
-                    print("noc")
+                    func.noc_mail(stu.email, stu.name, stu.guardian_name, deg, ins_details.name)
                 else:
                     print("exception")
                 doc.status = 'Accepted'
@@ -953,11 +953,14 @@ def institution_docreq(request):
 
             elif 'reject' in request.POST:
                 doc_id = request.POST.get('doc-id')
+                
                 try:
                     doc = docreq.objects.get(id=doc_id)
                 except:
                     messages.error(request, 'Invalid Document ID.')
-                # send mail
+
+                stu= student_detail.objects.get(sid = doc.sid_id)
+                func.doc_rej(stu.email)
                 doc.status = 'Rejected'
                 doc.save()
                 messages.success(request, 'Document request rejected!')

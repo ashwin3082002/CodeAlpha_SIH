@@ -2,6 +2,7 @@ from django.core.mail import EmailMultiAlternatives, EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django.core.mail import send_mail
 import random
 import json
 # added by Laavesh
@@ -11,6 +12,37 @@ import re
 def bonafide_mail(emailto, sname, pname, dname,cname):
     subject = 'Bonafide Approved | Student Information Portal'
     html_content = render_to_string('mail\onafide.html',{'student_name':sname,'parent_name':pname,'degree_name':dname, 'college_name':cname})
+    text_content = strip_tags(html_content)
+    to = emailto
+    email = EmailMultiAlternatives(
+        subject,
+        text_content,
+        settings.EMAIL_HOST_USER,
+        [to]
+        )
+    email.attach_alternative(html_content,"text/html")
+    email.send()
+    return True
+
+def doc_rej(emailto):
+    body = '''
+    Your Request for the Document has been rejected by the institution, Kindly Contact the Institution 
+    administrator/HOD/Class Teacher if you think this is as mistake.
+
+    Regards,
+    Team SIP
+    '''
+    send_mail(
+    'DOC REQUEST REJECTED | Student Information Portal',
+    body,
+    settings.EMAIL_HOST_USER,
+    [emailto],
+    fail_silently=True,
+)
+
+def noc_mail(emailto, sname, pname, dname,cname):
+    subject = 'NOC Approved | Student Information Portal'
+    html_content = render_to_string('mail\oc_mail.html',{'student_name':sname,'parent_name':pname,'degree_name':dname, 'college_name':cname})
     text_content = strip_tags(html_content)
     to = emailto
     email = EmailMultiAlternatives(
