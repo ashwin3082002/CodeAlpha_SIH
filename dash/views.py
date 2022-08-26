@@ -632,7 +632,7 @@ def institution_enroll_bulk(request):
                 stu = student_detail.objects.get(sid=sid)
                 ins = institution_detail.objects.get(id=uname)
             except:
-                messages.error(f'Student ID: {sid} not valid')
+                messages.error(request,f'Student ID: {sid} not valid')
                 return redirect('/dashboard/institution/enroll/bulk')
 
             # setting student profile to studying status
