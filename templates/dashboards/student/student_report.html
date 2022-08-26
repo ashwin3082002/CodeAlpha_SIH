@@ -92,31 +92,45 @@
 
             <div>
 
-            <table style="font-family: arial, sans-serif; border-collapse: collapse; border: solid 1px black; width: 80%; float: left; ">
+            <table style="font-family: arial, sans-serif; border-collapse: collapse; border: solid 1px black; width: 95%; float: left; ">
                 <tr>
-                  <th style="border: 1px solid black; text-align: left; padding: 8px;">COURSE NAME</th>
+                    <th style="border: 1px solid black; text-align: left; padding: 8px;">DEGREE NAME</th>
+                  <th style="border: 1px solid black; text-align: left; padding: 8px;">DEGREE NAME</th>
                   <th style="border: 1px solid black; text-align: left; padding: 8px;">INSTITUTION NAME</th>
-                  <th style="border: 1px solid black; text-align: left; padding: 8px;">YEAR OF PASSING</th>
+                  <th style="border: 1px solid black; text-align: left; padding: 8px;">YEAR OF STUDY</th>
                   <th style="border: 1px solid black; text-align: left; padding: 8px;">GRADE</th>
                 </tr>
+                {% for row in degree_data %}
                 <tr>
-                  <td style="padding: 8px;">Course Name</td>
-                  <td style="padding: 8px;">Insti name</td>
-                  <td style="padding: 8px;">year of passing</td>
-                  <td style="padding: 8px;">grade</td>
+                    <td style="border: 1px solid black; padding: 8px;">{{row.id}}</td>
+                    <td style="border: 1px solid black; padding: 8px;">{{row.name}}</td>
+                    <td style="border: 1px solid black; padding: 8px;">{{row.iid_id}}</td>
+                    {% if row.year_leave == None %}
+                    <td style="border: 1px solid black; padding: 8px;">{{row.year_join}} (Pursuing)</td>
+                    {% else %}
+                    <td style="border: 1px solid black; padding: 8px;">{{row.year_join}}-{{row.year_leave}}</td>
+                    {% endif %}
+                    
+                    {% if row.year_leave == None %}
+                    <td style="border: 1px solid black; padding: 8px;">N/A</td>
+                    {% else %}
+                    <td style="border: 1px solid black; padding: 8px;">{{row.grade}}</td>
+                    {% endif %}
                 </tr>
+                {% endfor %}
+                
             </table>
 
         </div>
 
-        <img src="https://i.ibb.co/q1nrwKn/logo.png" style="width: 400px; height: 350px; position: fixed; top: 400px; right: 260px; opacity: 30%; z-index: 0;">
+        <img src="https://i.ibb.co/q1nrwKn/logo.png" style="width: 400px; height: 350px; position: fixed; top: 400px; right: 260px; opacity: 8%; z-index: 0;">
 
         </main>
 
         <div style="width: 300px; height:200px; border: solid 1px black; background-color:rgb(202, 202, 202); position: fixed; bottom:50px; right: 50px; ">
             <h3 style="position:relative; top:0; left:0;">Signature Valid</h3>
             <img src="https://i.ibb.co/j39ZrNy/tick.png" style=" position: fixed; bottom: 90px;  padding-left: 90px; width: 90px; opacity: 50%;">
-            <p >Digitally signed by Ministry of Education</p>
+            <p >Digitally signed by MoE</p>
             <br>
             <p>Date: 26|08|2022</p>
             <p>Place: India</p>

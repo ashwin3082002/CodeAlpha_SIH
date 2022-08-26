@@ -1069,11 +1069,15 @@ def bankaccount(request):
 def profiledownload(request):
     if request.user.is_authenticated:
         uname=request.user.get_username()
-
+        # student details
         s_detail = student_detail.objects.get(sid=uname)
 
+        #degree details
+        d_detail = degree.objects.filter(sid=uname).values()
+        
+        print(d_detail)
 
-        return render(request,'dashboards\student\student_report.html',{'s':s_detail})
+        return render(request,'dashboards\student\student_report.html',{'s':s_detail, 'degree_data':d_detail})
             
     else:
         return redirect('/login/student')
