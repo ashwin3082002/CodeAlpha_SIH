@@ -7,9 +7,6 @@ import json
 # added by Laavesh
 import re
 
-
-
-
 #send bonafide
 def bonafide_mail(emailto, sname, pname, dname,cname):
     subject = 'Bonafide Approved | Student Information Portal'
