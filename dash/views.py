@@ -589,11 +589,15 @@ def institution_enroll_student(request):
             # students enrolled
             no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
             
+            deg = degree.objects.filter(iid=uname).values
+            
+
+
             try:
                 ins_pp = institution_detail.objects.get(id=uname).profile_pic
             except:
                 return redirect('/login/institution')
-            return render(request, 'dashboards\institution\dashboard_institution_enroll_student.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
+            return render(request, 'dashboards\institution\dashboard_institution_enroll_student.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp, 'deg':deg})
     else:
         return redirect('/login/institution')
 

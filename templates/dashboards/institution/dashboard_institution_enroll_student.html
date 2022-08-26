@@ -132,16 +132,14 @@
                                 <table>
                                     <tr>
                                       <th>STUDENT ID</th>
-                                      <th>STUDENT NAME:</th>
                                       <th>DEGREE NAME:</th>
                                       <th>JOINING YEAR:</th>
                                     </tr>
-                                    {% for row in enrolled %}
+                                    {% for row in deg %}
                                     <tr>
-                                        <td>{{row.id}}</td>
-                                        <td>{{row.sid.sid}} - {{row.sid.name}}</td>
-                                        <td>{{row.doc_type}}</td>
-                                        <td>{{row.reason}}</td>
+                                        <td>{{row.sid_id}}</td>
+                                        <td>{{row.name}}</td>
+                                        <td>{{row.year_join}}</td>
                                     </tr>
                                     {% endfor %}
                                 </table>
