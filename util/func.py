@@ -10,7 +10,10 @@ import random
 import json
 # added by Laavesh
 import re
+<<<<<<< HEAD
 import weasyprint
+=======
+>>>>>>> 45639d256bb2bb58fee4f0e980172a71eab5441f
 
 
 #send bonafide

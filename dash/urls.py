@@ -29,4 +29,6 @@ urlpatterns = [
     path('student/getdocument', views.student_get_docu),
     path('student/bankaccount',views.bankaccount),
     path('student/profiledownload',views.profiledownload),
+    path('student/courses',views.student_courses),
+    
 ]

@@ -692,11 +692,12 @@ def institution_removestudent(request):
             
             degree_details.save()
 
-            d = degree.objects.filter(sid= s_id, status='Pursuing')
+            d = degree.objects.filter(sid= s_id, status='Pursuing').values()
 
             if len(d) == 0:
-                stu = student_detail.get(sid=s_id)
+                stu = student_detail.objects.get(sid=s_id)
                 stu.active_status = False
+                stu.save()
 
             messages.success(request, 'Successfully removed student from institution.')
             return redirect('/dashboard/institution/remove')
@@ -894,7 +895,10 @@ def institution_docreq(request):
         if request.method == "POST":
             if 'search' in request.POST:
                 status = request.POST.get('status')
-                doc = docreq.objects.filter(i_id=uname, status = status)
+                doc = docreq.objects.filter(i_id=uname, status = status).values()
+                for i in doc:
+                    if i.sid.status == 'Pursuing':
+                        doc.remove(i)
                 if doc:
                     return render(request, 'dashboards\institution\dash_doc.html',
                         {'username':uname,
@@ -922,9 +926,12 @@ def institution_docreq(request):
                 deg_details = degree.objects.filter(sid = doc.sid, iid = doc.i_id, status='Pursuing').values()
                 deg = deg_details[0]['id']
                 # send mail
-                if doc.doc_type:
-                    pass
-                func.bonafide_mail(stu.email, stu.name, stu.guardian_name, deg)
+                if doc.doc_type == 'bonafide':
+                    func.bonafide_mail(stu.email, stu.name, stu.guardian_name, deg)
+                elif doc.doc_type == 'noc':
+                    print("noc")
+                else:
+                    print("exception")
 
             elif 'reject' in request.POST:
                 doc_id = request.POST.get('doc-id')
@@ -984,7 +991,7 @@ def student_get_docu(request):
         uname=request.user.get_username()
         # create user and degree instances
         user_details = student_detail.objects.filter(sid = uname).values()
-        degree_details = degree.objects.filter(sid=uname).values()
+        degree_details = degree.objects.filter(sid=uname, status='Pursuing').values()
         
         # searching insti where student is studying the degree
         i_details=[]
@@ -992,7 +999,7 @@ def student_get_docu(request):
             temp = degree_details[i]
             i_details.append(institution_detail.objects.get(id= temp['iid_id']))
 
-        
+
 
 
         if request.method == 'POST':
@@ -1090,5 +1097,14 @@ def profiledownload(request):
 
         return render(request,'dashboards\student\student_report.html',{'s':s_detail, 'degree_data':d_detail})
             
+    else:
+        return redirect('/login/student')
+
+def student_courses(request):
+    uname=request.user.get_username()
+    user_details = student_detail.objects.filter(sid = uname).values()
+    
+    if request.user.is_authenticated:
+        return render(request,'dashboards\student\dash_courses.html',{'s':user_details[0]})
     else:
         return redirect('/login/student')
