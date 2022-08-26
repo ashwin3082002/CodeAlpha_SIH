@@ -126,6 +126,29 @@
 
                         </div>
                     </div>
+                    <div class="profile-form-container" id="search-results-container" >
+                        <div class="profile-form">
+                            <div class="search-result">
+                                <table>
+                                    <tr>
+                                      <th>STUDENT ID</th>
+                                      <th>STUDENT NAME:</th>
+                                      <th>DEGREE NAME:</th>
+                                      <th>JOINING YEAR:</th>
+                                    </tr>
+                                    {% for row in enrolled %}
+                                    <tr>
+                                        <td>{{row.id}}</td>
+                                        <td>{{row.sid.sid}} - {{row.sid.name}}</td>
+                                        <td>{{row.doc_type}}</td>
+                                        <td>{{row.reason}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
                         <div class="profile-form-container">
