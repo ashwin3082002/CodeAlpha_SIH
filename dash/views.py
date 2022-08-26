@@ -1,5 +1,5 @@
 from django.core.files.storage import FileSystemStorage
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.models import User
 from sip_db.models import api_details, institution_detail, student_detail, degree, course, docreq, account_detail
 from util import func
@@ -971,3 +971,6 @@ def bankaccount(request):
                 messages.error(request, 'Wrong OTP')
         
     return render(request, 'dashboards\student\ccount_bank.html',{'s': user_details[0],'var':'disabled'})
+
+def profiledownload(request):
+    return HttpResponse("Hello")
