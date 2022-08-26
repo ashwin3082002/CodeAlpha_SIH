@@ -789,397 +789,432 @@ def institution_removestudent_bulk(request):
         return render(request, "dashboards\institution\dash_bulk_enrollstudent.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
 
 def institution_addcourse(request):
-    if request.user.is_authenticated:
-        # get stu id and insti id
-        uname=request.user.get_username()
-        user = User.objects.get(username=uname)
-        user_email = user.email
-        nam=user.get_full_name()
-        # students enrolled
-        no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
-        try:
-            ins_pp = institution_detail.objects.get(id=uname).profile_pic
-        except:
-            return redirect('/login/institution')
-        if request.method == 'POST':
-            s_id = request.POST.get('search-student')
+    try:
+        if request.user.is_authenticated:
+            # get stu id and insti id
+            uname=request.user.get_username()
+            user = User.objects.get(username=uname)
+            user_email = user.email
+            nam=user.get_full_name()
+            # students enrolled
+            no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+            try:
+                ins_pp = institution_detail.objects.get(id=uname).profile_pic
+            except:
+                return redirect('/login/institution')
+            if request.method == 'POST':
+                s_id = request.POST.get('search-student')
 
-            if 'search' in request.POST:
-                
-                # get student and institution instances
-                try:
+                if 'search' in request.POST:
+                    
+                    # get student and institution instances
+                    try:
+                        s_details = student_detail.objects.get(sid = s_id)  
+                        i_details = institution_detail.objects.get(id = uname)
+                        
+                    except:
+                        messages.error(request, 'Student details invalid.')
+                        return redirect('/dashboard/institution/addcourse')
+                    
+                    degree_details = degree.objects.filter(sid=s_details, iid=i_details, status='Pursuing').values()
+                    if degree_details:
+                        return render(request, 'dashboards\institution\dashboard_institution_add_course.html',
+                            {'username':uname, 'name':nam, 'email':user_email, 'disabled':'disabled', 's':s_details, 'd':degree_details[0], 'student_count':no_of_stu, 'pp':ins_pp,}
+                        )
+                    else:
+                        messages.error(request, 'Student not enrolled in your institution.')
+                        return redirect('/dashboard/institution/addcourse')
+                elif 'add' in request.POST:
+                    
+                    # get student and institution instances
                     s_details = student_detail.objects.get(sid = s_id)  
                     i_details = institution_detail.objects.get(id = uname)
-                    
-                except:
-                    messages.error(request, 'Student details invalid.')
-                    return redirect('/dashboard/institution/addcourse')
-                
-                degree_details = degree.objects.filter(sid=s_details, iid=i_details, status='Pursuing').values()
-                if degree_details:
-                    return render(request, 'dashboards\institution\dashboard_institution_add_course.html',
-                        {'username':uname, 'name':nam, 'email':user_email, 'disabled':'disabled', 's':s_details, 'd':degree_details[0], 'student_count':no_of_stu, 'pp':ins_pp,}
-                    )
-                else:
-                    messages.error(request, 'Student not enrolled in your institution.')
-                    return redirect('/dashboard/institution/addcourse')
-            elif 'add' in request.POST:
-                
-                # get student and institution instances
-                s_details = student_detail.objects.get(sid = s_id)  
-                i_details = institution_detail.objects.get(id = uname)
-                degree_details = degree.objects.get(sid=s_details, iid=i_details, status = 'Pursuing')
-                if degree_details:
-                    pass
-                else:
-                    messages.error(request, 'Student not enrolled in your institution 2')
-                    return redirect('/dashboard/institution/addcourse')
-                
-                # get details
-                course_name = request.POST.get('course-name')
-                t_marks = request.POST.get('total-mark')
-                o_marks = request.POST.get('total-mark')
-                credits = request.POST.get('credits')
-                sem = request.POST.get('semester')
-
-
-                # save details in database
-                db_course = course(
-                    did =degree_details,
-                    name = course_name,
-                    total_marks = t_marks,
-                    obtained_marks = o_marks,
-                    credits = credits,
-                    semester = sem,
-                )
-                db_course.save()
-                messages.success(request, 'Successfully created course in degree')
-                
-                
-                
-                return redirect('/dashboard/institution/addcourse')
-        else:
-            return render(request, 'dashboards\institution\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
-    else:
-        return redirect('/login/institution')
-
-def institution_addcourse_bulk(request):
-    uname=request.user.get_username()
-    user = User.objects.get(username=uname)
-    user_email = user.email
-    nam=user.get_full_name()
-    # students enrolled
-    no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
-
-    try:
-        ins_pp = institution_detail.objects.get(id=uname).profile_pic
-    except:
-        return redirect('/login/institution')
-
-    if request.method == "POST" and request.FILES['myfile'] :
-        myfile = request.FILES['myfile']
-        fs = FileSystemStorage()
-        filename = fs.save(f"{uname+'_bulkaddstu'}.csv", myfile)
-        messages.success(request,f"File Uploaded")
-        filepath = fs.path(filename)
-        df = pd.read_csv(f"{filepath}")
-        for i in range(len(df)) : 
-            sid = df.iloc[i, 0] 
-            did = df.iloc[i, 1]
-            course_name =  df.iloc[i, 2]
-            t_marks = df.iloc[i, 3]
-            o_marks = df.iloc[i, 4]
-            credit = df.iloc[i, 5]
-            sem = df.iloc[i, 6]
-            try:    
-                d_details = degree.objects.get(id=did)
-            except:
-                messages.error(f'Degree ID: {did} not valid')
-                return redirect('/dashboard/institution/addcourse/bulk')
-            #insert data into db
-            db_course = course(
-                did =d_details,
-                name = course_name,
-                total_marks = t_marks,
-                obtained_marks = o_marks,
-                credits = credit,
-                semester = sem,
-            )
-            db_course.save()
-
-        fs.delete(filename)
-        
-    
-    return render(request, "dashboards\institution\dash_bulk_addcourse.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
-
-def institution_docreq(request):
-    if request.user.is_authenticated:
-        uname=request.user.get_username()
-        user = User.objects.get(username=uname)
-        user_email = user.email
-        nam=user.get_full_name()
-
-        # students enrolled
-        no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
-
-        try:
-            ins_pp = institution_detail.objects.get(id=uname).profile_pic
-        except:
-            return redirect('/login/institution')
-            
-        if request.method == "POST":
-            if 'search' in request.POST:
-                status = request.POST.get('status')
-                doc = docreq.objects.filter(i_id=uname, status = status).values()
-                
-                for i in doc:
-                    s_id = i['sid_id']
-                    i_id = i['i_id_id']
-
-                    #degree instance
-                    degree_details = degree.objects.filter(sid=s_id, iid=i_id, status='Pursuing').values()
+                    degree_details = degree.objects.get(sid=s_details, iid=i_details, status = 'Pursuing')
                     if degree_details:
                         pass
                     else:
-                        doc.remove(i)
-
-                
-                if doc:
+                        messages.error(request, 'Student not enrolled in your institution 2')
+                        return redirect('/dashboard/institution/addcourse')
                     
-                    return render(request, 'dashboards\institution\dash_doc.html',
-                        {'username':uname,
-                         'name':nam,
-                         'email':user_email,
-                         'student_count':no_of_stu,
-                         'pp':ins_pp,
-                         'docrequest':doc,
-                        }
+                    # get details
+                    course_name = request.POST.get('course-name')
+                    t_marks = request.POST.get('total-mark')
+                    o_marks = request.POST.get('total-mark')
+                    credits = request.POST.get('credits')
+                    sem = request.POST.get('semester')
+
+
+                    # save details in database
+                    db_course = course(
+                        did =degree_details,
+                        name = course_name,
+                        total_marks = t_marks,
+                        obtained_marks = o_marks,
+                        credits = credits,
+                        semester = sem,
                     )
-                else:
-                    messages.error(request, 'No records found.')
-                    return redirect('/dashboard/institution/docreq')
+                    db_course.save()
+                    messages.success(request, 'Successfully created course in degree')
+                    
+                    
+                    
+                    return redirect('/dashboard/institution/addcourse')
+            else:
+                return render(request, 'dashboards\institution\dashboard_institution_add_course.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
+        else:
+            return redirect('/login/institution')
+    except:
+        messages.error(request,"Something Went Wrong!! Try Again")
+        redirect("/")
 
-            elif 'accept' in request.POST:
-                doc_id = request.POST.get('doc-id')
-                try:
-                    doc = docreq.objects.get(id=doc_id)
+def institution_addcourse_bulk(request):
+    try:
+        uname=request.user.get_username()
+        user = User.objects.get(username=uname)
+        user_email = user.email
+        nam=user.get_full_name()
+        # students enrolled
+        no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+
+        try:
+            ins_pp = institution_detail.objects.get(id=uname).profile_pic
+        except:
+            return redirect('/login/institution')
+
+        if request.method == "POST" and request.FILES['myfile'] :
+            myfile = request.FILES['myfile']
+            fs = FileSystemStorage()
+            filename = fs.save(f"{uname+'_bulkaddstu'}.csv", myfile)
+            messages.success(request,f"File Uploaded")
+            filepath = fs.path(filename)
+            df = pd.read_csv(f"{filepath}")
+            for i in range(len(df)) : 
+                sid = df.iloc[i, 0] 
+                did = df.iloc[i, 1]
+                course_name =  df.iloc[i, 2]
+                t_marks = df.iloc[i, 3]
+                o_marks = df.iloc[i, 4]
+                credit = df.iloc[i, 5]
+                sem = df.iloc[i, 6]
+                try:    
+                    d_details = degree.objects.get(id=did)
                 except:
-                    messages.error(request, 'Invalid Document ID.')
-                    return redirect('dashboard/institution/docreq')
-                stu= student_detail.objects.get(sid = doc.sid_id)
-                deg_details = degree.objects.filter(sid = doc.sid, iid = doc.i_id, status='Pursuing').values()
-                ins_details = institution_detail.objects.get(id=doc.i_id_id)
-                deg = deg_details[0]['name']
-                # send mail
-                if doc.doc_type == 'bonafide':
-                    func.bonafide_mail(stu.email, stu.name, stu.guardian_name, deg, ins_details.name)
-                elif doc.doc_type == 'noc':
-                    func.noc_mail(stu.email, stu.name, stu.guardian_name, deg, ins_details.name)
-                else:
-                    print("exception")
-                doc.status = 'Accepted'
-                doc.save()
-                messages.success(request, 'Document request accepted!')
-                return redirect('dashboard/institution/docreq')
-                
+                    messages.error(f'Degree ID: {did} not valid')
+                    return redirect('/dashboard/institution/addcourse/bulk')
+                #insert data into db
+                db_course = course(
+                    did =d_details,
+                    name = course_name,
+                    total_marks = t_marks,
+                    obtained_marks = o_marks,
+                    credits = credit,
+                    semester = sem,
+                )
+                db_course.save()
 
-            elif 'reject' in request.POST:
-                doc_id = request.POST.get('doc-id')
-                
-                try:
-                    doc = docreq.objects.get(id=doc_id)
-                except:
-                    messages.error(request, 'Invalid Document ID.')
-
-                stu= student_detail.objects.get(sid = doc.sid_id)
-                func.doc_rej(stu.email)
-                doc.status = 'Rejected'
-                doc.save()
-                messages.success(request, 'Document request rejected!')
-                return redirect('dashboard/institution/docreq')
-                
-
+            fs.delete(filename)
+            
         
-        return render(request, 'dashboards\institution\dash_doc.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
-    else:
-        return redirect('/login/institution')
+        return render(request, "dashboards\institution\dash_bulk_addcourse.html", {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
+    except:
+        messages.error(request,"Something Went Wrong!! Try Again")
+        redirect("/")
+
+def institution_docreq(request):
+    try:
+        if request.user.is_authenticated:
+            uname=request.user.get_username()
+            user = User.objects.get(username=uname)
+            user_email = user.email
+            nam=user.get_full_name()
+
+            # students enrolled
+            no_of_stu = len(degree.objects.filter(iid_id=uname, status = 'Pursuing').values())
+
+            try:
+                ins_pp = institution_detail.objects.get(id=uname).profile_pic
+            except:
+                return redirect('/login/institution')
+                
+            if request.method == "POST":
+                if 'search' in request.POST:
+                    status = request.POST.get('status')
+                    doc = docreq.objects.filter(i_id=uname, status = status).values()
+                    
+                    for i in doc:
+                        s_id = i['sid_id']
+                        i_id = i['i_id_id']
+
+                        #degree instance
+                        degree_details = degree.objects.filter(sid=s_id, iid=i_id, status='Pursuing').values()
+                        if degree_details:
+                            pass
+                        else:
+                            doc.remove(i)
+
+                    
+                    if doc:
+                        
+                        return render(request, 'dashboards\institution\dash_doc.html',
+                            {'username':uname,
+                            'name':nam,
+                            'email':user_email,
+                            'student_count':no_of_stu,
+                            'pp':ins_pp,
+                            'docrequest':doc,
+                            }
+                        )
+                    else:
+                        messages.error(request, 'No records found.')
+                        return redirect('/dashboard/institution/docreq')
+
+                elif 'accept' in request.POST:
+                    doc_id = request.POST.get('doc-id')
+                    try:
+                        doc = docreq.objects.get(id=doc_id)
+                    except:
+                        messages.error(request, 'Invalid Document ID.')
+                        return redirect('dashboard/institution/docreq')
+                    stu= student_detail.objects.get(sid = doc.sid_id)
+                    deg_details = degree.objects.filter(sid = doc.sid, iid = doc.i_id, status='Pursuing').values()
+                    ins_details = institution_detail.objects.get(id=doc.i_id_id)
+                    deg = deg_details[0]['name']
+                    # send mail
+                    if doc.doc_type == 'bonafide':
+                        func.bonafide_mail(stu.email, stu.name, stu.guardian_name, deg, ins_details.name)
+                    elif doc.doc_type == 'noc':
+                        func.noc_mail(stu.email, stu.name, stu.guardian_name, deg, ins_details.name)
+                    else:
+                        print("exception")
+                    doc.status = 'Accepted'
+                    doc.save()
+                    messages.success(request, 'Document request accepted!')
+                    return redirect('dashboard/institution/docreq')
+                    
+
+                elif 'reject' in request.POST:
+                    doc_id = request.POST.get('doc-id')
+                    
+                    try:
+                        doc = docreq.objects.get(id=doc_id)
+                    except:
+                        messages.error(request, 'Invalid Document ID.')
+
+                    stu= student_detail.objects.get(sid = doc.sid_id)
+                    func.doc_rej(stu.email)
+                    doc.status = 'Rejected'
+                    doc.save()
+                    messages.success(request, 'Document request rejected!')
+                    return redirect('dashboard/institution/docreq')
+                    
+
+            
+            return render(request, 'dashboards\institution\dash_doc.html', {'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
+        else:
+            return redirect('/login/institution')
+    except:
+        messages.error(request,"Something Went Wrong!! Try Again")
+        redirect("/")
 
 
 # STUDENT VIEWS
 
 def student(request):
-    if request.user.is_authenticated:
-        uname=request.user.get_username()
-        user_details = student_detail.objects.filter(sid = uname).values()
-        
-        degree_details = degree.objects.filter(sid=uname).values()
-        
-        i_details=set()
-        for d in degree_details:
-            i_id = d['iid_id']
-            ins = institution_detail.objects.get(id=i_id)
-            i_details.add(ins)
-        
-        bank_details = account_detail.objects.filter(sid = uname).values()
-        
-        if bank_details:
-            bool_bank = True
-            return render(request, 'dashboards\student\dashboard_student.html', {
-                's': user_details[0],
-                'i':i_details,
-                'd':degree_details,
-                'bank':bank_details[0],
-                'bank_dis':bool_bank
-            })
+    try:
+        if request.user.is_authenticated:
+            uname=request.user.get_username()
+            user_details = student_detail.objects.filter(sid = uname).values()
+            
+            degree_details = degree.objects.filter(sid=uname).values()
+            
+            i_details=set()
+            for d in degree_details:
+                i_id = d['iid_id']
+                ins = institution_detail.objects.get(id=i_id)
+                i_details.add(ins)
+            
+            bank_details = account_detail.objects.filter(sid = uname).values()
+            
+            if bank_details:
+                bool_bank = True
+                return render(request, 'dashboards\student\dashboard_student.html', {
+                    's': user_details[0],
+                    'i':i_details,
+                    'd':degree_details,
+                    'bank':bank_details[0],
+                    'bank_dis':bool_bank
+                })
+            else:
+                bool_bank = False
+                return render(request, 'dashboards\student\dashboard_student.html', {
+                    's': user_details[0],
+                    'i':i_details,
+                    'd':degree_details,
+                    'bank_dis':bool_bank
+                })
         else:
-            bool_bank = False
-            return render(request, 'dashboards\student\dashboard_student.html', {
-                's': user_details[0],
-                'i':i_details,
-                'd':degree_details,
-                'bank_dis':bool_bank
-            })
-    else:
-        return redirect('/login/student')
+            return redirect('/login/student')
+    except:
+        messages.error(request,"Something Went Wrong!! Try Again")
+        redirect("/")
 
 def student_get_docu(request):
-    if request.user.is_authenticated:
-        uname=request.user.get_username()
-        # create user and degree instances
-        user_details = student_detail.objects.filter(sid = uname).values()
-        degree_details = degree.objects.filter(sid=uname, status='Pursuing').values()
-        
-        # searching insti where student is studying the degree
-        i_details=[]
-        for i in range(len(degree_details)):
-            temp = degree_details[i]
-            i_details.append(institution_detail.objects.get(id= temp['iid_id']))
+    try:
+        if request.user.is_authenticated:
+            uname=request.user.get_username()
+            # create user and degree instances
+            user_details = student_detail.objects.filter(sid = uname).values()
+            degree_details = degree.objects.filter(sid=uname, status='Pursuing').values()
+            
+            # searching insti where student is studying the degree
+            i_details=[]
+            for i in range(len(degree_details)):
+                temp = degree_details[i]
+                i_details.append(institution_detail.objects.get(id= temp['iid_id']))
 
 
 
 
-        if request.method == 'POST':
-            doc_type = request.POST.get('document-type')
-            i_id = request.POST.get('institution')
-            reason = request.POST.get('reason')
+            if request.method == 'POST':
+                doc_type = request.POST.get('document-type')
+                i_id = request.POST.get('institution')
+                reason = request.POST.get('reason')
 
-            # creating instances
-            stu = student_detail.objects.get(sid=uname)
-            ins = institution_detail.objects.get(id=i_id)
-            doc_db = docreq(
-                sid=stu,
-                i_id=ins,
-                doc_type=doc_type,
-                reason=reason,
-                status='Pending',
-            )
-            doc_db.save()
+                # creating instances
+                stu = student_detail.objects.get(sid=uname)
+                ins = institution_detail.objects.get(id=i_id)
+                doc_db = docreq(
+                    sid=stu,
+                    i_id=ins,
+                    doc_type=doc_type,
+                    reason=reason,
+                    status='Pending',
+                )
+                doc_db.save()
 
-            messages.success(request, 'Successfully requested.')
-            return render(request, 'dashboards\student\dashboard_student_document.html', {'s': user_details[0], 'd': i_details})
-        else:    
-            return render(request, 'dashboards\student\dashboard_student_document.html', {'s': user_details[0], 'd': i_details})
-    else:
-        return redirect('/login/student')
+                messages.success(request, 'Successfully requested.')
+                return render(request, 'dashboards\student\dashboard_student_document.html', {'s': user_details[0], 'd': i_details})
+            else:    
+                return render(request, 'dashboards\student\dashboard_student_document.html', {'s': user_details[0], 'd': i_details})
+        else:
+            return redirect('/login/student')
+    except:
+        messages.error(request,"Something Went Wrong!! Try Again")
+        redirect("/")
 
 def bankaccount(request):
-    sid = request.session['sid']
-    user_details = student_detail.objects.filter(sid = sid).values()
-    if request.method == "POST":
-        if 'otp' in request.POST:
-            bank_name = request.POST.get('bank_name')
-            branch = request.POST.get('branch')
-            acc_num = request.POST.get('acc_num')
-            name = request.POST.get('name')
-            ifsc = request.POST.get('ifsc')  
-            acc={
-                'bank_name':bank_name,
-                'branch':branch,
-                'acc_num':acc_num,
-                'name':name,
-                'ifsc':ifsc
-            }
-            request.session['bank_details']=acc
-            email = user_details[0]['email']
-            otp = func.sendotp(email)
-            messages.success(request,"OTP Sent")
-            request.session['otp']=otp
-            return render(request, 'dashboards\student\ccount_bank.html',{'s': user_details[0],'var':'enabled', 'acc':acc,'var1':'disabled'})
-        elif 'submit' in request.POST:
-            u_otp = eval(request.POST.get('otp_check'))
-            if u_otp == request.session['otp']:
-                # create instance
-                try:
-                    b_details = account_detail.objects.get(sid=sid)
-                    bank_details = request.session['bank_details']
-                    b_details.holder_name = bank_details['name']
-                    b_details.acc_number = bank_details['acc_num']
-                    b_details.bank_name = bank_details['bank_name']
-                    b_details.branch_name = bank_details['branch']
-                    b_details.ifsc = bank_details['ifsc']      
-                    b_details.save()   
-                    messages.success(request,"Details Updated")
-                    return redirect("/dashboard/student")  
-                except:
-                    s_details = student_detail.objects.get(sid=sid)
-                    bank_details = request.session['bank_details']
-                    
-                    db_instance = account_detail(
-                        sid = s_details,
-                        holder_name = bank_details['name'],
-                        acc_number = bank_details['acc_num'],
-                        bank_name = bank_details['bank_name'],
-                        branch_name = bank_details['branch'],
-                        ifsc = bank_details['ifsc']
-                    )
-                    db_instance.save()
-                    messages.success(request,"Details Saved")
-                    return redirect("/dashboard/student")
-            else:
-                messages.error(request, 'Wrong OTP')
-        
-    return render(request, 'dashboards\student\ccount_bank.html',{'s': user_details[0],'var':'disabled'})
+    try:
+        sid = request.session['sid']
+        user_details = student_detail.objects.filter(sid = sid).values()
+        if request.method == "POST":
+            if 'otp' in request.POST:
+                bank_name = request.POST.get('bank_name')
+                branch = request.POST.get('branch')
+                acc_num = request.POST.get('acc_num')
+                name = request.POST.get('name')
+                ifsc = request.POST.get('ifsc')  
+                acc={
+                    'bank_name':bank_name,
+                    'branch':branch,
+                    'acc_num':acc_num,
+                    'name':name,
+                    'ifsc':ifsc
+                }
+                request.session['bank_details']=acc
+                email = user_details[0]['email']
+                otp = func.sendotp(email)
+                messages.success(request,"OTP Sent")
+                request.session['otp']=otp
+                return render(request, 'dashboards\student\ccount_bank.html',{'s': user_details[0],'var':'enabled', 'acc':acc,'var1':'disabled'})
+            elif 'submit' in request.POST:
+                u_otp = eval(request.POST.get('otp_check'))
+                if u_otp == request.session['otp']:
+                    # create instance
+                    try:
+                        b_details = account_detail.objects.get(sid=sid)
+                        bank_details = request.session['bank_details']
+                        b_details.holder_name = bank_details['name']
+                        b_details.acc_number = bank_details['acc_num']
+                        b_details.bank_name = bank_details['bank_name']
+                        b_details.branch_name = bank_details['branch']
+                        b_details.ifsc = bank_details['ifsc']      
+                        b_details.save()   
+                        messages.success(request,"Details Updated")
+                        return redirect("/dashboard/student")  
+                    except:
+                        s_details = student_detail.objects.get(sid=sid)
+                        bank_details = request.session['bank_details']
+                        
+                        db_instance = account_detail(
+                            sid = s_details,
+                            holder_name = bank_details['name'],
+                            acc_number = bank_details['acc_num'],
+                            bank_name = bank_details['bank_name'],
+                            branch_name = bank_details['branch'],
+                            ifsc = bank_details['ifsc']
+                        )
+                        db_instance.save()
+                        messages.success(request,"Details Saved")
+                        return redirect("/dashboard/student")
+                else:
+                    messages.error(request, 'Wrong OTP')
+            
+        return render(request, 'dashboards\student\ccount_bank.html',{'s': user_details[0],'var':'disabled'})
+    except:
+        messages.error(request,"Something Went Wrong!! Try Again")
+        redirect("/")
 
 def profiledownload(request):
-    if request.user.is_authenticated:
-        uname=request.user.get_username()
-        # student details
-        s_detail = student_detail.objects.get(sid=uname)
+    try:
+        if request.user.is_authenticated:
+            uname=request.user.get_username()
+            # student details
+            s_detail = student_detail.objects.get(sid=uname)
 
-        #degree details
-        d_detail = degree.objects.filter(sid=uname).values()
+            #degree details
+            d_detail = degree.objects.filter(sid=uname).values()
 
-        return render(request,'dashboards\student\student_report.html',{'s':s_detail, 'degree_data':d_detail})
-            
-    else:
-        return redirect('/login/student')
+            return render(request,'dashboards\student\student_report.html',{'s':s_detail, 'degree_data':d_detail})
+                
+        else:
+            return redirect('/login/student')
+    except:
+        messages.error(request,"Something Went Wrong!! Try Again")
+        redirect("/")
 
 def student_courses(request):
     try:
+        try:
+            uname=request.user.get_username()
+            user_details = student_detail.objects.get(sid = uname)
+
+            deg= degree.objects.filter(sid = uname).values()
+            d = deg[0]
+            insti = institution_detail.objects.get(id = d['iid_id'])
+            courses = course.objects.filter(did = d['id']).values()
+        except:
+            messages.error(request, 'Something went wrong! Try Again.')
+            return redirect('dashboard/student/courses')
+        
+
+        if request.user.is_authenticated:
+            return render(request,'dashboards\student\dash_courses.html',{'s':user_details, 'c':courses, 'd':d, 'i':insti})
+        else:
+            return redirect('/login/student')
+    except:
+        messages.error(request,"Something Went Wrong!! Try Again")
+        redirect("/")
+def scholarship(request):
+    try:
         uname=request.user.get_username()
         user_details = student_detail.objects.get(sid = uname)
+        
 
-        deg= degree.objects.filter(sid = uname).values()
-        d = deg[0]
-        insti = institution_detail.objects.get(id = d['iid_id'])
-        courses = course.objects.filter(did = d['id']).values()
+        if request.user.is_authenticated:
+            return render(request,'dashboards\student\scholarship.html',{'s':user_details})
+        else:
+            return redirect('/login/student')
     except:
-        messages.error(request, 'Something went wrong! Try Again.')
-        return redirect('dashboard/student/courses')
-    
-
-    if request.user.is_authenticated:
-        return render(request,'dashboards\student\dash_courses.html',{'s':user_details, 'c':courses, 'd':d, 'i':insti})
-    else:
-        return redirect('/login/student')
-
-def scholarship(request):
-    uname=request.user.get_username()
-    user_details = student_detail.objects.get(sid = uname)
-    
-
-    if request.user.is_authenticated:
-        return render(request,'dashboards\student\scholarship.html',{'s':user_details})
-    else:
-        return redirect('/login/student')
+        messages.error(request,"Something Went Wrong!! Try Again")
+        redirect("/")
 
