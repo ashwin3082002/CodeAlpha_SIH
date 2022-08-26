@@ -98,7 +98,8 @@
 
                             <div class="profile-form">
 
-                                <form action="/dashboard/institution/getdocu" method="post">
+                                <form action="/dashboard/institution/docreq" method="post">
+                                    {% csrf_token %}
                                     
                                     <label for="doc-id">DOCUMENT ID:</label>
 
