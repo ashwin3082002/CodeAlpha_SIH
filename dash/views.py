@@ -336,10 +336,13 @@ def institution(request):
                 )
 
                 # upload pic
-                if request.FILES['profilepic']:
-                    pic = request.FILES['profilepic']
-                    db_student.profile_pic = pic
-                    db_student.save()
+                try:
+                    if request.FILES['profilepic']:
+                        pic = request.FILES['profilepic']
+                        db_student.profile_pic = pic
+                        db_student.save()
+                except:
+                    pass
 
                 messages.success(request, "Successfully created student profile.")
                 return redirect('/dashboard/institution')
@@ -1150,3 +1153,4 @@ def scholarship(request):
         return render(request,'dashboards\student\scholarship.html',{'s':user_details})
     else:
         return redirect('/login/student')
+
