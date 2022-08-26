@@ -7,7 +7,6 @@ import random
 import json
 # added by Laavesh
 import re
-import pdfkit
 
 
 #send bonafide
