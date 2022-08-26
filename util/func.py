@@ -1,8 +1,7 @@
-from email.message import EmailMessage
 from django.shortcuts import HttpResponse
 from urllib import response
 from django.core.mail import send_mail
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives, EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -10,20 +9,18 @@ import random
 import json
 # added by Laavesh
 import re
-<<<<<<< HEAD
-import weasyprint
-=======
->>>>>>> 45639d256bb2bb58fee4f0e980172a71eab5441f
+from weasyprint import HTML
+
 
 
 #send bonafide
-def bonafide_mail(emailto, sname, pname, dname):
+def bonafide_mail(emailto, sname, pname, dname,cname):
     subject = "Bonafide | Student Information Portal"
     to = emailto
-    html_content = render_to_string('mail\onafide.html',{'student_name':sname,'parent_name':pname,'degree_name': dname})
+    html_content = render_to_string('mail\onafide.html',{'student_name':sname,'parent_name':pname,'degree_name': dname,'college_name':cname})
     response = HttpResponse(content_type = 'application/pdf')
     response['Content-Disposition'] = 'filename=out.pdf'
-    pdf = weasyprint.HTML(string=html_content, base_url="").write_pdf()
+    pdf = HTML(string=html_content, base_url="").write_pdf()
     text_content = strip_tags(html_content)
     email = EmailMessage(
         subject,    

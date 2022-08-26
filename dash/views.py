@@ -529,7 +529,6 @@ def institution_edit(request):
 
                     # upload pic
                     if request.FILES['profilepic']:
-                        print('going into if')
                         pic = request.FILES['profilepic']
                         s.profile_pic = pic
                         s.save()
@@ -896,9 +895,19 @@ def institution_docreq(request):
             if 'search' in request.POST:
                 status = request.POST.get('status')
                 doc = docreq.objects.filter(i_id=uname, status = status).values()
+                
                 for i in doc:
-                    if i.sid.status == 'Pursuing':
+                    s_id = i['sid_id']
+                    i_id = i['i_id_id']
+
+                    #degree instance
+                    degree_details = degree.objects.filter(sid=s_id, iid=i_id, status='Pursuing').values()
+                    if degree_details:
+                        pass
+                    else:
                         doc.remove(i)
+
+                
                 if doc:
                     return render(request, 'dashboards\institution\dash_doc.html',
                         {'username':uname,
@@ -921,13 +930,14 @@ def institution_docreq(request):
                     messages.error(request, 'Invalid Document ID.')
                 doc.status = 'Accepted'
                 doc.save()
-
+                
                 stu= student_detail.objects.get(sid = doc.sid_id)
                 deg_details = degree.objects.filter(sid = doc.sid, iid = doc.i_id, status='Pursuing').values()
-                deg = deg_details[0]['id']
+                ins_details = institution_detail.objects.get(id=doc.i_id_id)
+                deg = deg_details[0]
                 # send mail
                 if doc.doc_type == 'bonafide':
-                    func.bonafide_mail(stu.email, stu.name, stu.guardian_name, deg)
+                    func.bonafide_mail(stu.email, stu.name, stu.guardian_name, deg, ins_details.name)
                 elif doc.doc_type == 'noc':
                     print("noc")
                 else:
@@ -1020,7 +1030,7 @@ def student_get_docu(request):
             doc_db.save()
 
             messages.success(request, 'Successfully requested.')
-            return render(request, 'dashboards\student\dashboard_student_document.html', {'s': user_details[0]})
+            return render(request, 'dashboards\student\dashboard_student_document.html', {'s': user_details[0], 'd': i_details})
         else:    
             return render(request, 'dashboards\student\dashboard_student_document.html', {'s': user_details[0], 'd': i_details})
     else:
@@ -1092,8 +1102,6 @@ def profiledownload(request):
 
         #degree details
         d_detail = degree.objects.filter(sid=uname).values()
-        
-        print(d_detail)
 
         return render(request,'dashboards\student\student_report.html',{'s':s_detail, 'degree_data':d_detail})
             
@@ -1103,7 +1111,7 @@ def profiledownload(request):
 def student_courses(request):
     uname=request.user.get_username()
     user_details = student_detail.objects.filter(sid = uname).values()
-    
+
     if request.user.is_authenticated:
         return render(request,'dashboards\student\dash_courses.html',{'s':user_details[0]})
     else:
