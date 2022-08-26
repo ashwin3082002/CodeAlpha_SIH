@@ -936,19 +936,26 @@ def student(request):
             i_id = d['iid_id']
             ins = institution_detail.objects.get(id=i_id)
             i_details.add(ins)
-
+        
         bank_details = account_detail.objects.filter(sid = uname).values()
         
         if bank_details:
             bool_bank = True
+            return render(request, 'dashboards\student\dashboard_student.html', {
+                's': user_details[0],
+                'i':i_details,
+                'd':degree_details,
+                'bank':bank_details[0],
+                'bank_dis':bool_bank
+            })
         else:
             bool_bank = False
-
-
-        if user_details:
-            return render(request, 'dashboards\student\dashboard_student.html', {'s': user_details[0], 'i':i_details, 'd':degree_details,'bank':bank_details[0],'bank_dis':bool_bank})
-        else:
-            return render(request, 'dashboards\student\dashboard_student.html')
+            return render(request, 'dashboards\student\dashboard_student.html', {
+                's': user_details[0],
+                'i':i_details,
+                'd':degree_details,
+                'bank_dis':bool_bank
+            })
     else:
         return redirect('/login/student')
 
