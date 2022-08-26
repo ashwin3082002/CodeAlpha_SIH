@@ -1,7 +1,7 @@
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from sip_db.models import api_details, institution_detail, student_detail, degree, course, docreq
+from sip_db.models import api_details, institution_detail, student_detail, degree, course, docreq, account_detail
 from util import func
 from django.contrib import messages
 import pandas as pd
@@ -859,9 +859,16 @@ def student(request):
             ins = institution_detail.objects.get(id=i_id)
             i_details.add(ins)
 
+        bank_details = account_detail.objects.filter(sid = uname).values()
+        
+        if bank_details:
+            bool_bank = True
+        else:
+            bool_bank = False
+
 
         if user_details:
-            return render(request, 'dashboards\student\dashboard_student.html', {'s': user_details[0], 'i':i_details, 'd':degree_details})
+            return render(request, 'dashboards\student\dashboard_student.html', {'s': user_details[0], 'i':i_details, 'd':degree_details,'bank':bank_details[0],'bank_dis':bool_bank})
         else:
             return render(request, 'dashboards\student\dashboard_student.html')
     else:
@@ -907,3 +914,60 @@ def student_get_docu(request):
     else:
         return redirect('/login/student')
 
+def bankaccount(request):
+    sid = request.session['sid']
+    user_details = student_detail.objects.filter(sid = sid).values()
+    if request.method == "POST":
+        if 'otp' in request.POST:
+            bank_name = request.POST.get('bank_name')
+            branch = request.POST.get('branch')
+            acc_num = request.POST.get('acc_num')
+            name = request.POST.get('name')
+            ifsc = request.POST.get('ifsc')  
+            acc={
+                'bank_name':bank_name,
+                'branch':branch,
+                'acc_num':acc_num,
+                'name':name,
+                'ifsc':ifsc
+            }
+            request.session['bank_details']=acc
+            email = user_details[0]['email']
+            otp = func.sendotp(email)
+            messages.success(request,"OTP Sent")
+            request.session['otp']=otp
+            return render(request, 'dashboards\student\ccount_bank.html',{'s': user_details[0],'var':'enabled', 'acc':acc,'var1':'disabled'})
+        elif 'submit' in request.POST:
+            u_otp = eval(request.POST.get('otp_check'))
+            if u_otp == request.session['otp']:
+                # create instance
+                try:
+                    b_details = account_detail.objects.get(sid=sid)
+                    bank_details = request.session['bank_details']
+                    b_details.holder_name = bank_details['name']
+                    b_details.acc_number = bank_details['acc_num']
+                    b_details.bank_name = bank_details['bank_name']
+                    b_details.branch_name = bank_details['branch']
+                    b_details.ifsc = bank_details['ifsc']      
+                    b_details.save()   
+                    messages.success(request,"Details Updated")
+                    return redirect("/dashboard/student")  
+                except:
+                    s_details = student_detail.objects.get(sid=sid)
+                    bank_details = request.session['bank_details']
+                    
+                    db_instance = account_detail(
+                        sid = s_details,
+                        holder_name = bank_details['name'],
+                        acc_number = bank_details['acc_num'],
+                        bank_name = bank_details['bank_name'],
+                        branch_name = bank_details['branch'],
+                        ifsc = bank_details['ifsc']
+                    )
+                    db_instance.save()
+                    messages.success(request,"Details Saved")
+                    return redirect("/dashboard/student")
+            else:
+                messages.error(request, 'Wrong OTP')
+        
+    return render(request, 'dashboards\student\ccount_bank.html',{'s': user_details[0],'var':'disabled'})

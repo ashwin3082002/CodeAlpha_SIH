@@ -14,6 +14,7 @@ def student(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request,user)
+            request.session['sid'] = username
             if request.user.is_staff or request.user.is_superuser:
                 messages.error(request, "Login not permitted")
                 logout(request)

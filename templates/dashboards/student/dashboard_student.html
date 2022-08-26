@@ -6,6 +6,13 @@
 
 
 {% block main %}
+{% if messages %}
+	<div class="messages_d">
+		{% for message in messages %}
+			<p {% if message.tags %}class="{{message.tags}}"{% endif %}>{{message}}</p>
+		{% endfor %}
+	</div>
+{% endif %}
 <div class = "dashboard_spacing">
     <div class="dashboard-wrapper">
 
@@ -44,7 +51,6 @@
                 <div class="dashboard-link">
                     <ul>
                         <li><a href="/dashboard/student">Profile</a></li>
-                        <li><a href="#">Edit Profile</a></li>
                         <li><a href="/dashboard/student/getdocument">Get Documents</a></li>
                         <li><a class="logout" href="/signout">Logout</a></li>
                     </ul>
@@ -124,27 +130,69 @@
                                         {% if degree.iid_id == institution.id %}
                                         <br>&emsp;
                                         -{{degree.name}}
-                                        
+                                        <br>
                                         {% endif %}
                                     {% endfor %}
                                 {% endfor %}
                             </p>
+                            
 
                         </div>
 
                         
 
                     </div>
+                    {% if bank_dis %}
+                    <div class="profile" id="profile"> 
+                        <h1>Bank Account Details</h1>
+                        <div class="details">
+                            <div class="details">
+                                <div>
+                                    <p class="label">Bank Name:</p> <p>{{bank.bank_name}}</p>
+                                </div>
+        
+                                <div>
+                                    <p class="label">Account Holder Name:</p> <p>{{bank.holder_name}}</p>
+                                </div>
+        
+                                <div>
+                                    <p class="label">Branch:</p> <p>{{bank.branch_name}}</p>
+                                </div>
+        
+                                <div>
+                                    <p class="label">Account Number:</p> <p>{{bank.acc_number}}</p>
+                                </div>
+        
+                                <div>
+                                    <p class="label">IFSC Code:</p> <p>{{bank.ifsc}}</p>
+                                </div>
+                                <div class="dashboard-link" > 
+                                    <br>
+                                    <ul>
+                                        <li><a href="/dashboard/student/bankaccount">Update Details</a></li>
+                                    </ul>
+                                </div>
+                                
+        
+                            </div>
+                            
 
+                        </div>
+                        
+                    </div>
                 </div>
+                {% else %}
+                <div class="dashboard-link"> 
+                    <br>
+                    <ul>
+                        <li><a href="/dashboard/student/bankaccount">Upload Bank Account Details</a></li>
+                    </ul>
+                </div>
+                {% endif %}
 
                 <div class="edit-profile" id="edit-profile" style="display: none;">
 
                     <h1>EDIT PROFILE</h1>
-
-                    <div class="details">
-
-                    </div>
 
                 </div>
 
