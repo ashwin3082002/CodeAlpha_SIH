@@ -8,6 +8,22 @@ import json
 # added by Laavesh
 import re
 
+#send bonafide
+def bonafide_mail(emailto, sname, pname, dname):
+    subject = "Bonafide | Student Information Portal"
+    to = emailto
+    html_content = render_to_string('mail\onafide.html',{'student_name':sname,'parent_name':pname,'degree_name': dname})
+    text_content = strip_tags(html_content)
+    email = EmailMultiAlternatives(
+        subject,    
+        text_content,
+        settings.EMAIL_HOST_USER,
+        [to]
+    )
+    email.attach_alternative(html_content,"text/html")
+    email.send()
+    return True
+
 #api creation mail
 def api_mail_creation(emailto, orgname, api_key, apiid):
     subject = 'IMP: API ACCESS | Student Information Portal'

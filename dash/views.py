@@ -886,7 +886,7 @@ def institution_docreq(request):
             ins_pp = institution_detail.objects.get(id=uname).profile_pic
         except:
             return redirect('/login/institution')
-
+            
         if request.method == "POST":
             if 'search' in request.POST:
                 status = request.POST.get('status')
@@ -913,7 +913,12 @@ def institution_docreq(request):
                     messages.error(request, 'Invalid Document ID.')
                 doc.status = 'Accepted'
                 doc.save()
+
+                stu= student_detail.objects.get(sid = doc.sid_id)
+                deg_details = degree.objects.filter(sid = doc.sid, iid = doc.iid, status='Pursuing').values()
+                deg = deg_details[0]
                 # send mail
+                func.bonafide_mail(stu.email, stu.name, stu.guardian_name, deg.id)
 
             elif 'reject' in request.POST:
                 doc_id = request.POST.get('doc-id')
@@ -1067,17 +1072,4 @@ def bankaccount(request):
     return render(request, 'dashboards\student\ccount_bank.html',{'s': user_details[0],'var':'disabled'})
 
 def profiledownload(request):
-    if request.user.is_authenticated:
-        uname=request.user.get_username()
-        # student details
-        s_detail = student_detail.objects.get(sid=uname)
-
-        #degree details
-        d_detail = degree.objects.filter(sid=uname).values()
-        
-        print(d_detail)
-
-        return render(request,'dashboards\student\student_report.html',{'s':s_detail, 'degree_data':d_detail})
-            
-    else:
-        return redirect('/login/student')
+    return render(request,'dashboards\student\student_report.html')
