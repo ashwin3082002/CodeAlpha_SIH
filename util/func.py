@@ -1,3 +1,6 @@
+from email.message import EmailMessage
+from django.shortcuts import HttpResponse
+from urllib import response
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
@@ -7,7 +10,7 @@ import random
 import json
 # added by Laavesh
 import re
-import pdfkit
+import weasyprint
 
 
 #send bonafide
@@ -15,14 +18,19 @@ def bonafide_mail(emailto, sname, pname, dname):
     subject = "Bonafide | Student Information Portal"
     to = emailto
     html_content = render_to_string('mail\onafide.html',{'student_name':sname,'parent_name':pname,'degree_name': dname})
+    response = HttpResponse(content_type = 'application/pdf')
+    response['Content-Disposition'] = 'filename=out.pdf'
+    pdf = weasyprint.HTML(string=html_content, base_url="").write_pdf()
     text_content = strip_tags(html_content)
-    email = EmailMultiAlternatives(
+    email = EmailMessage(
         subject,    
-        text_content,
-        settings.EMAIL_HOST_USER,
-        [to]
+        body=pdf,
+        from_email = settings.EMAIL_HOST_USER,
+        to = [to]
     )
-    email.attach_alternative(html_content,"text/html")
+    email.attach('out.pdf',pdf,"application/pdf")
+    email.content_subtype = "pdf"
+    email.encoding = 'us-ascii'
     email.send()
     return True
 
@@ -41,7 +49,7 @@ def api_mail_creation(emailto, orgname, api_key, apiid):
     email.attach_alternative(html_content,"text/html")
     email.send()
     return True
-    
+
 #api revoke mail
 def api_mail_revok(emailto, apiid):
     subject = 'API ACCESS REVOKED | Student Information Portal'
