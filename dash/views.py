@@ -890,7 +890,7 @@ def institution_docreq(request):
             ins_pp = institution_detail.objects.get(id=uname).profile_pic
         except:
             return redirect('/login/institution')
-
+            
         if request.method == "POST":
             if 'search' in request.POST:
                 status = request.POST.get('status')
@@ -917,7 +917,12 @@ def institution_docreq(request):
                     messages.error(request, 'Invalid Document ID.')
                 doc.status = 'Accepted'
                 doc.save()
+
+                stu= student_detail.objects.get(sid = doc.sid_id)
+                deg_details = degree.objects.filter(sid = doc.sid, iid = doc.i_id, status='Pursuing').values()
+                deg = deg_details[0]['id']
                 # send mail
+                func.bonafide_mail(stu.email, stu.name, stu.guardian_name, deg)
 
             elif 'reject' in request.POST:
                 doc_id = request.POST.get('doc-id')
