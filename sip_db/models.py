@@ -1,5 +1,3 @@
-from distutils.command import upload
-from turtle import ondrag
 from django.db import models
 
 # Create your models here.
