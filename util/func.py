@@ -1,10 +1,10 @@
-from django.core.mail import EmailMultiAlternatives, EmailMessage
+from django.core.mail import EmailMultiAlternatives
+from sip_db.models import institution_id, student_id
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.mail import send_mail
 import random
-import json
 # added by Laavesh
 import re
 
@@ -249,27 +249,8 @@ def check_id(id):
     else:
         return False
     
-def stu_id_read():
-    file=open('util\ID_DATA\student_id.txt', 'r')
-    uni=file.read()
-    uni_info=json.loads(uni)
-    return uni_info
-
-def stu_id_write(uni_info):
-    with open('util\ID_DATA\student_id.txt', 'w') as convert_file:
-        convert_file.write(json.dumps(uni_info))
-
-def insti_id_read():
-    file=open('util\ID_DATA\insti_id.txt', 'r')
-    uni=file.read()
-    uni_info=json.loads(uni)
-    return uni_info
-
-def insti_id_write(uni_info):
-    with open('util\ID_DATA\insti_id.txt', 'w') as convert_file:
-        convert_file.write(json.dumps(uni_info))
-
-def stu_id_gen(uni_info=stu_id_read()):
+def stu_id_gen():
+    stu_id= student_id.objects.all()
     def id_stu():
         id = 'S'
         for i in range(7):
@@ -278,15 +259,16 @@ def stu_id_gen(uni_info=stu_id_read()):
         return id
     id=id_stu()
     while True:
-        if id in uni_info:
+        if id in stu_id:
             id=id_stu()
         else:
-            uni_info.append(id)
-            stu_id_write(uni_info)
+            s = student_id(stuid = id)
+            s.save()
             break
     return id
 
-def insti_id_gen(uni_info=insti_id_read()):
+def insti_id_gen():
+    insti_id= institution_id.objects.all()
     def id_stu():
         id = 'I'
         for i in range(6):
@@ -295,10 +277,10 @@ def insti_id_gen(uni_info=insti_id_read()):
         return id
     id=id_stu()
     while True:
-        if id in uni_info:
+        if id in insti_id:
             id=id_stu()
         else:
-            uni_info.append(id)
-            insti_id_write(uni_info)
+            s = institution_id(instiid = id)
+            s.save()
             break
     return id

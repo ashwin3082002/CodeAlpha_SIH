@@ -315,7 +315,6 @@ def reports(request):
 # INSTITUTION VIEWS
 
 def institution(request):
-    try:
         if request.user.is_authenticated:
             if request.method == "POST" :
                 s_name = request.POST.get('stu-name')
@@ -391,9 +390,6 @@ def institution(request):
             return render(request, 'dashboards\institution\dashboard_institution.html',{'username':uname, 'name':nam, 'email':user_email, 'student_count':no_of_stu, 'pp':ins_pp,})
         else:
             return redirect('/login/institution')
-    except:
-        messages.error(request, 'Something went wrong! Try again.')
-        redirect('/')
 
 def institution_createbulk(request):
     try:
