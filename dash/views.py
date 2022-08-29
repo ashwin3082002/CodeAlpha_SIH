@@ -138,7 +138,7 @@ def admin_bulk(request):
         user = User.objects.get(username=uname)
         user_email = user.email
         name = user.get_full_name()
-        return render(request, 'dashboards\d_admin\dash_bulk_create.html', {'username': uname, 'name': name, 'email': user_email})
+        return render(request, 'dashboards/d_admin/dash_bulk_create.html', {'username': uname, 'name': name, 'email': user_email})
     else:
         return redirect('/login/admin')
 
@@ -160,7 +160,7 @@ def admin_search(request):
                 d_details = degree.objects.filter(iid=i_id).values()
 
                 if search_details:
-                    return render(request, 'dashboards\d_admin\dashboard_admin_search.html',
+                    return render(request, 'dashboards/d_admin/dashboard_admin_search.html',
                                   {'i': search_details[0], 'student_count': len(
                                       d_details), 'username': uname, 'name': name, 'email': user_email}
                                   )
@@ -168,7 +168,7 @@ def admin_search(request):
                     messages.error(request, "Institution not found.")
                     return redirect('/dashboard/admin/search')
 
-        return render(request, 'dashboards\d_admin\dashboard_admin_search.html', {'username': uname, 'name': name, 'email': user_email})
+        return render(request, 'dashboards/d_admin/dashboard_admin_search.html', {'username': uname, 'name': name, 'email': user_email})
     else:
         return redirect('/login/admin')
 
@@ -188,7 +188,7 @@ def admin_edit(request):
                 search_details = institution_detail.objects.filter(
                     id=i_id).values()
                 if search_details:
-                    return render(request, 'dashboards\d_admin\dashboard_admin_edit.html',
+                    return render(request, 'dashboards/d_admin/dashboard_admin_edit.html',
                                   {'i': search_details[0], 'username': uname,
                                       'name': name, 'email': user_email}
                                   )
@@ -230,7 +230,7 @@ def admin_edit(request):
                     messages.error(request, "Institution not found.")
                     return redirect('/dashboard/admin/edit')
 
-        return render(request, 'dashboards\d_admin\dashboard_admin_edit.html', {'username': uname, 'name': name, 'email': user_email})
+        return render(request, 'dashboards/d_admin/dashboard_admin_edit.html', {'username': uname, 'name': name, 'email': user_email})
     else:
         return redirect('/login/admin')
 
@@ -261,7 +261,7 @@ def create_api(request):
         else:
             messages.success(request, "Something Went Wrong Try Again")
 
-    return render(request, "dashboards\d_admin\create-api.html", {'username': uname, 'name': name, 'email': user_email})
+    return render(request, "dashboards/d_admin/create-api.html", {'username': uname, 'name': name, 'email': user_email})
 
 
 def revok_api(request):
@@ -285,7 +285,7 @@ def revok_api(request):
             messages.error(request, "API ID Not Found")
             return redirect('/dashboard/admin/revokapi')
 
-    return render(request, "dashboards\d_admin\evoke-api.html", {'username': uname, 'name': name, 'email': user_email})
+    return render(request, "dashboards/d_admin/evoke-api.html", {'username': uname, 'name': name, 'email': user_email})
 
 
 def reports(request):
@@ -294,7 +294,7 @@ def reports(request):
     user = User.objects.get(username=uname)
     user_email = user.email
     name = user.get_full_name()
-    return render(request, "dashboards\d_admin\eports_admin.html", {'username': uname, 'name': name, 'email': user_email})
+    return render(request, "dashboards/d_admin/eports_admin.html", {'username': uname, 'name': name, 'email': user_email})
 
 
 # INSTITUTION VIEWS
@@ -372,7 +372,7 @@ def institution(request):
         # students enrolled
         no_of_stu = len(degree.objects.filter(
             iid_id=uname, status='Pursuing').values())
-        return render(request, 'dashboards\institution\dashboard_institution.html', {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
+        return render(request, 'dashboards/institution/dashboard_institution.html', {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
     else:
         return redirect('/login/institution')
 
@@ -444,7 +444,7 @@ def institution_createbulk(request):
                 )
 
             else:
-                messages.error(request, f'Cannot create {s_name}\'s profile.')
+                messages.error(request, f"Cannot create {s_name}/'s profile.")
                 return redirect('/dashboard/institution/create/bulk')
 
         fs.delete(filename)
@@ -455,7 +455,7 @@ def institution_createbulk(request):
         ins_pp = institution_detail.objects.get(id=uname).profile_pic
     except:
         return redirect('/login/institution')
-    return render(request, "dashboards\institution\dash_bulk_createstudent.html", {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
+    return render(request, "dashboards/institution/dash_bulk_createstudent.html", {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
 
 
 def institution_search(request):
@@ -478,13 +478,13 @@ def institution_search(request):
             search_details = student_detail.objects.filter(sid=s_id).values()
 
             if search_details:
-                return render(request, 'dashboards\institution\dashboard_institution_search.html', {'s': search_details[0], 'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
+                return render(request, 'dashboards/institution/dashboard_institution_search.html', {'s': search_details[0], 'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
             else:
                 messages.error(request, "Student not found.")
                 return redirect('/dashboard/institution/search')
         else:
 
-            return render(request, 'dashboards\institution\dashboard_institution_search.html', {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
+            return render(request, 'dashboards/institution/dashboard_institution_search.html', {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
     else:
         return redirect('/login/institution')
 
@@ -513,7 +513,7 @@ def institution_edit(request):
                     sid=s_id).values()
                 if search_details:
 
-                    return render(request, 'dashboards\institution\dashboard_institution_edit.html', {'s': search_details[0], 'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
+                    return render(request, 'dashboards/institution/dashboard_institution_edit.html', {'s': search_details[0], 'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
                 else:
                     messages.error(request, "Student not found.")
                     return redirect('/dashboard/institution/edit')
@@ -568,7 +568,7 @@ def institution_edit(request):
                     messages.error(request, "Student not found.")
                     return redirect('/dashboard/institution/edit')
 
-        return render(request, 'dashboards\institution\dashboard_institution_edit.html', {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
+        return render(request, 'dashboards/institution/dashboard_institution_edit.html', {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
     else:
         return redirect('/login/institution')
 
@@ -626,7 +626,7 @@ def institution_enroll_student(request):
                 ins_pp = institution_detail.objects.get(id=uname).profile_pic
             except:
                 return redirect('/login/institution')
-            return render(request, 'dashboards\institution\dashboard_institution_enroll_student.html', {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, 'deg': deg})
+            return render(request, 'dashboards/institution/dashboard_institution_enroll_student.html', {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, 'deg': deg})
     else:
         return redirect('/login/institution')
 
@@ -688,7 +688,7 @@ def institution_enroll_bulk(request):
             request, 'The students have been enrolled successfully')
 
         return redirect('/dashboard/institution/enroll/bulk')
-    return render(request, "dashboards\institution\dash_bulk_enrollstudent.html", {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
+    return render(request, "dashboards/institution/dash_bulk_enrollstudent.html", {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
 
 
 def institution_removestudent(request):
@@ -739,7 +739,7 @@ def institution_removestudent(request):
             return redirect('/dashboard/institution/remove')
         else:
 
-            return render(request, 'dashboards\institution\dashboard_institution_remove_student.html', {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
+            return render(request, 'dashboards/institution/dashboard_institution_remove_student.html', {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
     else:
         return redirect('/login/institution')
 
@@ -790,7 +790,7 @@ def institution_removestudent_bulk(request):
         messages.success(request, 'The student profiles have successfully')
 
         return redirect('/dashboard/institution/create/bulk')
-    return render(request, "dashboards\institution\dash_bulk_enrollstudent.html", {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
+    return render(request, "dashboards/institution/dash_bulk_enrollstudent.html", {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
 
 
 def institution_addcourse(request):
@@ -825,7 +825,7 @@ def institution_addcourse(request):
                 degree_details = degree.objects.filter(
                     sid=s_details, iid=i_details, status='Pursuing').values()
                 if degree_details:
-                    return render(request, 'dashboards\institution\dashboard_institution_add_course.html',
+                    return render(request, 'dashboards/institution/dashboard_institution_add_course.html',
                                   {'username': uname, 'name': nam, 'email': user_email, 'disabled': 'disabled',
                                       's': s_details, 'd': degree_details[0], 'student_count': no_of_stu, 'pp': ins_pp, }
                                   )
@@ -869,7 +869,7 @@ def institution_addcourse(request):
 
                 return redirect('/dashboard/institution/addcourse')
         else:
-            return render(request, 'dashboards\institution\dashboard_institution_add_course.html', {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
+            return render(request, 'dashboards/institution/dashboard_institution_add_course.html', {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
     else:
         return redirect('/login/institution')
 
@@ -922,7 +922,7 @@ def institution_addcourse_bulk(request):
 
         fs.delete(filename)
 
-    return render(request, "dashboards\institution\dash_bulk_addcourse.html", {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
+    return render(request, "dashboards/institution/dash_bulk_addcourse.html", {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
 
 
 def institution_docreq(request):
@@ -961,7 +961,7 @@ def institution_docreq(request):
 
                 if doc:
 
-                    return render(request, 'dashboards\institution\dash_doc.html',
+                    return render(request, 'dashboards/institution/dash_doc.html',
                                   {'username': uname,
                                    'name': nam,
                                    'email': user_email,
@@ -1015,7 +1015,7 @@ def institution_docreq(request):
                 messages.success(request, 'Document request rejected!')
                 return redirect('dashboard/institution/docreq')
 
-        return render(request, 'dashboards\institution\dash_doc.html', {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
+        return render(request, 'dashboards/institution/dash_doc.html', {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
     else:
         return redirect('/login/institution')
 
@@ -1039,7 +1039,7 @@ def student(request):
 
         if bank_details:
             bool_bank = True
-            return render(request, 'dashboards\student\dashboard_student.html', {
+            return render(request, 'dashboards/student/dashboard_student.html', {
                 's': user_details[0],
                 'i': i_details,
                 'd': degree_details,
@@ -1048,7 +1048,7 @@ def student(request):
             })
         else:
             bool_bank = False
-            return render(request, 'dashboards\student\dashboard_student.html', {
+            return render(request, 'dashboards/student/dashboard_student.html', {
                 's': user_details[0],
                 'i': i_details,
                 'd': degree_details,
@@ -1090,9 +1090,9 @@ def student_get_docu(request):
             doc_db.save()
 
             messages.success(request, 'Successfully requested.')
-            return render(request, 'dashboards\student\dashboard_student_document.html', {'s': user_details[0], 'd': i_details})
+            return render(request, 'dashboards/student/dashboard_student_document.html', {'s': user_details[0], 'd': i_details})
         else:
-            return render(request, 'dashboards\student\dashboard_student_document.html', {'s': user_details[0], 'd': i_details})
+            return render(request, 'dashboards/student/dashboard_student_document.html', {'s': user_details[0], 'd': i_details})
     else:
         return redirect('/login/student')
 
@@ -1119,7 +1119,7 @@ def bankaccount(request):
             otp = func.sendotp(email)
             messages.success(request, "OTP Sent")
             request.session['otp'] = otp
-            return render(request, 'dashboards\student\ccount_bank.html', {'s': user_details[0], 'var': 'enabled', 'acc': acc, 'var1': 'disabled'})
+            return render(request, 'dashboards/student/ccount_bank.html', {'s': user_details[0], 'var': 'enabled', 'acc': acc, 'var1': 'disabled'})
         elif 'submit' in request.POST:
             u_otp = eval(request.POST.get('otp_check'))
             if u_otp == request.session['otp']:
@@ -1153,7 +1153,7 @@ def bankaccount(request):
             else:
                 messages.error(request, 'Wrong OTP')
 
-    return render(request, 'dashboards\student\ccount_bank.html', {'s': user_details[0], 'var': 'disabled'})
+    return render(request, 'dashboards/student/ccount_bank.html', {'s': user_details[0], 'var': 'disabled'})
 
 
 def profiledownload(request):
@@ -1165,7 +1165,7 @@ def profiledownload(request):
         # degree details
         d_detail = degree.objects.filter(sid=uname).values()
 
-        return render(request, 'dashboards\student\student_report.html', {'s': s_detail, 'degree_data': d_detail})
+        return render(request, 'dashboards/student/student_report.html', {'s': s_detail, 'degree_data': d_detail})
 
     else:
         return redirect('/login/student')
@@ -1185,7 +1185,7 @@ def student_courses(request):
         return redirect('dashboard/student/courses')
 
     if request.user.is_authenticated:
-        return render(request, 'dashboards\student\dash_courses.html', {'s': user_details, 'c': courses, 'd': d, 'i': insti})
+        return render(request, 'dashboards/student/dash_courses.html', {'s': user_details, 'c': courses, 'd': d, 'i': insti})
     else:
         return redirect('/login/student')
 
@@ -1195,6 +1195,6 @@ def scholarship(request):
     user_details = student_detail.objects.get(sid=uname)
 
     if request.user.is_authenticated:
-        return render(request, 'dashboards\student\scholarship.html', {'s': user_details})
+        return render(request, 'dashboards/student/scholarship.html', {'s': user_details})
     else:
         return redirect('/login/student')
