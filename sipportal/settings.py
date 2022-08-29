@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+#For Heruko Hosting
+import django_heroku
 
 from pathlib import Path
 import os
@@ -150,3 +152,7 @@ EMAIL_HOST_USER = 'sip@itsashw.in'
 EMAIL_HOST_PASSWORD = "wearegreat@123"
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+#For Heroku Hosting
+django_heroku.settings(locals())
+
