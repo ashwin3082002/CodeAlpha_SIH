@@ -1,0 +1,1 @@
+web: gunicorn sipportal.wsgi
