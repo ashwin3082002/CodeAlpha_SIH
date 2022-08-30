@@ -50,10 +50,13 @@ def admin(request):
                 )
                 #new_user.is_staff = True
                 # upload pic
-                if request.FILES['profilepic']:
-                    pic = request.FILES['profilepic']
-                    db_insti.profile_pic = pic
-                    db_insti.save()
+                try:
+                    if request.FILES['profilepic']:
+                        pic = request.FILES['profilepic']
+                        db_insti.profile_pic = pic
+                        db_insti.save()
+                except:
+                    pass
 
                 messages.success(
                     request, "Successfully created institution profile.")
