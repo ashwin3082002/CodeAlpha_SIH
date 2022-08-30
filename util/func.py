@@ -11,7 +11,7 @@ import re
 #send bonafide
 def bonafide_mail(emailto, sname, pname, dname,cname):
     subject = 'Bonafide Approved | Student Information Portal'
-    html_content = render_to_string('mail\onafide.html',{'student_name':sname,'parent_name':pname,'degree_name':dname, 'college_name':cname})
+    html_content = render_to_string('mail/onafide.html',{'student_name':sname,'parent_name':pname,'degree_name':dname, 'college_name':cname})
     text_content = strip_tags(html_content)
     to = emailto
     email = EmailMultiAlternatives(
@@ -42,7 +42,7 @@ def doc_rej(emailto):
 
 def noc_mail(emailto, sname, pname, dname,cname):
     subject = 'NOC Approved | Student Information Portal'
-    html_content = render_to_string('mail\oc_mail.html',{'student_name':sname,'parent_name':pname,'degree_name':dname, 'college_name':cname})
+    html_content = render_to_string('mail/oc_mail.html',{'student_name':sname,'parent_name':pname,'degree_name':dname, 'college_name':cname})
     text_content = strip_tags(html_content)
     to = emailto
     email = EmailMultiAlternatives(
@@ -59,7 +59,7 @@ def noc_mail(emailto, sname, pname, dname,cname):
 def api_mail_creation(emailto, orgname, api_key, apiid):
     subject = 'IMP: API ACCESS | Student Information Portal'
     to = emailto
-    html_content = render_to_string('mail\create_api.html',{'name':orgname,'key':api_key,'apiid': apiid})
+    html_content = render_to_string('mail/create_api.html',{'name':orgname,'key':api_key,'apiid': apiid})
     text_content = strip_tags(html_content)
     email = EmailMultiAlternatives(
         subject,    
@@ -75,7 +75,7 @@ def api_mail_creation(emailto, orgname, api_key, apiid):
 def api_mail_revok(emailto, apiid):
     subject = 'API ACCESS REVOKED | Student Information Portal'
     to = emailto
-    html_content = render_to_string('mail\evoke_api.html',{'apiid': apiid})
+    html_content = render_to_string('mail/evoke_api.html',{'apiid': apiid})
     text_content = strip_tags(html_content)
     email = EmailMultiAlternatives(
         subject,    
@@ -102,7 +102,7 @@ def sendotp(emailto):
     subject = 'OTP | Student Information Portal'
     to = emailto
     otp=random.randint(111111,999999)
-    html_content = render_to_string('mail\otp_mail.html',{'otp_code':otp})
+    html_content = render_to_string('mail/otp_mail.html',{'otp_code':otp})
     text_content = strip_tags(html_content)
     email = EmailMultiAlternatives(
         subject,
@@ -117,7 +117,7 @@ def sendotp(emailto):
 def insti_creation(emailto,uname,psw):
     subject = 'Institute Profile Created | Student Information Portal'
     to = emailto
-    html_content = render_to_string('mail\insti_creation.html',{'uname':uname,'psw':psw})
+    html_content = render_to_string('mail/insti_creation.html',{'uname':uname,'psw':psw})
     text_content = strip_tags(html_content)
     email = EmailMultiAlternatives(
         subject,    
@@ -132,7 +132,7 @@ def insti_creation(emailto,uname,psw):
 def stu_creation(emailto,uname,psw):
     subject = 'Student Profile Created | Student Information Portal'
     to = emailto
-    html_content = render_to_string('mail\Student_creation.html',{'uname':uname,'psw':psw})
+    html_content = render_to_string('mail/Student_creation.html',{'uname':uname,'psw':psw})
     text_content = strip_tags(html_content)
     email = EmailMultiAlternatives(
         subject,    
