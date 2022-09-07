@@ -1168,6 +1168,11 @@ def profiledownload(request):
         # degree details
         d_detail = degree.objects.filter(sid=uname).values()
 
+        # get insti name and append to degree details
+        for d in d_detail:
+            i = institution_detail.objects.get(id = d['iid_id'])
+            d['iname']=i.name
+
         return render(request, 'dashboards/student/student_report.html', {'s': s_detail, 'degree_data': d_detail})
 
     else:
