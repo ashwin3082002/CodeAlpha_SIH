@@ -1,5 +1,5 @@
 from django.core.files.storage import FileSystemStorage
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from sip_db.models import api_details, institution_detail, student_detail, degree, course, docreq, account_detail
 from util import func
