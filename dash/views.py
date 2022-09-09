@@ -983,7 +983,7 @@ def institution_docreq(request):
                     doc = docreq.objects.get(id=doc_id)
                 except:
                     messages.error(request, 'Invalid Document ID.')
-                    return redirect('dashboard/institution/docreq')
+                    return redirect('/dashboard/institution/docreq')
                 stu = student_detail.objects.get(sid=doc.sid_id)
                 deg_details = degree.objects.filter(
                     sid=doc.sid, iid=doc.i_id, status='Pursuing').values()
@@ -1001,7 +1001,7 @@ def institution_docreq(request):
                 doc.status = 'Accepted'
                 doc.save()
                 messages.success(request, 'Document request accepted!')
-                return redirect('dashboard/institution/docreq')
+                return redirect('/dashboard/institution/docreq')
 
             elif 'reject' in request.POST:
                 doc_id = request.POST.get('doc-id')
@@ -1016,7 +1016,7 @@ def institution_docreq(request):
                 doc.status = 'Rejected'
                 doc.save()
                 messages.success(request, 'Document request rejected!')
-                return redirect('dashboard/institution/docreq')
+                return redirect('/dashboard/institution/docreq')
 
         return render(request, 'dashboards/institution/dash_doc.html', {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
     else:
