@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'loginpg.apps.LoginpgConfig',
     'dash.apps.DashConfig',
-    'sip_db',
+    'sip_db.apps.SipDbConfig',
     'sip_api',
 ]
 
