@@ -132,7 +132,7 @@ def insti_creation(emailto,uname,psw):
 def stu_creation(emailto,uname,psw):
     subject = 'Student Profile Created | Student Information Portal'
     to = emailto
-    html_content = render_to_string('mail\student_creation.html',{'uname':uname,'psw':psw})
+    html_content = render_to_string('\mail\student_creation.html',{'uname':uname,'psw':psw})
     text_content = strip_tags(html_content)
     email = EmailMultiAlternatives(
         subject,    
