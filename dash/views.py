@@ -1,5 +1,5 @@
 from django.core.files.storage import FileSystemStorage
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from sip_db.models import api_details, institution_detail, student_detail, degree, course, docreq, account_detail
 from util import func
@@ -1167,6 +1167,11 @@ def profiledownload(request):
 
         # degree details
         d_detail = degree.objects.filter(sid=uname).values()
+
+        # get insti name and append to degree details
+        for d in d_detail:
+            i = institution_detail.objects.get(id = d['iid_id'])
+            d['iname']=i.name
 
         return render(request, 'dashboards/student/student_report.html', {'s': s_detail, 'degree_data': d_detail})
 
