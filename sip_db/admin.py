@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import api_details, student_detail, institution_detail, degree, course, docreq
+from .models import student_detail, institution_detail, degree, course, docreq, api_details, account_detail, institution_id, student_id
 
 # register your models here
 admin.site.register(student_detail)
