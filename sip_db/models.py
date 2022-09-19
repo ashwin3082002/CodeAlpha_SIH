@@ -94,6 +94,8 @@ class account_detail(models.Model):
     bank_name = models.CharField(max_length=50)
     branch_name = models.CharField(max_length=100)
     ifsc = models.CharField(max_length=50)
+    def __str__(self):
+        return self.acc_id
 
 class institution_id(models.Model):
     instiid= models.CharField(max_length=50)
