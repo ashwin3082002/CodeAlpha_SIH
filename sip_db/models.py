@@ -105,4 +105,4 @@ class institution_id(models.Model):
 class student_id(models.Model):
     stuid= models.CharField(max_length=50)
     def __str__(self):
-        return self.instiid
+        return self.stuid
