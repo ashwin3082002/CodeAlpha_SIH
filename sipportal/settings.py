@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 #For Heruko Hosting
 import django_heroku
+from boto.s3.connection import S3Connection
 
 from pathlib import Path
 import os
@@ -153,6 +154,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 #Email Settings
+s3 = S3Connection(os.environ['EMAIL_HOST_USER'], os.environ['EMAIL_HOST_PASSWORD'])
+print(s3)
 EMAIL_HOST = 'smtp.office365.com'
 EMAIL_PORT = '587'
 EMAIL_HOST_USER = 'sip@itsashw.in'
