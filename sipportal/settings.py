@@ -29,7 +29,7 @@ SESSION_COOKIE_AGE = 5 * 60
 SECRET_KEY = 'django-insecure-!l!k$vybhm8d@%bjjm8b*tqc=)pb9$7rn32*%q4pks%f0f*@u)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['sipportal.herokuapp.com','*','sip.ashwinr.dev']
 
