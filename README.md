@@ -1,6 +1,10 @@
 # Student Unique Identification System
 SIP Portal is a unique identification system for both Students and Institutions, which eases the work of both student and institution.
 
+The method seeks to cut down on the amount of time and hassle it takes to verify a student's credentials and educational background for institutions, organisations, and students.
+
+Our goal is to offer real-time verification of student information and give government agencies and other NGOs access to a set of data so they may assist students in need. Additionally, our system makes it simple to provide fellowships, grants, and scholarships.
+
 Demo : https://link.ashwinr.dev/sihvideo
 
 ## Running on LocalHost
