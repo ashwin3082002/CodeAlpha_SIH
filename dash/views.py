@@ -1,14 +1,17 @@
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from sip_db.models import api_details, institution_detail, student_detail, degree, course, docreq, account_detail
 from util import func
 from django.contrib import messages
 import pandas as pd
 
+LOGIN_REDIRECT_URL=/
+
 # ADMIN VIEWS
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def admin(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -77,7 +80,7 @@ def admin(request):
     else:
         return redirect('/login/admin')
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def admin_bulk(request):
     if request.user.is_authenticated:
         if request.method == "POST" and request.FILES['myfile']:
@@ -145,7 +148,7 @@ def admin_bulk(request):
     else:
         return redirect('/login/admin')
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def admin_search(request):
     if request.user.is_authenticated:
         # getting username from login & getting other user details in a obj 'user'
@@ -175,7 +178,7 @@ def admin_search(request):
     else:
         return redirect('/login/admin')
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def admin_edit(request):
     if request.user.is_authenticated:
         # getting username from login & getting other user details in a obj 'user'
@@ -237,7 +240,7 @@ def admin_edit(request):
     else:
         return redirect('/login/admin')
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def create_api(request):
     # getting username from login & getting other user details in a obj 'user'
     uname = request.user.get_username()
@@ -266,7 +269,7 @@ def create_api(request):
 
     return render(request, "dashboards/d_admin/create-api.html", {'username': uname, 'name': name, 'email': user_email})
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def revok_api(request):
     # getting username from login & getting other user details in a obj 'user'
     uname = request.user.get_username()
@@ -290,7 +293,7 @@ def revok_api(request):
 
     return render(request, "dashboards/d_admin/evoke-api.html", {'username': uname, 'name': name, 'email': user_email})
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def reports(request):
     # getting username from login & getting other user details in a obj 'user'
     uname = request.user.get_username()
@@ -302,6 +305,7 @@ def reports(request):
 
 # INSTITUTION VIEWS
 
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def institution(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -379,7 +383,7 @@ def institution(request):
     else:
         return redirect('/login/institution')
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def institution_createbulk(request):
 
     uname = request.user.get_username()
@@ -460,7 +464,7 @@ def institution_createbulk(request):
         return redirect('/login/institution')
     return render(request, "dashboards/institution/dash_bulk_createstudent.html", {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def institution_search(request):
 
     if request.user.is_authenticated:
@@ -491,7 +495,7 @@ def institution_search(request):
     else:
         return redirect('/login/institution')
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def institution_edit(request):
 
     if request.user.is_authenticated:
@@ -575,7 +579,7 @@ def institution_edit(request):
     else:
         return redirect('/login/institution')
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def institution_enroll_student(request):
 
     if request.user.is_authenticated:
@@ -633,7 +637,7 @@ def institution_enroll_student(request):
     else:
         return redirect('/login/institution')
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def institution_enroll_bulk(request):
 
     uname = request.user.get_username()
@@ -693,7 +697,7 @@ def institution_enroll_bulk(request):
         return redirect('/dashboard/institution/enroll/bulk')
     return render(request, "dashboards/institution/dash_bulk_enrollstudent.html", {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def institution_removestudent(request):
 
     if request.user.is_authenticated:
@@ -746,7 +750,7 @@ def institution_removestudent(request):
     else:
         return redirect('/login/institution')
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def institution_removestudent_bulk(request):
 
     uname = request.user.get_username()
@@ -795,7 +799,7 @@ def institution_removestudent_bulk(request):
         return redirect('/dashboard/institution/create/bulk')
     return render(request, "dashboards/institution/dash_bulk_enrollstudent.html", {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def institution_addcourse(request):
 
     if request.user.is_authenticated:
@@ -876,7 +880,7 @@ def institution_addcourse(request):
     else:
         return redirect('/login/institution')
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def institution_addcourse_bulk(request):
 
     uname = request.user.get_username()
@@ -927,7 +931,7 @@ def institution_addcourse_bulk(request):
 
     return render(request, "dashboards/institution/dash_bulk_addcourse.html", {'username': uname, 'name': nam, 'email': user_email, 'student_count': no_of_stu, 'pp': ins_pp, })
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def institution_docreq(request):
 
     if request.user.is_authenticated:
@@ -1024,7 +1028,7 @@ def institution_docreq(request):
 
 
 # STUDENT VIEWS
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def student(request):
     if request.user.is_authenticated:
         uname = request.user.get_username()
@@ -1060,7 +1064,7 @@ def student(request):
     else:
         return redirect('/login/student')
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def student_get_docu(request):
     if request.user.is_authenticated:
         uname = request.user.get_username()
@@ -1099,7 +1103,7 @@ def student_get_docu(request):
     else:
         return redirect('/login/student')
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def bankaccount(request):
     sid = request.session['sid']
     user_details = student_detail.objects.filter(sid=sid).values()
@@ -1158,7 +1162,7 @@ def bankaccount(request):
 
     return render(request, 'dashboards/student/ccount_bank.html', {'s': user_details[0], 'var': 'disabled'})
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def profiledownload(request):
     if request.user.is_authenticated:
         uname = request.user.get_username()
@@ -1178,7 +1182,7 @@ def profiledownload(request):
     else:
         return redirect('/login/student')
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def student_courses(request):
     try:
         uname = request.user.get_username()
@@ -1197,7 +1201,7 @@ def student_courses(request):
     else:
         return redirect('/login/student')
 
-
+@login_required(login_url=LOGIN_REDIRECT_URL)
 def scholarship(request):
     uname = request.user.get_username()
     user_details = student_detail.objects.get(sid=uname)
