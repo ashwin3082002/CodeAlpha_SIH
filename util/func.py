@@ -5,7 +5,6 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.mail import send_mail
 import random
-# added by Laavesh
 import re
 
 #send bonafide
@@ -24,6 +23,7 @@ def bonafide_mail(emailto, sname, pname, dname,cname):
     email.send()
     return True
 
+
 def doc_rej(emailto):
     body = '''
     Your Request for the Document has been rejected by the institution, Kindly Contact the Institution 
@@ -40,6 +40,7 @@ def doc_rej(emailto):
     fail_silently=True,
 )
 
+    
 def noc_mail(emailto, sname, pname, dname,cname):
     subject = 'NOC Approved | Student Information Portal'
     html_content = render_to_string('mail/oc_mail.html',{'student_name':sname,'parent_name':pname,'degree_name':dname, 'college_name':cname})
@@ -54,6 +55,7 @@ def noc_mail(emailto, sname, pname, dname,cname):
     email.attach_alternative(html_content,"text/html")
     email.send()
     return True
+
 
 #api creation mail
 def api_mail_creation(emailto, orgname, api_key, apiid):
@@ -71,6 +73,7 @@ def api_mail_creation(emailto, orgname, api_key, apiid):
     email.send()
     return True
 
+
 #api revoke mail
 def api_mail_revok(emailto, apiid):
     subject = 'API ACCESS REVOKED | Student Information Portal'
@@ -87,6 +90,7 @@ def api_mail_revok(emailto, apiid):
     email.send()
     return True
 
+
 #api key generation
 def api_key_gen():
     n = random.randint(40,80)
@@ -96,7 +100,6 @@ def api_key_gen():
         api_key+=random.choice(lst)
     return api_key
 
-# added by Ashwin
 
 def sendotp(emailto):
     subject = 'OTP | Student Information Portal'
@@ -114,6 +117,7 @@ def sendotp(emailto):
     email.send()
     return otp
 
+
 def insti_creation(emailto,uname,psw):
     subject = 'Institute Profile Created | Student Information Portal'
     to = emailto
@@ -128,6 +132,7 @@ def insti_creation(emailto,uname,psw):
     email.attach_alternative(html_content,"text/html")
     email.send()
     return True
+
 
 def stu_creation(emailto,uname,psw):
     subject = 'Student Profile Created | Student Information Portal'
@@ -144,7 +149,6 @@ def stu_creation(emailto,uname,psw):
     email.send()
     return True
 
-# added by Laavesh
 
 def check_id_stud(s):
     """
@@ -159,6 +163,7 @@ def check_id_stud(s):
     else:
         return False
 
+    
 def parse_id_stud(s):
     """
     Parses the id and returns the year(1234) and serial(abcde) as a dict
@@ -177,6 +182,7 @@ def parse_id_stud(s):
     else:
         return False
 
+    
 def check_id_insti(s):
     """
     Checks if ID is valid
@@ -189,6 +195,7 @@ def check_id_insti(s):
     else:
         return False
 
+    
 def check_email(s):
     """
     Checks if email is valid or invalid
@@ -207,6 +214,7 @@ def check_email(s):
     else:
         return False
 
+    
 def check_phn(n):
     """
     Checks if phone number is vaild
@@ -237,7 +245,6 @@ def parse_phn(n):
         return False
 
 
-
 def check_id(id):
     if search := re.search(r'^(S{1}|I{1})([A-Z]{6,7})$', id, re.IGNORECASE):
         id = list(search.groups())
@@ -248,6 +255,7 @@ def check_id(id):
         return False
     else:
         return False
+    
     
 def stu_id_gen():
     stu_id= student_id.objects.all()
@@ -266,6 +274,7 @@ def stu_id_gen():
             s.save()
             break
     return id
+
 
 def insti_id_gen():
     insti_id= institution_id.objects.all()
