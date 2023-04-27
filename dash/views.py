@@ -48,6 +48,7 @@ def admin(request):
                     password=password,
                     is_staff=True
                 )
+                
                 #new_user.is_staff = True
                 # upload pic
                 try:

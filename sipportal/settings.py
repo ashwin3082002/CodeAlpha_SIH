@@ -9,11 +9,9 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-#For Heruko Hosting
-import django_heroku
-
 from pathlib import Path
 import os
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -86,20 +84,7 @@ WSGI_APPLICATION = 'sipportal.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sipportal',
-        'USER': 'root',
-        'PASSWORD':'root',
-        'HOST':'localhost',
-        'PORT': '3306',
-        'OPTIONS': {  
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"  
-        }
-
-    }
-}
+DATABASES = {'default': dj_database_url.config(default="postgresql://ashwin:ywA6szO2n9sIJ7QGUlr_Qw@pecertify-2492.7s5.cockroachlabs.cloud:26257/sip?sslmode=verify-full", engine='django_cockroachdb')}
 
 
 # Password validation
@@ -137,7 +122,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 #Added Manually -Ashwin
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
@@ -150,16 +134,3 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-#Email Settings
-EMAIL_HOST = os.environ['EMAIL_HOST'] 
-EMAIL_PORT = os.environ['EMAIL_PORT'] 
-EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER'] 
-EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
-EMAIL_USE_TLS = True
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-#For Heroku Hosting
-django_heroku.settings(locals())
-
