@@ -14,4 +14,7 @@ automatic_scaling:
   max_pending_latency: 0.030s
   max_instances: 1
 
+commands:
+  setup_cert: curl --create-dirs -o $HOME/.postgresql/root.crt 'https://cockroachlabs.cloud/clusters/acd78f3b-f2e4-4563-9c61-62f8dcef8a25/cert'
+
 service_account: student-identification-portal@appspot.gserviceaccount.com
