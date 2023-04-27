@@ -1,5 +1,5 @@
 runtime: python39
-entrypoint: bash -c 'python3 manage.py migrate --noinput && gunicorn -b :$PORT sipportal.wsgi:application'
+entrypoint: bash -c 'curl --create-dirs -o $HOME/.postgresql/root.crt 'https://cockroachlabs.cloud/clusters/acd78f3b-f2e4-4563-9c61-62f8dcef8a25/cert' && python3 manage.py migrate --noinput && gunicorn -b :$PORT sipportal.wsgi:application'
 env: standard
 instance_class: F1
 handlers:
@@ -13,8 +13,5 @@ automatic_scaling:
   min_pending_latency: automatic
   max_pending_latency: 0.030s
   max_instances: 1
-
-commands:
-  setup_cert: curl --create-dirs -o $HOME/.postgresql/root.crt 'https://cockroachlabs.cloud/clusters/acd78f3b-f2e4-4563-9c61-62f8dcef8a25/cert'
 
 service_account: student-identification-portal@appspot.gserviceaccount.com
