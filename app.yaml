@@ -1,4 +1,5 @@
 runtime: python39
+entrypoint: bash -c 'python3 manage.py migrate --noinput && gunicorn -b :$PORT sipportal.wsgi:application'
 env: standard
 instance_class: F1
 handlers:
