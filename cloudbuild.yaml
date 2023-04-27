@@ -1,0 +1,6 @@
+options:
+  logging: CLOUD_LOGGING_ONLY
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['app', 'deploy', '--version', 'prod']
+service_account: student-identification-portal@appspot.gserviceaccount.com
