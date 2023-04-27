@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-!l!k$vybhm8d@%bjjm8b*tqc=)pb9$7rn32*%q4pks%f0f*@u)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['student-identification-portal.el.r.appspot.com','sip.ashwinr.dev']
+ALLOWED_HOSTS = ['student-identification-portal.el.r.appspot.com','sip.ashwinr.dev','www.sip.ashwinr.dev']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
