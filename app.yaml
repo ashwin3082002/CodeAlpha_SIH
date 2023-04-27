@@ -14,3 +14,4 @@ automatic_scaling:
   max_pending_latency: 0.030s
   max_instances: 1
 
+service_account: student-identification-portal@appspot.gserviceaccount.com
