@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'sipportal.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {'default': dj_database_url.config(default="postgresql://ashwin:KHFfDh9nhBBfTRaeLwjaTA@pecertify-2492.7s5.cockroachlabs.cloud:26257/sip?sslmode=verify-full", engine='django_cockroachdb')}
+DATABASES = {'default': dj_database_url.config(default="postgresql://ashwin:KHFfDh9nhBBfTRaeLwjaTA@pecertify-2492.7s5.cockroachlabs.cloud:26257/pecertify-2492.sip?sslmode=verify-full", engine='django_cockroachdb')}
 
 
 # Password validation
