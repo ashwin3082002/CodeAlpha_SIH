@@ -44,10 +44,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'loginpg.apps.LoginpgConfig',
-    'dash.apps.DashConfig',
-    'sip_db.apps.SipDbConfig',
     'sip_api',
+    'sip_db',
+    'dash',
+    'loginpg',
+    # 'rest_framework.authtoken',
+    # 'rest_framework_simplejwt',
+    # 'rest_framework_simplejwt.token_blacklist',
+    # 'corsheaders',
+    # 'django_filters',
+    # 'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
