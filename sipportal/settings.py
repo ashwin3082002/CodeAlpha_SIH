@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-!l!k$vybhm8d@%bjjm8b*tqc=)pb9$7rn32*%q4pks%f0f*@u)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['student-identification-portal.el.r.appspot.com','sip.ashwinr.dev','www.sip.ashwinr.dev']
+ALLOWED_HOSTS = ['sip.ashwinr.dev','www.sip.ashwinr.dev']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -139,3 +139,10 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_HOST = 'smtp.office365.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'mails@rashw.in'
+EMAIL_HOST_PASSWORD = "Xaq30177"
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
