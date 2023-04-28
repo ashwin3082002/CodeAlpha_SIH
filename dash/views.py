@@ -990,10 +990,14 @@ def institution_docreq(request):
                     sid=doc.sid, iid=doc.i_id, status='Pursuing').values()
                 ins_details = institution_detail.objects.get(id=doc.i_id_id)
                 deg = deg_details[0]['name']
+                try:
+                    mobile=stu.mobile
+                except:
+                    pass
                 # send mail
                 if doc.doc_type == 'bonafide':
                     func.bonafide_mail(stu.email, stu.name,
-                                       stu.guardian_name, deg, ins_details.name)
+                                       stu.guardian_name, deg, ins_details.name,mobile)
                 elif doc.doc_type == 'noc':
                     func.noc_mail(stu.email, stu.name,
                                   stu.guardian_name, deg, ins_details.name)
@@ -1120,7 +1124,11 @@ def bankaccount(request):
             }
             request.session['bank_details'] = acc
             email = user_details[0]['email']
-            otp = func.sendotp(email)
+            try:
+                mobile = user_details[0]['mobile']
+            except:
+                pass
+            otp = func.sendotp(email, mobile)
             messages.success(request, "OTP Sent")
             request.session['otp'] = otp
             return render(request, 'dashboards/student/ccount_bank.html', {'s': user_details[0], 'var': 'enabled', 'acc': acc, 'var1': 'disabled'})

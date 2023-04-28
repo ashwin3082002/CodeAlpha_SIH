@@ -6,9 +6,33 @@ from django.utils.html import strip_tags
 from django.core.mail import send_mail
 import random
 import re
+from twilio.rest import Client
+
+def send_sms(message,to):
+    account_sid = 'ACc2e4a5f544e1f712046ff18f0162b5d5'
+    auth_token = 'd545ae8bba4f21bb4f1e6b5495ce8f99'
+    client = Client(account_sid, auth_token)
+
+    message = client.messages.create(
+    from_='+12706791996',
+    body=message,
+    to='+91'+str(to)
+    )
+    print(message.sid,to)
+
+    return message.sid
 
 #send bonafide
-def bonafide_mail(emailto, sname, pname, dname,cname):
+def bonafide_mail(emailto, sname, pname, dname,cname,mobile):
+    try:
+        send_sms(''' 
+Hey Student, 
+Your Bonafide Request has been Approved by the Institution, Kindly check for the same in your email.
+
+Regards,
+TEAM SIP''',str(mobile))
+    except:
+        pass
     subject = 'Bonafide Approved | Student Information Portal'
     html_content = render_to_string('mail/onafide.html',{'student_name':sname,'parent_name':pname,'degree_name':dname, 'college_name':cname})
     text_content = strip_tags(html_content)
@@ -101,10 +125,20 @@ def api_key_gen():
     return api_key
 
 
-def sendotp(emailto):
+def sendotp(emailto,mobile):
+    otp=random.randint(111111,999999)
+    try:
+        send_sms('''
+Hey User,  
+Your OTP for Student Information Portal is '''+str(otp)+'''. Kindly do not share this with anyone.
+
+Regards,
+TEAM SIP''',str(mobile))
+    except:
+        pass
     subject = 'OTP | Student Information Portal'
     to = emailto
-    otp=random.randint(111111,999999)
+    
     html_content = render_to_string('mail/otp_mail.html',{'otp_code':otp})
     text_content = strip_tags(html_content)
     email = EmailMultiAlternatives(

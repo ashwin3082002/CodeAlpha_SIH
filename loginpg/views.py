@@ -68,7 +68,8 @@ def pass_reset_otp(request):
                 
                 if search_details:
                     user_emailid = search_details[0]["email"]
-                    otp = func.sendotp(user_emailid)
+                    user_mobile = search_details[0]["mobile"]
+                    otp = func.sendotp(user_emailid, user_mobile)
                     request.session['otp']=otp
                     return render(request, 'pass_reset_otp.html', {'id' : common_id, 'disable':"disabled"})
                 else:
@@ -80,7 +81,8 @@ def pass_reset_otp(request):
                 
                 if search_details:
                     user_emailid = search_details[0]["email"]
-                    otp = func.sendotp(user_emailid)
+                    user_mobile = search_details[0]["mobile"]
+                    otp = func.sendotp(user_emailid,user_mobile)
                     request.session['otp']=otp
                     return render(request, 'pass_reset_otp.html', {'id' : common_id, 'disable':"disabled"})
                 else:
