@@ -1,5 +1,13 @@
 # Student Unique Identification System (SIP) Portal
 
+[![Smart India Hackathon Winner](https://img.shields.io/badge/Smart%20India%20Hackathon-1st%20Place-brightgreen)](https://www.sih.gov.in/)
+
+The Student Unique Identification System (SIP) Portal is a comprehensive solution that simplifies student identification and data management for institutions and organizations. It offers real-time verification of student information, streamlines the disbursement of scholarships and grants, and provides valuable insights through dynamic reports.
+
+The SIP Portal was awarded **1st Place** in the prestigious Smart India Hackathon 2022, recognizing its innovative approach and impact on the education sector.
+
+## Table of Contents
+
 - [Introduction](#introduction)
 - [Features](#features)
 - [Demo](#demo)
@@ -42,17 +50,31 @@ The SIP Portal is built using the following technologies:
 To run the SIP Portal locally, follow these steps:
 
 1. Clone the repository to your local machine.
-2. Install Python and the required dependencies by running `pip install -r requirements.txt`.
-3. Install MySQL Server and create a database named `sipportal`.
-4. Migrate the models to MySQL by running the following commands:
+2. Install Python and the required dependencies by running 
+```
+pip install -r requirements.txt
+```
+4. Install MySQL Server and create a database named 
+```
+sipportal
+```
+8. Migrate the models to MySQL by running the following commands:
 ```
 python manage.py makemigrations
 python manage.py migrate
 ```
-5. Create a superuser account by running `python manage.py createsuperuser`.
-6. Run the server using `python manage.py runserver`.
-7. Access the SIP Portal in your web browser at `http://localhost:8000`.
-
+5. Create a superuser account by running 
+```
+python manage.py createsuperuser
+```
+7. Run the server using
+```
+python manage.py runserver
+```
+9. Access the SIP Portal in your web browser at
+```
+http://localhost:8000
+```
 ## Contributing
 
 Contributions to the SIP Portal are welcome. If you encounter any issues or have suggestions for improvements, please open an issue on the GitHub repository.
