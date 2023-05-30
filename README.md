@@ -1,36 +1,84 @@
-# Student Unique Identification System
-SIP Portal is a unique identification system for both Students and Institutions, which eases the work of both student and institution.
+# Student Unique Identification System (SIP) Portal
 
-The method seeks to cut down on the amount of time and hassle it takes to verify a student's credentials and educational background for institutions, organisations, and students.
+[![Smart India Hackathon Winner](https://img.shields.io/badge/Smart%20India%20Hackathon-1st%20Place-brightgreen)](https://www.sih.gov.in/)
 
-Our goal is to offer real-time verification of student information and give government agencies and other NGOs access to a set of data so they may assist students in need. Additionally, our system makes it simple to provide fellowships, grants, and scholarships.
+The Student Unique Identification System (SIP) Portal is a comprehensive solution that simplifies student identification and data management for institutions and organizations. It offers real-time verification of student information, streamlines the disbursement of scholarships and grants, and provides valuable insights through dynamic reports.
 
-Demo : https://link.ashwinr.dev/sihvideo
+The SIP Portal was awarded **1st Place** in the prestigious Smart India Hackathon 2022, recognizing its innovative approach and impact on the education sector.
 
-## Running on LocalHost
-1. Donwload this Repository and Unzip it.
-2. Install Python and Install the Requirements
-``` 
-pip install requirements
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Features](#features)
+- [Demo](#demo)
+- [Tech Stack](#tech-stack)
+- [Installation](#installation)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Introduction
+
+The Student Unique Identification System (SIP) Portal is a comprehensive solution that simplifies student identification and data management for institutions and organizations. It offers real-time verification of student information, streamlines the disbursement of scholarships and grants, and provides valuable insights through dynamic reports.
+
+## Features
+
+- Real-time verification of student credentials and educational background
+- Centralized repository for student details accessible via APIs and a GUI interface
+- Direct disbursement of scholarships, grants, and fellowships to student bank accounts
+- Generation of dynamic reports for specific regions or time periods
+- Digital signature-enabled academic history download for students
+- Predictive analytics using machine learning models for growth trends analysis
+
+## Demo
+
+A demonstration of the SIP Portal can be accessed at [Demo Link](https://link.ashwinr.dev/sihvideo).
+
+## Tech Stack
+
+The SIP Portal is built using the following technologies:
+
+- Django: A powerful web framework for building scalable and secure applications
+- Python: The programming language used for implementing the backend logic
+- MySQL: A robust and reliable relational database management system for storing and retrieving data
+- Django Rest Framework: A toolkit for building RESTful APIs in Django
+- HTML: The markup language used for structuring the webpages
+- CSS: The styling language used for designing the user interface
+- JavaScript: A programming language used for implementing interactive features on the frontend
+
+## Installation
+
+To run the SIP Portal locally, follow these steps:
+
+1. Clone the repository to your local machine.
+2. Install Python and the required dependencies by running 
 ```
-3. Install MySQL Server and create a database sipportal
+pip install -r requirements.txt
 ```
-create database sipportal;
+4. Install MySQL Server and create a database named 
 ```
-4. Migrate the Models to MySQL
+sipportal
 ```
-#Create Migrations
+8. Migrate the models to MySQL by running the following commands:
+```
 python manage.py makemigrations
-#Make the migrations in mysql
 python manage.py migrate
 ```
-5. create a super user
+5. Create a superuser account by running 
 ```
 python manage.py createsuperuser
 ```
-6. Run the server
+7. Run the server using
 ```
 python manage.py runserver
 ```
+9. Access the SIP Portal in your web browser at
+```
+http://localhost:8000
+```
 ## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Contributions to the SIP Portal are welcome. If you encounter any issues or have suggestions for improvements, please open an issue on the GitHub repository.
+
+## License
+
+The SIP Portal is open-source software licensed under the [MIT License](LICENSE).
