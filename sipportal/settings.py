@@ -24,7 +24,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 5 * 60
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!l!k$vybhm8d@%bjjm8b*tqc=)pb9$7rn32*%q4pks%f0f*@u)'
+SECRET_KEY = 'DJANGO_SECRET_KEY'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'sipportal.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {'default': dj_database_url.config(default="postgresql://ashwin:KHFfDh9nhBBfTRaeLwjaTA@pecertify-2492.7s5.cockroachlabs.cloud:26257/pecertify-2492.sip?sslmode=verify-full", engine='django_cockroachdb')}
+DATABASES = {'default': dj_database_url.config(default="DATABASE_URL", engine='django_cockroachdb')}
 
 
 # Password validation
@@ -142,7 +142,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_HOST = 'smtp.office365.com'
 EMAIL_PORT = '587'
-EMAIL_HOST_USER = 'mails@rashw.in'
-EMAIL_HOST_PASSWORD = "Xaq30177"
+EMAIL_HOST_USER = 'EMAIL_ID'
+EMAIL_HOST_PASSWORD = "EMAIL_PASSWORD"
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
