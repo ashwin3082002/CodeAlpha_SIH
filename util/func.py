@@ -9,8 +9,8 @@ import re
 from twilio.rest import Client
 
 def send_sms(message,to):
-    account_sid = 'ACc2e4a5f544e1f712046ff18f0162b5d5'
-    auth_token = 'd545ae8bba4f21bb4f1e6b5495ce8f99'
+    account_sid = 'ACCOUNT_SID'
+    auth_token = 'AUTH_TOKEN'
     client = Client(account_sid, auth_token)
 
     message = client.messages.create(
